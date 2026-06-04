@@ -205,9 +205,15 @@
       "type": "file"
     },
     {
+      "path": "app/(home)/components/sections/get-started.tsx",
+      "accessCount": 25,
+      "lastAccessed": 1780591621287,
+      "type": "file"
+    },
+    {
       "path": "app/(home)/components/sections/bento-registry.tsx",
-      "accessCount": 22,
-      "lastAccessed": 1780589328413,
+      "accessCount": 23,
+      "lastAccessed": 1780589862580,
       "type": "file"
     },
     {
@@ -217,15 +223,15 @@
       "type": "file"
     },
     {
-      "path": "app/(home)/components/sections/works-with.tsx",
-      "accessCount": 13,
-      "lastAccessed": 1780588275135,
+      "path": "app/globals.css",
+      "accessCount": 14,
+      "lastAccessed": 1780589715135,
       "type": "file"
     },
     {
-      "path": "app/globals.css",
+      "path": "app/(home)/components/sections/works-with.tsx",
       "accessCount": 13,
-      "lastAccessed": 1780589254971,
+      "lastAccessed": 1780588275135,
       "type": "file"
     },
     {
@@ -250,6 +256,12 @@
       "path": "app/(home)/components/section-heading.tsx",
       "accessCount": 8,
       "lastAccessed": 1780588267029,
+      "type": "file"
+    },
+    {
+      "path": "components/docs/code-block-command.tsx",
+      "accessCount": 8,
+      "lastAccessed": 1780590410621,
       "type": "file"
     },
     {
@@ -295,15 +307,15 @@
       "type": "file"
     },
     {
-      "path": "app/(home)/sponsors/components/sections/hero.tsx",
-      "accessCount": 5,
-      "lastAccessed": 1780583873557,
+      "path": "app/(home)/components/fade-up.tsx",
+      "accessCount": 6,
+      "lastAccessed": 1780589916679,
       "type": "file"
     },
     {
-      "path": "app/(home)/components/fade-up.tsx",
+      "path": "app/(home)/sponsors/components/sections/hero.tsx",
       "accessCount": 5,
-      "lastAccessed": 1780585308003,
+      "lastAccessed": 1780583873557,
       "type": "file"
     },
     {
@@ -355,12 +367,6 @@
       "type": "file"
     },
     {
-      "path": "app/(home)/components/sections/get-started.tsx",
-      "accessCount": 3,
-      "lastAccessed": 1780588274946,
-      "type": "file"
-    },
-    {
       "path": "app/(home)/components/sections/use-cases.tsx",
       "accessCount": 2,
       "lastAccessed": 1780579600308,
@@ -382,12 +388,6 @@
       "path": "components/ui/button.tsx",
       "accessCount": 2,
       "lastAccessed": 1780580512387,
-      "type": "file"
-    },
-    {
-      "path": "components/docs/code-block-command.tsx",
-      "accessCount": 2,
-      "lastAccessed": 1780580513810,
       "type": "file"
     },
     {

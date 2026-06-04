@@ -87,7 +87,7 @@ export function SiteHeader({
   return (
     <header
       className={cn(
-        "sticky inset-x-0 top-0 z-40 border-b transition-[background-color,border-color,padding] duration-300",
+        "sticky inset-x-0 top-0 z-40  transition-[background-color,border-color,padding] duration-300",
         scrolled
           ? "border-transparent bg-transparent py-3"
           : "border-border bg-background/70 backdrop-blur-xl",

@@ -34,7 +34,7 @@ export function LandingPartners() {
   const partners = sponsors.filter((s) => s.tier === "partner");
 
   return (
-    <section id="partners" className="relative py-20 sm:py-28">
+    <section id="partners" className="relative py-20 sm:py-20">
       <div className={SECTION}>
         <SectionHeading
           align="center"

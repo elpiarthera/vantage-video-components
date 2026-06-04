@@ -158,7 +158,7 @@ export function BentoRegistry() {
   };
 
   return (
-    <section id="components" className="relative py-20 sm:py-32">
+    <section id="components" className="relative py-20 sm:py-20">
       <div className={SECTION}>
         <SectionHeading
           eyebrow="The registry"
