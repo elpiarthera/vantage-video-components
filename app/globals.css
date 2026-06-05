@@ -384,17 +384,30 @@
   font-size: 0.6875rem;
   font-weight: 600;
   color: var(--muted-foreground);
-  /* Consistent gap above each category. NOTE: each title is the first
-     child of its own folder wrapper, so `:first-child` would match every
-     title — we deliberately don't special-case the first one; the
-     sidebar's own top padding handles the top edge. */
-  margin-top: 1.25rem;
+  /* Generous gap above each category so the groups read as distinct
+     sections. NOTE: each title is the first child of its own folder
+     wrapper, so `:first-child` would match every title — we deliberately
+     don't special-case the first one; the sidebar's own top padding
+     handles the top edge. */
+  margin-top: 2.5rem;
 }
 /* Subtle hover only — it's a heading that also links to the overview. */
 #nd-sidebar a.w-full:hover,
 #nd-sidebar-mobile a.w-full:hover {
   color: var(--foreground);
   background-color: transparent;
+}
+
+/* ── Sidebar scroll viewport bottom padding ──────────────────────────
+   The scroll area is the Radix viewport (`[data-radix-scroll-area-viewport]`,
+   from fumadocs-ui ScrollViewport). It ships only `p-4` (1rem) at the bottom
+   and a 12px bottom mask fade (layouts/docs/slots/sidebar.js), so the last
+   nav items sit under the fade and can't be scrolled fully into view. The
+   id+attribute selector outranks the `.p-4` utility, so this longhand wins
+   over the shorthand's bottom value without touching the other sides. */
+#nd-sidebar [data-radix-scroll-area-viewport],
+#nd-sidebar-mobile [data-radix-scroll-area-viewport] {
+  padding-bottom: 2rem;
 }
 
 /* ── Default-Fumadocs visual tells, neutralised ──────────────────────

@@ -28,7 +28,21 @@ export default async function Layout({ children }: { children: ReactNode }) {
         // fumadocs-ui 16.7 `NavOptions.enabled` (layouts/shared) and the
         // `navEnabled && jsx(slots.header)` guard in layouts/docs/client.
         nav={{ enabled: false }}
-        searchToggle={{ enabled: false }}
+        // Render the search field in the sidebar header. fumadocs-ui 16.7
+        // builds `slots.searchTrigger` only when `searchToggle.enabled` is
+        // truthy (layouts/shared/client.js), and the sidebar slot renders
+        // `slots.searchTrigger.full` — the large search bar — at the top of
+        // the rail (layouts/docs/slots/sidebar.js). Search itself is already
+        // wired: `RootProvider` enables it by default and `app/api/search`
+        // serves the index.
+        searchToggle={{ enabled: true }}
+        // Remove the sidebar footer. fumadocs-ui 16.7 renders the footer block
+        // only when `languageSelect || iconLinks.length || themeSwitch || footer`
+        // is truthy (layouts/docs/slots/sidebar.js). This app has no i18n
+        // (single locale → no languageSelect), no nav `links`/`githubUrl` (→ no
+        // iconLinks), and passes no `footer`, so the theme switch is the only
+        // thing populating it — disabling it drops the whole footer.
+        themeSwitch={{ enabled: false }}
         // Remove the sidebar hide/collapse button: fumadocs-ui 16.7 renders the
         // collapse trigger only under `collapsible && <SidebarCollapseTrigger>`
         // (slots/sidebar.js), so `collapsible: false` drops it (and the floating
