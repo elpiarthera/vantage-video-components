@@ -16,6 +16,7 @@ import { type NavLink } from "@/config/landing";
 import { useTrackEvent } from "@/lib/analytics";
 import { formatStars } from "@/lib/github";
 import { cn } from "@/lib/utils";
+import { NavLinks } from "./nav-links";
 import { ThemeToggle } from "./theme-toggle";
 
 const GITHUB_URL = "https://github.com/kapishdima/remocn";
@@ -64,7 +65,7 @@ export function SiteHeader({
   navLinks,
   githubStars = null,
   sticky = true,
-  fluid = false,
+  docsAlign = false,
 }: {
   navLinks: NavLink[];
   githubStars?: number | null;
@@ -75,14 +76,14 @@ export function SiteHeader({
    */
   sticky?: boolean;
   /**
-   * Contained (default) keeps the inner bar centered at `max-w-6xl` to match
-   * the landing content column. `fluid` drops the max-width so the bar spans
-   * the full viewport — used in docs so the logo aligns to the left edge of the
-   * full-bleed sidebar instead of floating inward. Intended for the static
-   * (`sticky={false}`) docs variant; the sticky pill relies on the contained
-   * width, so don't combine `fluid` with the sticky landing variant.
+   * Docs variant. Replaces the contained justify-between bar with a
+   * content-aligned layout: the logo sits over the sidebar and the nav begins
+   * at the article column's left edge, by mirroring Fumadocs' centered layout
+   * width (`--fd-layout-width`) and sidebar column width (`--fd-sidebar-width`)
+   * — redeclared here because this header renders outside DocsLayout's subtree.
+   * Intended for the static (`sticky={false}`) docs header.
    */
-  fluid?: boolean;
+  docsAlign?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -108,6 +109,116 @@ export function SiteHeader({
   // path never picks up the pill classes even if state lingers.
   const isPill = sticky && scrolled;
 
+  const logo = (
+    <Link
+      href="/"
+      className="flex items-center gap-2 text-lg font-semibold tracking-tight text-foreground focus-visible:outline-none"
+    >
+      <Image
+        src="/logo.svg"
+        alt="remocn logo"
+        width={24}
+        height={24}
+        priority
+        className="rounded-md"
+      />
+      remocn
+    </Link>
+  );
+
+  const actions = (
+    <div className="flex items-center gap-2">
+      <div className="hidden sm:block">
+        <GitHubStars stars={githubStars} onClick={trackGitHubClick} />
+      </div>
+      <ThemeToggle />
+
+      {/* Mobile nav trigger */}
+      <Sheet open={open} onOpenChange={setOpen}>
+        <SheetTrigger
+          render={
+            <button
+              type="button"
+              aria-label="Open menu"
+              className="inline-flex size-9 items-center justify-center rounded-full border border-border text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 sm:hidden"
+            />
+          }
+        >
+          <Menu className="size-4" aria-hidden="true" />
+        </SheetTrigger>
+        <SheetContent side="right" className="bg-background">
+          <SheetHeader>
+            <SheetTitle>Menu</SheetTitle>
+          </SheetHeader>
+          <nav className="flex flex-col px-6 pb-6 text-base">
+            {navLinks.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                onClick={() => setOpen(false)}
+                className="py-3 text-foreground/90 transition-colors hover:text-foreground focus-visible:text-foreground focus-visible:outline-none"
+              >
+                {link.label}
+              </Link>
+            ))}
+            <div className="mt-4">
+              <GitHubStars
+                stars={githubStars}
+                onClick={() => {
+                  setOpen(false);
+                  trackGitHubClick();
+                }}
+              />
+            </div>
+            <Button
+              size="lg"
+              className="mt-4 h-11 w-full rounded-full"
+              render={
+                <Link
+                  href="/docs/getting-started/introduction"
+                  onClick={() => setOpen(false)}
+                />
+              }
+            >
+              Get started
+            </Button>
+          </nav>
+        </SheetContent>
+      </Sheet>
+    </div>
+  );
+
+  // Docs variant: a content-aligned bar instead of justify-between. The inner
+  // container mirrors Fumadocs' centered docs layout (`--fd-layout-width`) and
+  // the logo cell is the width of the sidebar column (`--fd-sidebar-width`), so
+  // the logo lands over the sidebar, the nav begins exactly at the article
+  // column's left edge, and the actions sit at the content block's right edge.
+  // The CSS vars are redeclared here because this header renders above (outside)
+  // DocsLayout, so its variables aren't in scope. `-ml-3` pulls the first nav
+  // item's label flush with the article text while its ghost-button background
+  // bleeds back into the gutter.
+  //
+  // The 1400px / 268px literals mirror fumadocs-ui 16.7 defaults — the docs grid
+  // sets `[--fd-layout-width:1400px]` and `md:layout:[--fd-sidebar-width:268px]`
+  // (the non-collapsible sidebar column equals the sidebar width). They must stay
+  // inline (Tailwind JIT can't read JS constants); if a fumadocs upgrade changes
+  // those defaults, re-sync the two values below.
+  if (docsAlign) {
+    return (
+      <header className="relative z-40 h-16 w-full border-b border-border bg-background/70 backdrop-blur-xl">
+        <div className="mx-auto flex h-16 w-full max-w-(--fd-layout-width) items-center [--fd-layout-width:1400px] md:[--fd-sidebar-width:268px]">
+          <div className="flex shrink-0 items-center px-4 md:w-(--fd-sidebar-width) md:px-0">
+            {logo}
+          </div>
+          <div className="flex flex-1 items-center justify-between px-4 md:px-6 xl:px-5">
+            <NavLinks links={navLinks} className="-ml-4" />
+            {actions}
+          </div>
+        </div>
+      </header>
+    );
+  }
+
   return (
     <header
       className={cn(
@@ -123,14 +234,10 @@ export function SiteHeader({
       )}
     >
       {/* Inner bar matches the page content width (same utilities as SECTION),
-          so when scrolled it becomes a floating pill exactly that width.
-          In the static docs variant it stays a fixed-height, borderless bar.
-          `fluid` drops the max-width/centering so the bar spans the full
-          viewport and the logo lands at the sidebar's left edge. */}
+          so when scrolled it becomes a floating pill exactly that width. */}
       <div
         className={cn(
-          "flex w-full items-center justify-between px-4 sm:px-6",
-          fluid ? "" : "mx-auto max-w-6xl",
+          "mx-auto flex w-full max-w-6xl items-center justify-between px-4 sm:px-6",
           sticky
             ? cn(
                 "border transition-all duration-300",
@@ -141,93 +248,9 @@ export function SiteHeader({
             : "h-16",
         )}
       >
-        <Link
-          href="/"
-          className="flex items-center gap-2 text-lg font-semibold tracking-tight text-foreground focus-visible:outline-none"
-        >
-          <Image
-            src="/logo.svg"
-            alt="remocn logo"
-            width={24}
-            height={24}
-            priority
-            className="rounded-md"
-          />
-          remocn
-        </Link>
-
-        {/* Desktop nav */}
-        <nav className="hidden items-center gap-1 sm:flex">
-          {navLinks.map((link) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              className="rounded-full px-3 py-2 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground focus-visible:text-foreground focus-visible:outline-none"
-            >
-              {link.label}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="flex items-center gap-2">
-          <div className="hidden sm:block">
-            <GitHubStars stars={githubStars} onClick={trackGitHubClick} />
-          </div>
-          <ThemeToggle />
-
-          {/* Mobile nav trigger */}
-          <Sheet open={open} onOpenChange={setOpen}>
-            <SheetTrigger
-              render={
-                <button
-                  type="button"
-                  aria-label="Open menu"
-                  className="inline-flex size-9 items-center justify-center rounded-full border border-border text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40 sm:hidden"
-                />
-              }
-            >
-              <Menu className="size-4" aria-hidden="true" />
-            </SheetTrigger>
-            <SheetContent side="right" className="bg-background">
-              <SheetHeader>
-                <SheetTitle>Menu</SheetTitle>
-              </SheetHeader>
-              <nav className="flex flex-col px-6 pb-6 text-base">
-                {navLinks.map((link) => (
-                  <Link
-                    key={link.href}
-                    href={link.href}
-                    onClick={() => setOpen(false)}
-                    className="py-3 text-foreground/90 transition-colors hover:text-foreground focus-visible:text-foreground focus-visible:outline-none"
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-                <div className="mt-4">
-                  <GitHubStars
-                    stars={githubStars}
-                    onClick={() => {
-                      setOpen(false);
-                      trackGitHubClick();
-                    }}
-                  />
-                </div>
-                <Button
-                  size="lg"
-                  className="mt-4 h-11 w-full rounded-full"
-                  render={
-                    <Link
-                      href="/docs/getting-started/introduction"
-                      onClick={() => setOpen(false)}
-                    />
-                  }
-                >
-                  Get started
-                </Button>
-              </nav>
-            </SheetContent>
-          </Sheet>
-        </div>
+        {logo}
+        <NavLinks links={navLinks} />
+        {actions}
       </div>
     </header>
   );

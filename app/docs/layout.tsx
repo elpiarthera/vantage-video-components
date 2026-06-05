@@ -11,12 +11,12 @@ export default async function Layout({ children }: { children: ReactNode }) {
 
   return (
     <>
-      {/* Custom remocn chrome owns the only top nav. Static (non-sticky) in
-          docs and `fluid` (full-width) so the logo aligns to the left edge of
-          the sidebar instead of floating inward at the contained width. */}
+      {/* Custom remocn chrome owns the only top nav. Static (non-sticky) and
+          `docsAlign` so the bar tracks the docs grid: logo over the sidebar,
+          nav starting at the article column's left edge. */}
       <SiteHeader
         sticky={false}
-        fluid
+        docsAlign
         navLinks={DOCS_NAV}
         githubStars={githubStars}
       />
