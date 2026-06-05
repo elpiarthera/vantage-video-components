@@ -34,31 +34,21 @@ export type NavLink = {
   smOnly?: boolean;
 };
 
-export const HOME_NAV: NavLink[] = [
-  { href: "#components", label: "Components", smOnly: true },
-  { href: "#showcase", label: "Showcase", smOnly: true },
-  { href: "#get-started", label: "Get started", smOnly: true },
-  { href: "/sponsors", label: "Sponsors", smOnly: true },
+// Single source of truth for the top nav. "Components" sends people straight
+// into the docs (typography is the first component category), so every surface
+// — landing, sponsors, docs — shares the same three root-absolute links and the
+// menu reads identically wherever it's mounted.
+const MAIN_NAV: NavLink[] = [
+  { href: "/docs/typography", label: "Components" },
+  { href: "/sponsors", label: "Sponsors" },
   { href: "/docs/getting-started/introduction", label: "Docs" },
 ];
 
-export const SPONSORS_NAV: NavLink[] = [
-  { href: "/#showcase", label: "Showcase", smOnly: true },
-  { href: "/#components", label: "Components", smOnly: true },
-  { href: "/sponsors", label: "Sponsors", smOnly: true },
-  { href: "/docs/getting-started/introduction", label: "Docs" },
-];
+export const HOME_NAV: NavLink[] = MAIN_NAV;
 
-// Docs reuses the global header but lives off-route, so section links must be
-// root-absolute (`/#components`) — bare hash anchors would resolve to
-// `/docs/<slug>#components` and scroll to nothing.
-export const DOCS_NAV: NavLink[] = [
-  { href: "/#components", label: "Components", smOnly: true },
-  { href: "/#showcase", label: "Showcase", smOnly: true },
-  { href: "/#get-started", label: "Get started", smOnly: true },
-  { href: "/sponsors", label: "Sponsors", smOnly: true },
-  { href: "/docs/getting-started/introduction", label: "Docs" },
-];
+export const SPONSORS_NAV: NavLink[] = MAIN_NAV;
+
+export const DOCS_NAV: NavLink[] = MAIN_NAV;
 
 export const FOOTER_NAV: NavLink[] = [
   { href: "/docs/getting-started/introduction", label: "Docs" },
