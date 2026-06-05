@@ -24,13 +24,41 @@ const outfit = Outfit({
   subsets: ["latin"],
 });
 
+const SITE_URL = "https://remocn.dev";
+const SITE_TITLE = "remocn — Cinematic video components for React";
+const SITE_DESCRIPTION =
+  "Production-ready Remotion animations, transitions and backgrounds. Install with the shadcn CLI and own the code.";
+
 export const metadata: Metadata = {
+  // Resolves the relative `/hero.png` below into an absolute URL for crawlers.
+  metadataBase: new URL(SITE_URL),
   title: {
-    default: "remocn — Cinematic video components for React",
+    default: SITE_TITLE,
     template: "%s · remocn",
   },
-  description:
-    "Production-ready Remotion animations, transitions and backgrounds. Install with the shadcn CLI and own the code.",
+  description: SITE_DESCRIPTION,
+  openGraph: {
+    type: "website",
+    url: SITE_URL,
+    siteName: "remocn",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    locale: "en_US",
+    images: [
+      {
+        url: "/hero.png",
+        width: 1200,
+        height: 675,
+        alt: SITE_TITLE,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    images: ["/hero.png"],
+  },
 };
 
 export default function RootLayout({
