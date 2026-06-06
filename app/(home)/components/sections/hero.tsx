@@ -8,25 +8,10 @@ import { useCallback, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { INSTALL_COMMAND, SECTION, SPRING_BOUNCE } from "@/config/landing";
 import { useTrackEvent } from "@/lib/analytics";
+import { HERO_CODE } from "@/lib/config/snippets";
 import registry from "@/registry/__index__";
 import { FadeUp } from "../fade-up";
 import { InstallCommand } from "../install-command";
-
-// Shown inside the hero's glass-code-block player — the real remocn flow:
-// install components from the registry, then compose them in a Remotion scene.
-const HERO_CODE = `// npx shadcn@latest add remocn/blur-reveal remocn/mesh-gradient-bg
-import { AbsoluteFill } from "remotion";
-import { BlurReveal } from "@/components/remocn/blur-reveal";
-import { MeshGradientBg } from "@/components/remocn/mesh-gradient-bg";
-
-export function LaunchScene() {
-  return (
-    <AbsoluteFill>
-      <MeshGradientBg />
-      <BlurReveal text="Ship your launch video" />
-    </AbsoluteFill>
-  );
-}`;
 
 export function Hero() {
   const heroEntry = registry["glass-code-block"];

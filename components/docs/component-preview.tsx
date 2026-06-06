@@ -3,6 +3,7 @@
 import { Player } from "@remotion/player";
 import { DynamicCodeBlock } from "fumadocs-ui/components/dynamic-codeblock";
 import { CheckIcon, LinkIcon, PlayIcon, RotateCcwIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   parseAsBoolean,
   parseAsFloat,
@@ -170,36 +171,31 @@ function Preview({
         <div className="flex items-center justify-between pt-4 pb-2">
           <span className="text-sm font-medium text-foreground">Customize</span>
           <div className="flex items-center gap-1">
-            <button
-              type="button"
+            <Button
+              variant="outline"
+              size="icon-sm"
               onClick={handleCopyLink}
               aria-label="Copy share link"
               title="Copy share link"
-              className={cn(
-                "inline-flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors",
-                "hover:bg-background hover:text-foreground",
-              )}
+              className="text-muted-foreground hover:text-foreground"
             >
               {copied ? (
                 <CheckIcon className="size-3.5" />
               ) : (
                 <LinkIcon className="size-3.5" />
               )}
-            </button>
-            <button
-              type="button"
+            </Button>
+            <Button
+              variant="outline"
+              size="icon-sm"
               onClick={handleReset}
               disabled={isDefault}
               aria-label="Reset to defaults"
               title="Reset to defaults"
-              className={cn(
-                "inline-flex size-7 items-center justify-center rounded-md text-muted-foreground transition-colors",
-                "hover:bg-background hover:text-foreground",
-                "disabled:opacity-40 disabled:hover:bg-transparent disabled:hover:text-muted-foreground",
-              )}
+              className="text-muted-foreground hover:text-foreground disabled:opacity-40"
             >
               <RotateCcwIcon className="size-3.5" />
-            </button>
+            </Button>
           </div>
         </div>
         <ComponentCustomizer

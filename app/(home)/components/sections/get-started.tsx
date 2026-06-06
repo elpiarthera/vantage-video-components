@@ -1,66 +1,19 @@
 import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import { CodeBlockCommand } from "@/components/docs/code-block-command";
-import { LAVENDER, MINT, PEACH, SECTION } from "@/config/landing";
+import { SECTION } from "@/config/landing";
 import { convertNpmCommand } from "@/lib/convert-npm-command";
+import {
+  ADD,
+  INIT,
+  RENDER,
+  SAMPLE_COMPONENTS,
+  START,
+  type Step,
+} from "@/lib/config/snippets";
 import { FadeUp } from "../fade-up";
 import { SectionHeading } from "../section-heading";
 import { Tok, TypewriterCodeBlock } from "../typewriter-code-block";
-
-type Step = {
-  n: number;
-  title: string;
-  description: string;
-  command: string;
-  component?: string;
-  /** Pastel accent that differentiates this step from its neighbours. */
-  accent: string;
-};
-
-const START: Step = {
-  n: 1,
-  title: "Start with Remotion",
-  description:
-    "Already have a Remotion project? Skip ahead. Otherwise scaffold one in seconds.",
-  command: "npx create-video@latest",
-  accent: PEACH,
-};
-
-const INIT: Step = {
-  n: 2,
-  title: "Set up shadcn",
-  description:
-    "Run the shadcn init once so the CLI knows where to drop component files in your project.",
-  command: "npx shadcn@latest init",
-  accent: MINT,
-};
-
-const ADD: Step = {
-  n: 3,
-  title: "Add a component",
-  description:
-    "Pull any primitive or composition straight into your project with the shadcn CLI — the code lands in your repo, yours to tweak.",
-  command: "npx shadcn@latest add remocn/blur-reveal",
-  component: "blur-reveal",
-  accent: LAVENDER,
-};
-
-const RENDER: Step = {
-  n: 4,
-  title: "Render your video",
-  description:
-    "Drop the component into a composition and export an mp4 — no editor required.",
-  command: "npx remotion render",
-  accent: PEACH,
-};
-
-/** A taste of what `remocn/<name>` pulls in — fills the featured card. */
-const SAMPLE_COMPONENTS = [
-  "blur-reveal",
-  "shimmer-sweep",
-  "frosted-glass-wipe",
-  "grid-pixelate-wipe",
-];
 
 function StepBadge({ n, accent }: { n: number; accent: string }) {
   return (

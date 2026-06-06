@@ -4,12 +4,13 @@ import { Player } from "@remotion/player";
 import { ArrowRight, Check, Copy } from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
-import { type CSSProperties, useRef, useState } from "react";
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { SECTION, SPRING_SOFT } from "@/config/landing";
 import { useTrackEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 import registry from "@/registry/__index__";
+import { SpotlightSurface } from "@/components/spotlight-surface";
 import { FadeUp } from "../fade-up";
 import { SectionHeading } from "../section-heading";
 
@@ -31,11 +32,12 @@ function InstallPill({ name }: { name: string }) {
   };
 
   return (
-    <button
+    <Button
+      variant="outline"
       type="button"
       onClick={copy}
       aria-label={`Copy install command for ${name}`}
-      className="mt-4 flex w-full items-center gap-2.5 rounded-xl border border-border bg-muted/40 px-3 py-2 font-mono text-xs text-muted-foreground transition-colors hover:border-foreground/20 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40"
+      className="mt-4 flex w-full items-center gap-2.5 rounded-xl border-border bg-muted/40 px-3 py-2 font-mono text-xs text-muted-foreground transition-colors hover:border-foreground/20 hover:text-foreground focus-visible:ring-ring/40"
     >
       <span aria-hidden className="select-none text-muted-foreground/50">
         $
@@ -51,7 +53,7 @@ function InstallPill({ name }: { name: string }) {
           <Copy className="size-3.5" />
         )}
       </span>
-    </button>
+    </Button>
   );
 }
 
@@ -143,19 +145,7 @@ function BentoCard({
 }
 
 export function BentoRegistry() {
-  const gridRef = useRef<HTMLDivElement>(null);
-  const grid2Ref = useRef<HTMLDivElement>(null);
   const trackEvent = useTrackEvent();
-
-  const handleMove = (
-    e: React.MouseEvent<HTMLDivElement>,
-    target: HTMLDivElement | null,
-  ) => {
-    if (!target) return;
-    const rect = target.getBoundingClientRect();
-    target.style.setProperty("--mx", `${e.clientX - rect.left}px`);
-    target.style.setProperty("--my", `${e.clientY - rect.top}px`);
-  };
 
   return (
     <section id="components" className="relative py-20 sm:py-20">
@@ -188,13 +178,7 @@ export function BentoRegistry() {
         />
 
         <FadeUp delay={0.1} className="mt-12 sm:mt-16">
-          {/* biome-ignore lint/a11y/noStaticElementInteractions: spotlight cursor tracking is purely visual */}
-          <div
-            ref={gridRef}
-            onMouseMove={(e) => handleMove(e, gridRef.current)}
-            className="grid gap-4 sm:gap-6 md:grid-cols-3 md:grid-rows-2"
-            style={{ "--mx": "50%", "--my": "50%" } as CSSProperties}
-          >
+          <SpotlightSurface className="grid gap-4 sm:gap-6 md:grid-cols-3 md:grid-rows-2">
             <BentoCard
               name="ai-generation-canvas"
               title="AI Generation Canvas"
@@ -213,17 +197,11 @@ export function BentoRegistry() {
               title="Ecosystem Constellation"
               description="Orbits of integration logos around your brand"
             />
-          </div>
+          </SpotlightSurface>
         </FadeUp>
 
         <FadeUp delay={0.18}>
-          {/* biome-ignore lint/a11y/noStaticElementInteractions: spotlight cursor tracking is purely visual */}
-          <div
-            ref={grid2Ref}
-            onMouseMove={(e) => handleMove(e, grid2Ref.current)}
-            className="mt-4 grid gap-4 sm:mt-6 sm:gap-6 md:grid-cols-2"
-            style={{ "--mx": "50%", "--my": "50%" } as CSSProperties}
-          >
+          <SpotlightSurface className="mt-4 grid gap-4 sm:mt-6 sm:gap-6 md:grid-cols-2">
             <BentoCard
               name="grid-pixelate-wipe"
               title="Grid Pixelate Wipe"
@@ -234,7 +212,7 @@ export function BentoRegistry() {
               title="Frosted Glass Wipe"
               description="An elegant transition through a sheet of glass"
             />
-          </div>
+          </SpotlightSurface>
         </FadeUp>
       </div>
     </section>

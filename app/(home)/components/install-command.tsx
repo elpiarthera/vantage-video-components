@@ -2,6 +2,7 @@
 
 import { Check, Copy } from "lucide-react";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import { useTrackEvent } from "@/lib/analytics";
 import { cn } from "@/lib/utils";
 
@@ -28,12 +29,12 @@ export function InstallCommand({
   };
 
   return (
-    <button
-      type="button"
+    <Button
+      variant="outline"
       onClick={copy}
       aria-label="Copy install command"
       className={cn(
-        "group inline-flex h-11 items-center gap-3 rounded-full border border-border bg-card/60 px-4 font-mono text-sm text-muted-foreground backdrop-blur-sm transition-colors hover:border-foreground/20 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring/40",
+        "group h-11 gap-3 rounded-full border-border bg-card/60 px-4 font-mono font-normal text-sm text-muted-foreground backdrop-blur-sm hover:border-foreground/20 hover:text-foreground",
         className,
       )}
     >
@@ -48,6 +49,6 @@ export function InstallCommand({
           <Copy className="size-4" />
         )}
       </span>
-    </button>
+    </Button>
   );
 }

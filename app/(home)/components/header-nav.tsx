@@ -1,9 +1,9 @@
 "use client";
 
-import { motion } from "motion/react";
 import Link from "next/link";
 import { useRef, useState } from "react";
-import { type NavLink } from "@/config/landing";
+import { SlidingHighlight } from "@/components/sliding-highlight";
+import type { NavLink } from "@/config/landing";
 import { cn } from "@/lib/utils";
 
 /**
@@ -13,7 +13,7 @@ import { cn } from "@/lib/utils";
  * moving between items reads as the same pill sliding across the row. Hidden
  * below `sm`, where the header falls back to the mobile sheet.
  */
-export function NavLinks({
+export function NavDesktop({
   links,
   className,
 }: {
@@ -49,17 +49,7 @@ export function NavLinks({
       }}
       className={cn("relative hidden items-center gap-1 sm:flex", className)}
     >
-      <motion.span
-        aria-hidden
-        className="pointer-events-none absolute left-0 top-0 -z-10 h-full rounded-full bg-muted"
-        initial={false}
-        animate={{
-          x: highlight?.left ?? 0,
-          width: highlight?.width ?? 0,
-          opacity: highlight ? 1 : 0,
-        }}
-        transition={{ type: "spring", stiffness: 420, damping: 34, mass: 0.6 }}
-      />
+      <SlidingHighlight rect={highlight} />
       {links.map((link) => (
         <Link
           key={link.href}
@@ -71,6 +61,71 @@ export function NavLinks({
           {link.label}
         </Link>
       ))}
+    </nav>
+  );
+}
+
+/**
+ * Mobile nav: just the stacked list of links rendered inside the header's
+ * Sheet. The Sheet shell, GitHub stars, and the Get-started CTA stay with the
+ * header; `onNavigate` lets a tap close the sheet before routing.
+ */
+export function NavMobile({
+  links,
+  onNavigate,
+}: {
+  links: NavLink[];
+  onNavigate?: () => void;
+}) {
+  return (
+    <nav className="flex flex-col px-6 text-base">
+      {links.map((link) => (
+        <Link
+          key={link.href}
+          href={link.href}
+          onClick={() => onNavigate?.()}
+          className="py-3 text-foreground/90 transition-colors hover:text-foreground focus-visible:text-foreground focus-visible:outline-none"
+        >
+          {link.label}
+        </Link>
+      ))}
+    </nav>
+  );
+}
+
+/**
+ * Footer nav: a flat row of links. External (`http`) targets open in a new tab
+ * via a plain anchor; internal targets use the client router.
+ */
+export function NavFooter({
+  links,
+  className,
+}: {
+  links: NavLink[];
+  className?: string;
+}) {
+  return (
+    <nav className={cn("flex gap-6", className)}>
+      {links.map((link) => {
+        const external = link.href.startsWith("http");
+        const linkClassName =
+          "transition-colors hover:text-foreground focus-visible:text-foreground focus-visible:outline-none";
+        return external ? (
+          <a
+            key={link.href}
+            href={link.href}
+            target="_blank"
+            rel="noreferrer"
+            className={linkClassName}
+          >
+            {link.label}
+          </a>
+        ) : (
+          <Link key={link.href} href={link.href} className={linkClassName}>
+            {link.label}
+          </Link>
+        );
+      })}
     </nav>
   );
 }

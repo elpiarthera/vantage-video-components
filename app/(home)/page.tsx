@@ -7,7 +7,6 @@ import { GetStarted } from "./components/sections/get-started";
 import { Hero } from "./components/sections/hero";
 import { InteractiveCode } from "./components/sections/interactive-code";
 import { LandingPartners } from "./components/sections/landing-partners";
-import { WorksWith } from "./components/sections/works-with";
 import { SiteFooter } from "./components/site-footer";
 import { SiteHeader } from "./components/site-header";
 
@@ -19,7 +18,6 @@ export default async function Page() {
       <SiteHeader navLinks={HOME_NAV} githubStars={githubStars} />
       <main className="relative flex-1">
         <Hero />
-        {/* <WorksWith /> */}
         <InteractiveCode />
         <BentoRegistry />
         <GetStarted />

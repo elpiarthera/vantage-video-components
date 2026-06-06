@@ -12,20 +12,13 @@ import {
 } from "react";
 import { SECTION, SPRING_SOFT } from "@/config/landing";
 import { useTrackEvent } from "@/lib/analytics";
+import { TYPEWRITER_DEFAULTS } from "@/lib/config/snippets";
 import registry from "@/registry/__index__";
 import { FadeUp } from "../fade-up";
 import { SectionHeading } from "../section-heading";
 import { SYNTAX_DARK, TypewriterCodeBlock } from "../typewriter-code-block";
 
 const COMPONENT = "typewriter";
-
-const DEFAULTS = {
-  text: "Ship it in React",
-  fontSize: 104,
-  color: "#171717",
-  fontWeight: 700,
-  cursor: true,
-};
 
 const CHIP =
   "rounded-[5px] bg-white/[0.07] px-1 align-baseline outline-none ring-1 ring-transparent transition-colors hover:bg-white/[0.12] focus-visible:bg-white/[0.12] focus-visible:ring-white/30";
@@ -261,11 +254,11 @@ function ToggleBool({
 export function InteractiveCode() {
   const entry = registry[COMPONENT];
 
-  const [text, setText] = useState(DEFAULTS.text);
-  const [fontSize, setFontSize] = useState(DEFAULTS.fontSize);
-  const [color, setColor] = useState(DEFAULTS.color);
-  const [fontWeight, setFontWeight] = useState(DEFAULTS.fontWeight);
-  const [cursor, setCursor] = useState(DEFAULTS.cursor);
+  const [text, setText] = useState(TYPEWRITER_DEFAULTS.text);
+  const [fontSize, setFontSize] = useState(TYPEWRITER_DEFAULTS.fontSize);
+  const [color, setColor] = useState(TYPEWRITER_DEFAULTS.color);
+  const [fontWeight, setFontWeight] = useState(TYPEWRITER_DEFAULTS.fontWeight);
+  const [cursor, setCursor] = useState(TYPEWRITER_DEFAULTS.cursor);
 
   const trackEvent = useTrackEvent();
   const timers = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map());

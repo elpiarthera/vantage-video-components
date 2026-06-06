@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { type NavLink, SECTION } from "@/config/landing";
+import { NavFooter } from "./header-nav";
 
 export function SiteFooter({
   navLinks,
@@ -14,28 +14,7 @@ export function SiteFooter({
         <span suppressHydrationWarning>
           © {new Date().getFullYear()} remocn — MIT licensed
         </span>
-        <nav className="flex gap-6">
-          {navLinks.map((link) => {
-            const external = link.href.startsWith("http");
-            const className =
-              "transition-colors hover:text-foreground focus-visible:text-foreground focus-visible:outline-none";
-            return external ? (
-              <a
-                key={link.href}
-                href={link.href}
-                target="_blank"
-                rel="noreferrer"
-                className={className}
-              >
-                {link.label}
-              </a>
-            ) : (
-              <Link key={link.href} href={link.href} className={className}>
-                {link.label}
-              </Link>
-            );
-          })}
-        </nav>
+        <NavFooter links={navLinks} />
       </footer>
     </div>
   );
