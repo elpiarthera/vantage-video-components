@@ -246,15 +246,30 @@ export function StarsTool() {
 
     try {
       const { renderMediaOnWeb } = await import("@remotion/web-renderer");
-      const { width, height } = dims(orientation);
+      const base = dims(orientation);
+      // Render the export cheaper than the 30fps preview: lower resolution + fps.
+      // The composition's motion is purely frame/durationInFrames ratios (no
+      // spring, never reads fps), so a 24fps/240-frame render is real-time
+      // identical to 30fps/300 — only the encode + per-frame cost drops (≈2-3×
+      // faster). Raise EXPORT_SCALE/EXPORT_FPS to trade speed for fidelity.
+      const EXPORT_SCALE = 0.7;
+      const EXPORT_FPS = 24;
+      const even = (n: number) =>
+        Math.max(2, Math.round((n * EXPORT_SCALE) / 2) * 2);
+      const durationInFrames = Math.max(
+        1,
+        Math.round(
+          (entry.config.durationInFrames / entry.config.fps) * EXPORT_FPS,
+        ),
+      );
       const { getBlob } = await renderMediaOnWeb({
         composition: {
           id: "github-stars",
           component: entry.Component,
-          durationInFrames: entry.config.durationInFrames,
-          fps: entry.config.fps,
-          width,
-          height,
+          durationInFrames,
+          fps: EXPORT_FPS,
+          width: even(base.width),
+          height: even(base.height),
         },
         inputProps,
         container: "mp4",
@@ -273,7 +288,11 @@ export function StarsTool() {
       URL.revokeObjectURL(url);
     } catch (err) {
       if (!(err instanceof DOMException && err.name === "AbortError")) {
-        toast.error("Export failed — try again");
+        // Surface the real cause (e.g. a Remotion version mismatch) instead of
+        // swallowing it — the toast stays friendly, the console is diagnosable.
+        console.error("[stars] MP4 export failed:", err);
+        const detail = err instanceof Error ? err.message : String(err);
+        toast.error("Export failed", { description: detail });
       }
     } finally {
       setExporting(false);
@@ -561,23 +580,14 @@ function ReadyView({
       animate={{ y: 0, opacity: 1 }}
       transition={{ ...SPRING_BOUNCE, delay: 0.05 }}
     >
-      {/* Repo header + reset to a different repo. */}
-      <div className="mb-3 flex items-center justify-between gap-3">
-        <p className="min-w-0 truncate text-sm font-medium text-foreground">
+      {/* Repo title — centered heading. */}
+      <div className="mb-4 text-center">
+        <h2 className="truncate text-xl font-semibold tracking-tight text-foreground sm:text-2xl">
           {repo}
-          <span className="ml-2 font-normal text-muted-foreground">
-            {formatStars(totalStars)} stars
-          </span>
+        </h2>
+        <p className="mt-0.5 text-sm text-muted-foreground">
+          {formatStars(totalStars)} stars
         </p>
-        <Button
-          variant="ghost"
-          size="sm"
-          onClick={onReset}
-          className="shrink-0 gap-2 rounded-full"
-        >
-          <RotateCcw className="size-4" aria-hidden="true" />
-          Change repository
-        </Button>
       </div>
 
       {/* Controls bar */}
@@ -694,7 +704,17 @@ function ReadyView({
           </Button>
         </div>
 
-        {exporting ? (
+        <div className="flex items-center justify-end gap-2">
+          <Button
+            variant="ghost"
+            size="lg"
+            onClick={onReset}
+            className="gap-2 rounded-full"
+          >
+            <RotateCcw className="size-4" aria-hidden="true" />
+            Change repository
+          </Button>
+          {exporting ? (
           <div className="flex w-full items-center gap-3 sm:w-72">
             <Progress
               value={Math.round(exportProgress * 100)}
@@ -735,7 +755,8 @@ function ReadyView({
             />
             <TooltipContent>MP4 export needs Chrome or Edge</TooltipContent>
           </Tooltip>
-        )}
+          )}
+        </div>
       </div>
     </motion.div>
   );

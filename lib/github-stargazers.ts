@@ -16,7 +16,7 @@ export type Stargazer = {
 export type StargazersResult = {
   stargazers: Stargazer[];
   totalStars: number;
-  /** True when the repo has more pages than `MAX_PAGES` allows us to fetch. */
+  /** True when the repo exceeds GitHub's ~400-page (~40k-star) listing ceiling. */
   truncated: boolean;
 };
 
@@ -39,11 +39,14 @@ export class StargazersError extends Error {
 }
 
 /**
- * GitHub caps the REST stargazers endpoint at ~400 pages; we cap far lower so a
- * runaway repo can't exhaust the serverless function budget. 50 × 100 = 5000
- * stargazers fetched, then `truncated: true`. The animation downsamples anyway.
+ * We only need ~60 keyframes spread across the repo's whole star history, so we
+ * fetch a small, evenly-spaced SAMPLE of pages instead of every page — a handful
+ * of requests regardless of repo size (this used to page through up to 5000
+ * stargazers). GitHub won't list stargazers past ~page 400 (~40k stars); beyond
+ * that the newest are unreachable → `truncated: true`.
  */
-const MAX_PAGES = 50;
+const SAMPLE_PAGES = 12;
+const GITHUB_MAX_LISTABLE_PAGES = 400;
 const PER_PAGE = 100;
 const CONCURRENCY = 6;
 /** Keyframe cap kept in lockstep with the component's `downsampleStargazers`. */
@@ -126,6 +129,22 @@ function downsample(stargazers: Stargazer[], max = KEYFRAME_CAP): Stargazer[] {
   return out;
 }
 
+/**
+ * Evenly spaced page numbers across `[1..last]`, inclusive of the first (oldest
+ * stargazers) and last (newest) page, de-duplicated. For small repos
+ * (`last <= count`) this is simply every page.
+ */
+function samplePageNumbers(last: number, count: number): number[] {
+  if (last <= count) {
+    return Array.from({ length: last }, (_, i) => i + 1);
+  }
+  const pages = new Set<number>();
+  for (let i = 0; i < count; i++) {
+    pages.add(1 + Math.round((i * (last - 1)) / (count - 1)));
+  }
+  return [...pages].sort((a, b) => a - b);
+}
+
 /** Run `fn` over `items` with a bounded number of in-flight requests. */
 async function mapWithConcurrency<T, R>(
   items: T[],
@@ -181,8 +200,10 @@ async function fetchStargazerPage(
  * - Uses `Accept: application/vnd.github.star+json` (required for `starred_at`).
  * - Sends `Authorization: Bearer ${GITHUB_TOKEN}` only when the env var is set;
  *   works unauthenticated (60/hr) too.
- * - Reads the total page count from the first response's Link header and fetches
- *   the rest in parallel (bounded), capped at `MAX_PAGES` → `truncated: true`.
+ * - Reads the page count from the first response's Link header, then fetches a
+ *   small evenly-spaced SAMPLE of pages (including the newest) in parallel — fast
+ *   regardless of repo size. `truncated: true` only when GitHub can't list past
+ *   its ~40k-star ceiling.
  * - Throws {@link StargazersError} for not-found / rate-limited / fetch failures.
  */
 export async function fetchStargazers({
@@ -225,17 +246,24 @@ export async function fetchStargazers({
   // 3. First page drives the page count via its Link header.
   const first = await fetchStargazerPage(owner, repo, 1, signal);
   const lastPage = parseLastPage(first.link) ?? 1;
-  const cappedLastPage = Math.min(lastPage, MAX_PAGES);
-  const truncated = lastPage > MAX_PAGES;
+  const listableLast = Math.min(lastPage, GITHUB_MAX_LISTABLE_PAGES);
+  // "truncated" only when GitHub itself can't list the newest stargazers (repos
+  // beyond its ~40k-star ceiling); a normal sample still spans first → last.
+  const truncated = lastPage > GITHUB_MAX_LISTABLE_PAGES;
 
   const rawEntries: RawStargazer[] = [...first.entries];
 
-  // 4. Remaining pages in parallel (bounded concurrency).
-  if (cappedLastPage > 1) {
-    const pages: number[] = [];
-    for (let p = 2; p <= cappedLastPage; p++) pages.push(p);
-    const pageResults = await mapWithConcurrency(pages, CONCURRENCY, (page) =>
-      fetchStargazerPage(owner, repo, page, signal),
+  // 4. Fetch a small, evenly-spaced SAMPLE of the remaining pages in parallel —
+  //    enough to span the whole history (including the genuine newest page)
+  //    without paging through thousands of stargazers we'd only downsample away.
+  const samplePages = samplePageNumbers(listableLast, SAMPLE_PAGES).filter(
+    (p) => p !== 1,
+  );
+  if (samplePages.length) {
+    const pageResults = await mapWithConcurrency(
+      samplePages,
+      CONCURRENCY,
+      (page) => fetchStargazerPage(owner, repo, page, signal),
     );
     for (const result of pageResults) rawEntries.push(...result.entries);
   }

@@ -238,14 +238,14 @@ describe("fetchStargazers", () => {
     );
   });
 
-  it("sets truncated=true when the repo has more pages than MAX_PAGES (50)", async () => {
+  it("sets truncated=true when the repo exceeds GitHub's ~400-page listing ceiling", async () => {
     const repoBody = { stargazers_count: 99999 };
-    // First page link header signals 100 total pages (> MAX_PAGES=50)
+    // First page link header signals 500 total pages (> the 400-page ceiling).
     const linkHeader =
-      '<https://api.github.com/repos/test/repo/stargazers?page=100>; rel="last"';
+      '<https://api.github.com/repos/test/repo/stargazers?page=500>; rel="last"';
     const starBody = [rawEntry("alice", "2021-01-01T00:00:00Z")];
 
-    // Repo fetch + page 1 + pages 2-50 (all return same one-entry body)
+    // Repo fetch + each sampled stargazer page returns the same one-entry body.
     global.fetch = vi.fn().mockImplementation((url: string) => {
       if (String(url).includes("/repos/test/repo") && !String(url).includes("stargazers")) {
         return Promise.resolve(mockResponse(repoBody));
@@ -259,7 +259,7 @@ describe("fetchStargazers", () => {
     expect(result.truncated).toBe(true);
   });
 
-  it("sets truncated=false when the repo fits within MAX_PAGES", async () => {
+  it("sets truncated=false when the repo is within the listing ceiling", async () => {
     const repoBody = { stargazers_count: 3 };
     const linkHeader = null; // only one page
     const starBody = [rawEntry("alice", "2021-01-01T00:00:00Z")];
