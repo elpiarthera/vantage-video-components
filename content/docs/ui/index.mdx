@@ -18,10 +18,10 @@ This also means you get things that are impossible in a real UI: scrub backward 
 Each component installs via the standard shadcn CLI. The shared `remocn-ui` core installs automatically as a `registryDependencies` entry — you do not need to install it separately.
 
 ```bash
-npx shadcn add @remocn/ui-button
+npx shadcn add @remocn/button
 ```
 
-This writes `components/remocn/ui-button.tsx` and `lib/remocn-ui/` to your project. Every `ui-*` component depends on the same `lib/remocn-ui/` core.
+This writes `components/remocn/button.tsx` and `lib/remocn-ui/` to your project. Every component depends on the same `lib/remocn-ui/` core.
 
 ## The `steps` timeline envelope
 
@@ -43,10 +43,10 @@ interface Step<A extends string = string, V = unknown> {
 A Button scripted through a full interaction looks like this:
 
 ```tsx
-import { UIButton } from "@/components/remocn/ui-button";
+import { Button } from "@/components/remocn/button";
 
 export const Scene = () => (
-  <UIButton
+  <Button
     label="Continue"
     steps={[
       { at: 10, action: "hover" },
@@ -138,7 +138,7 @@ import { RemocnUIProvider } from "@/lib/remocn-ui";
 
 export const Scene = () => (
   <RemocnUIProvider mode="dark" theme={{ primary: "oklch(0.6 0.22 260)" }}>
-    <UIButton label="Continue" steps={[{ at: 10, action: "hover" }]} />
+    <Button label="Continue" steps={[{ at: 10, action: "hover" }]} />
     <UICheckbox label="Remember me" steps={[{ at: 30, action: "check" }]} />
   </RemocnUIProvider>
 );
@@ -168,7 +168,7 @@ A project whose `:root` overrides `--primary` will see static elements pick up t
 
 ## Core library exports
 
-Installing any `@remocn/ui-*` component also installs `lib/remocn-ui/` with these modules:
+Installing any component in this tier also installs `lib/remocn-ui/` with these modules:
 
 | Module | Key exports |
 |---|---|

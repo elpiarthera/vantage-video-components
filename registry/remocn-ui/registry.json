@@ -1,0 +1,61 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "remocn-ui",
+  "homepage": "https://remocn.dev",
+  "items": [
+    {
+      "name": "remocn-ui",
+      "type": "registry:lib",
+      "title": "remocn UI Core",
+      "description": "Shared timeline-fold hook, theme context, and color math for remocn UI primitives.",
+      "dependencies": ["remotion", "culori"],
+      "files": [
+        {
+          "path": "core/timeline.ts",
+          "type": "registry:lib",
+          "target": "lib/remocn-ui/timeline.ts"
+        },
+        {
+          "path": "core/theme.ts",
+          "type": "registry:lib",
+          "target": "lib/remocn-ui/theme.ts"
+        },
+        {
+          "path": "core/color.ts",
+          "type": "registry:lib",
+          "target": "lib/remocn-ui/color.ts"
+        },
+        {
+          "path": "core/motion.ts",
+          "type": "registry:lib",
+          "target": "lib/remocn-ui/motion.ts"
+        },
+        {
+          "path": "core/types.ts",
+          "type": "registry:lib",
+          "target": "lib/remocn-ui/types.ts"
+        },
+        {
+          "path": "core/index.ts",
+          "type": "registry:lib",
+          "target": "lib/remocn-ui/index.ts"
+        }
+      ]
+    },
+    {
+      "name": "button",
+      "type": "registry:component",
+      "title": "UI Button",
+      "description": "A shadcn-style button whose hover/press/loading/success states are scripted on the Remotion timeline.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["remocn-ui"],
+      "files": [
+        {
+          "path": "button/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/button.tsx"
+        }
+      ]
+    }
+  ]
+}

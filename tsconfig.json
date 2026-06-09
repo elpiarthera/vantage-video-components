@@ -19,6 +19,8 @@
       }
     ],
     "paths": {
+      "@/lib/remocn-ui": ["./registry/remocn-ui/core/index.ts"],
+      "@/lib/remocn-ui/*": ["./registry/remocn-ui/core/*"],
       "@/*": ["./*"]
     }
   },

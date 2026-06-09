@@ -1,0 +1,136 @@
+---
+title: Button
+description: A scripted button that animates hover, press, loading, and success states as a pure function of the Remotion timeline
+---
+
+<ComponentPreview name="button" />
+
+## Installation
+
+<InstallBlock name="button" />
+
+<Note>
+Installing `button` automatically installs the shared `remocn-ui` core (`lib/remocn-ui/`) and its `culori` color dependency via `registryDependencies`. You do not need to install either separately.
+</Note>
+
+## The steps timeline
+
+`Button` accepts a `steps` prop — an array of `Step<ButtonAction>` objects that script the button's interaction. The full `ButtonAction` union is:
+
+```ts
+type ButtonAction =
+  | "hover"    // lift + background crossfade
+  | "press"    // scale down + darken
+  | "release"  // return to hover level
+  | "loading"  // label fades out, spinner fades in
+  | "success"  // spinner fades out, checkmark draws
+  | "reset"    // destructive flash, then return to idle
+```
+
+A realistic happy-path interaction — hover, click, load, succeed:
+
+```tsx
+import { Button } from "@/components/remocn/button";
+
+export const Scene = () => (
+  <Button
+    label="Continue"
+    steps={[
+      { at: 10, action: "hover" },
+      { at: 25, action: "press" },
+      { at: 35, action: "loading" },
+      { at: 70, action: "success" },
+    ]}
+  />
+);
+```
+
+Each `at` value is a **Sequence-local authored frame**. If the component sits inside a `<Sequence from={30}>`, Remotion shifts the playhead automatically — `at: 10` always means "10 frames into this Sequence." See the [ui tier intro](/docs/ui) for how `useTimelineState` resolves the fold.
+
+### Single-action shortcut
+
+For a quick loading spinner or a one-step hover, pass a single step:
+
+```tsx
+// Spinner only — no label
+<Button label="Save" steps={[{ at: 0, action: "loading" }]} />
+
+// Hover state held for the full duration
+<Button label="Sign up" steps={[{ at: 5, action: "hover" }]} />
+```
+
+### Using a preset scenario
+
+The `scenario` prop is a preview-convenience alias for a fixed `steps` array. It exists so the live preview customizer can switch between canned interactions without the user manually editing step objects. In production compositions, prefer explicit `steps`.
+
+| Scenario | Equivalent steps |
+|---|---|
+| `"happy"` | hover→press→loading→success |
+| `"loading"` | loading (at 10) |
+| `"error"` | hover→press→loading→reset |
+| `"idle"` | `[]` (static button) |
+
+```tsx
+// Fine for quick previews; prefer steps={[...]} in real compositions
+<Button scenario="happy" />
+```
+
+When both `steps` and `scenario` are supplied, `steps` wins.
+
+## Props
+
+<PropsTable
+  rows={[
+    {
+      name: "label",
+      type: "string",
+      default: "\"Continue\"",
+      description: "Button label text. Hidden during loading and success states.",
+    },
+    {
+      name: "variant",
+      type: "\"default\" | \"secondary\" | \"destructive\" | \"outline\" | \"ghost\"",
+      default: "\"default\"",
+      description: "Visual variant. Matches shadcn button variant names.",
+    },
+    {
+      name: "size",
+      type: "\"sm\" | \"default\" | \"lg\"",
+      default: "\"default\"",
+      description: "Button height and padding. sm=32px, default=40px, lg=48px.",
+    },
+    {
+      name: "steps",
+      type: "Step<ButtonAction>[]",
+      description: "Timeline script for the button interaction. Takes precedence over scenario.",
+    },
+    {
+      name: "theme",
+      type: "Partial<RemocnTheme>",
+      description: "Per-component theme override. Merges with the active RemocnUIProvider theme and the mode defaults. Must be concrete oklch/hex/rgb values — not CSS custom properties.",
+    },
+    {
+      name: "mode",
+      type: "\"light\" | \"dark\"",
+      default: "\"light\"",
+      description: "Sets the base palette. Overrides the mode on RemocnUIProvider when both are present.",
+    },
+    {
+      name: "scenario",
+      type: "\"happy\" | \"loading\" | \"error\" | \"idle\"",
+      default: "\"idle\"",
+      description: "Preview-convenience alias for a preset steps array. Ignored when steps is provided. Prefer steps in production compositions.",
+    },
+    {
+      name: "speed",
+      type: "number",
+      default: "1",
+      description: "Scales the playhead, not the authored step times. speed=2 makes all animations run twice as fast without changing your at values.",
+    },
+    {
+      name: "className",
+      type: "string",
+      description: "Optional className passed to the inner <button> element.",
+    },
+  ]}
+/>

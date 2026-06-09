@@ -1,12 +1,12 @@
 /**
  * Verification tests for the timeline FOLD SEMANTICS.
  *
- * Scope: registry/remocn/ui-core/timeline.ts — framesFor, revealCount, and the
+ * Scope: registry/remocn-ui/core/timeline.ts — framesFor, revealCount, and the
  * pure fold logic inside useTimelineState (speed contract, active windows,
  * progressOf in-flight-only, duration:0 snap).
  *
  * Runner: Bun's built-in test runner.
- *   bun test registry/remocn/ui-core/__tests__
+ *   bun test registry/remocn-ui/core/__tests__
  *
  * --------------------------------------------------------------------------
  * WHY THE FOLD IS REPLICATED HERE INSTEAD OF IMPORTED

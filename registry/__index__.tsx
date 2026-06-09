@@ -105,6 +105,8 @@ import { TrackingIn } from "@/registry/remocn/tracking-in";
 import { trackingInConfig } from "@/registry/remocn/tracking-in/config";
 import { Typewriter } from "@/registry/remocn/typewriter";
 import { typewriterConfig } from "@/registry/remocn/typewriter/config";
+import { Button } from "@/registry/remocn-ui/button";
+import { buttonConfig } from "@/registry/remocn-ui/button/config";
 import { ZoomThroughTransition } from "@/registry/remocn/zoom-through-transition";
 import { zoomThroughTransitionConfig } from "@/registry/remocn/zoom-through-transition/config";
 
@@ -278,6 +280,7 @@ const registry: Record<string, RegistryEntry> = {
     config: imageExpandToFullscreenConfig,
   },
   "github-stars": { Component: GitHubStars, config: githubStarsConfig },
+  "button": { Component: Button, config: buttonConfig },
 };
 
 // Append the shared controls (e.g. `speed`) to every component config so

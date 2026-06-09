@@ -1,5 +1,5 @@
 {
   "title": "UI",
   "collapsible": false,
-  "pages": ["index"]
+  "pages": ["index", "button"]
 }

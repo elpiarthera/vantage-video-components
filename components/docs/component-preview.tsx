@@ -297,6 +297,7 @@ function PreviewStage({
 }
 
 function generateCode(config: ComponentConfig, props: Record<string, unknown>) {
+  if (config.snippet) return config.snippet(props);
   const propsString = Object.entries(props)
     .map(([k, v]) => {
       if (typeof v === "string") return `  ${k}="${v}"`;

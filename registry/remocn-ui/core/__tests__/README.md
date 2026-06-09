@@ -1,7 +1,7 @@
 # `remocn-ui` core — verification tests (Iteration 1)
 
 Pure / deterministic verification for the `ui` tier core lib
-(`registry/remocn/ui-core/`). Covers the hand-rolled OKLCH color math and the
+(`registry/remocn-ui/core/`). Covers the hand-rolled OKLCH color math and the
 timeline fold semantics. No React / Remotion render required.
 
 ## How to run
@@ -11,7 +11,7 @@ natively, no test-framework dep.
 
 ```bash
 bun install                              # color.ts now imports `culori`
-bun test registry/remocn/ui-core/__tests__
+bun test registry/remocn-ui/core/__tests__
 ```
 
 `color.ts` was rewritten to wrap the **`culori`** package, which is already
@@ -22,7 +22,7 @@ import. The test runner itself still needs nothing: these tests import
 added to `package.json`.
 
 > If you would rather standardize on a framework later, the lightest path that
-> needs a dep is **vitest**: `bunx vitest run registry/remocn/ui-core` after
+> needs a dep is **vitest**: `bunx vitest run registry/remocn-ui/core` after
 > `bun add -d vitest`. The test bodies are framework-agnostic (`describe/it/
 > expect`); only the top `import { ... } from "bun:test"` line would change to
 > `from "vitest"`. Not required for Iteration 1.
@@ -75,7 +75,7 @@ source. Verify with:
 
 ```bash
 grep -nE "useState|useEffect|onClick|onChange|addEventListener|Date\.now|Math\.random" \
-  registry/remocn/ui-*/index.tsx registry/remocn/ui-core/*.ts
+  registry/remocn-ui/button/index.tsx registry/remocn-ui/core/*.ts
 ```
 
 Expected: no output (exit code 1). Any match is a determinism violation.

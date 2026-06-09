@@ -1,6 +1,6 @@
 /**
  * Verification tests for the OKLCH <-> sRGB color helpers in
- * registry/remocn/ui-core/color.ts.
+ * registry/remocn-ui/core/color.ts.
  *
  * color.ts is now a thin wrapper over the `culori` package, and it exposes
  * culori's NATIVE shapes and scales:
@@ -15,7 +15,7 @@
  * culori must be installed before these run:
  *
  *   bun install                                  # pulls culori + @types/culori
- *   bun test registry/remocn/ui-core/__tests__
+ *   bun test registry/remocn-ui/core/__tests__
  *
  * These tests are deliberately PROPERTY-BASED, not pinned to magic RGB numbers.
  * culori uses its own matrices and gamut-mapping (clampChroma), so exact
