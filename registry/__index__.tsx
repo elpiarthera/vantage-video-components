@@ -121,6 +121,14 @@ import { Spinner } from "@/registry/remocn-ui/spinner";
 import { spinnerConfig } from "@/registry/remocn-ui/spinner/config";
 import { Switch } from "@/registry/remocn-ui/switch";
 import { switchConfig } from "@/registry/remocn-ui/switch/config";
+import { Select } from "@/registry/remocn-ui/select";
+import { selectConfig } from "@/registry/remocn-ui/select/config";
+import { SelectItem } from "@/registry/remocn-ui/select-item";
+import { selectItemConfig } from "@/registry/remocn-ui/select-item/config";
+import { DropdownMenu } from "@/registry/remocn-ui/dropdown-menu";
+import { dropdownMenuConfig } from "@/registry/remocn-ui/dropdown-menu/config";
+import { DropdownMenuItem } from "@/registry/remocn-ui/dropdown-menu-item";
+import { dropdownMenuItemConfig } from "@/registry/remocn-ui/dropdown-menu-item/config";
 import { ZoomThroughTransition } from "@/registry/remocn/zoom-through-transition";
 import { zoomThroughTransitionConfig } from "@/registry/remocn/zoom-through-transition/config";
 
@@ -301,6 +309,13 @@ const registry: Record<string, RegistryEntry> = {
   "input": { Component: Input, config: inputConfig },
   "radio": { Component: Radio, config: radioConfig },
   "switch": { Component: Switch, config: switchConfig },
+  "select": { Component: Select, config: selectConfig },
+  "select-item": { Component: SelectItem, config: selectItemConfig },
+  "dropdown-menu": { Component: DropdownMenu, config: dropdownMenuConfig },
+  "dropdown-menu-item": {
+    Component: DropdownMenuItem,
+    config: dropdownMenuItemConfig,
+  },
   "spinner": { Component: Spinner, config: spinnerConfig },
 };
 

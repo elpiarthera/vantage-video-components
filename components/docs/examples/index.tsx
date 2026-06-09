@@ -16,6 +16,11 @@ import {
 import { RadioExampleScene, radioExampleCode } from "./radio-example";
 import { SwitchExampleScene, switchExampleCode } from "./switch-example";
 import { InputExampleScene, inputExampleCode } from "./input-example";
+import { SelectExampleScene, selectExampleCode } from "./select-example";
+import {
+  DropdownMenuExampleScene,
+  dropdownMenuExampleCode,
+} from "./dropdown-menu-example";
 
 export interface ExampleEntry {
   Component: ComponentType;
@@ -80,6 +85,24 @@ export const examples: Record<string, ExampleEntry> = {
   "input-example": {
     Component: InputExampleScene,
     code: inputExampleCode,
+    durationInFrames: 120,
+    fps: FPS,
+    width: W,
+    height: H,
+  },
+  "select-example": {
+    Component: SelectExampleScene,
+    code: selectExampleCode,
+    // Panel closes at 96 + dur 12 = 108; a short settle then loop.
+    durationInFrames: 120,
+    fps: FPS,
+    width: W,
+    height: H,
+  },
+  "dropdown-menu-example": {
+    Component: DropdownMenuExampleScene,
+    code: dropdownMenuExampleCode,
+    // Panel closes at 96 + dur 12 = 108; a short settle then loop.
     durationInFrames: 120,
     fps: FPS,
     width: W,
