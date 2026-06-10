@@ -26,6 +26,7 @@ import {
 } from "./dropdown-menu-example";
 import { TabsExampleScene, tabsExampleCode } from "./tabs-example";
 import { CursorExampleScene, cursorExampleCode } from "./cursor-example";
+import { ToastExampleScene, toastExampleCode } from "./toast-example";
 
 export interface ExampleEntry {
   Component: ComponentType;
@@ -154,6 +155,15 @@ export const examples: Record<string, ExampleEntry> = {
     code: cursorExampleCode,
     // success transition completes at 108 + dur 16 = 124; a short settle then loop.
     durationInFrames: 140,
+    fps: FPS,
+    width: W,
+    height: H,
+  },
+  "toast-example": {
+    Component: ToastExampleScene,
+    code: toastExampleCode,
+    // Toast dismiss completes at 144 + dur 12 = 156; a short settle then loop.
+    durationInFrames: 170,
     fps: FPS,
     width: W,
     height: H,

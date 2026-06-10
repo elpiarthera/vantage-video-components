@@ -139,6 +139,8 @@ import { Tabs } from "@/registry/remocn-ui/tabs";
 import { tabsConfig } from "@/registry/remocn-ui/tabs/config";
 import { CursorPreview } from "@/registry/remocn-ui/cursor/preview";
 import { cursorConfig } from "@/registry/remocn-ui/cursor/config";
+import { ToastPreview } from "@/registry/remocn-ui/toast/preview";
+import { toastConfig } from "@/registry/remocn-ui/toast/config";
 import { ZoomThroughTransition } from "@/registry/remocn/zoom-through-transition";
 import { zoomThroughTransitionConfig } from "@/registry/remocn/zoom-through-transition/config";
 
@@ -333,6 +335,10 @@ const registry: Record<string, RegistryEntry> = {
   // cursor's customizer Component is the preview-only CursorPreview wrapper (it
   // runs a fixed demo path through useCursorPath); the shipped Cursor is pure.
   "cursor": { Component: CursorPreview, config: cursorConfig },
+  // toast's customizer Component is the preview-only ToastPreview wrapper (it
+  // centers the toast on a theme-background stage); the shipped Toast is a
+  // placement-agnostic card the caller positions.
+  "toast": { Component: ToastPreview, config: toastConfig },
   "spinner": { Component: Spinner, config: spinnerConfig },
 };
 

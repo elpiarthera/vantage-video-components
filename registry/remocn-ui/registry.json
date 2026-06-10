@@ -376,6 +376,26 @@
           "target": "components/remocn/use-cursor-path.ts"
         }
       ]
+    },
+    {
+      "name": "toast",
+      "type": "registry:component",
+      "title": "UI Toast",
+      "description": "A toast notification whose hidden/visible state is a pure function of the timeline. The Toast renderer is a pure function of a ToastStyle (opacity, translateY, scale); useToastTransition eases both the slide-in enter and the auto-dismiss exit. Variants default/success/error change the leading icon and its color.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["remocn-ui"],
+      "files": [
+        {
+          "path": "toast/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/toast.tsx"
+        },
+        {
+          "path": "toast/use-toast-transition.ts",
+          "type": "registry:component",
+          "target": "components/remocn/use-toast-transition.ts"
+        }
+      ]
     }
   ]
 }

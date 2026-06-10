@@ -5,8 +5,8 @@ import { useCursorPath } from "@/registry/remocn-ui/cursor/use-cursor-path";
 import { Button } from "@/registry/remocn-ui/button";
 import { useButtonTransition } from "@/registry/remocn-ui/button/use-button-transition";
 
-const BTN_X = 620; // button tip X (center of button, cursor arrives here)
-const BTN_Y = 360; // button tip Y
+const BTN_X = 620; // cursor tip target X (the pointer hotspot lands here)
+const BTN_Y = 360; // cursor tip target Y
 
 export const CursorExampleScene = () => {
   const cursorStyle = useCursorPath([
@@ -16,10 +16,10 @@ export const CursorExampleScene = () => {
   ]);
 
   const buttonStyle = useButtonTransition([
-    { at: 45, state: "hover", duration: 16 },
-    { at: 73, state: "press", duration: 8 },
-    { at: 81, state: "loading", duration: 6 },
-    { at: 113, state: "success", duration: 16 },
+    { at: 40, state: "hover", duration: 16 },
+    { at: 68, state: "press", duration: 8 },
+    { at: 76, state: "loading", duration: 6 },
+    { at: 108, state: "success", duration: 16 },
   ]);
 
   return (
