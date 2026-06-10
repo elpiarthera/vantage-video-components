@@ -137,6 +137,8 @@ import { DropdownMenuItem } from "@/registry/remocn-ui/dropdown-menu-item";
 import { dropdownMenuItemConfig } from "@/registry/remocn-ui/dropdown-menu-item/config";
 import { Tabs } from "@/registry/remocn-ui/tabs";
 import { tabsConfig } from "@/registry/remocn-ui/tabs/config";
+import { CursorPreview } from "@/registry/remocn-ui/cursor/preview";
+import { cursorConfig } from "@/registry/remocn-ui/cursor/config";
 import { ZoomThroughTransition } from "@/registry/remocn/zoom-through-transition";
 import { zoomThroughTransitionConfig } from "@/registry/remocn/zoom-through-transition/config";
 
@@ -328,6 +330,9 @@ const registry: Record<string, RegistryEntry> = {
     config: dropdownMenuItemConfig,
   },
   "tabs": { Component: Tabs, config: tabsConfig },
+  // cursor's customizer Component is the preview-only CursorPreview wrapper (it
+  // runs a fixed demo path through useCursorPath); the shipped Cursor is pure.
+  "cursor": { Component: CursorPreview, config: cursorConfig },
   "spinner": { Component: Spinner, config: spinnerConfig },
 };
 

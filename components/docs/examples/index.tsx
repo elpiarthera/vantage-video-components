@@ -25,6 +25,7 @@ import {
   dropdownMenuExampleCode,
 } from "./dropdown-menu-example";
 import { TabsExampleScene, tabsExampleCode } from "./tabs-example";
+import { CursorExampleScene, cursorExampleCode } from "./cursor-example";
 
 export interface ExampleEntry {
   Component: ComponentType;
@@ -144,6 +145,15 @@ export const examples: Record<string, ExampleEntry> = {
     code: tabsExampleCode,
     // Settings transition completes at 94 + dur 12 = 106; a short settle then loop.
     durationInFrames: 120,
+    fps: FPS,
+    width: W,
+    height: H,
+  },
+  "cursor-example": {
+    Component: CursorExampleScene,
+    code: cursorExampleCode,
+    // success transition completes at 108 + dur 16 = 124; a short settle then loop.
+    durationInFrames: 140,
     fps: FPS,
     width: W,
     height: H,

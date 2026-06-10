@@ -356,6 +356,26 @@
           "target": "components/remocn/use-dropdown-menu-transition.ts"
         }
       ]
+    },
+    {
+      "name": "cursor",
+      "type": "registry:component",
+      "title": "UI Cursor",
+      "description": "An animated cursor that moves between waypoints, clicks (ripple), and drags. The Cursor renderer is a pure function of a numeric CursorStyle channel; useCursorPath reads the frame and eases the path, ripple, and press phases.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["remocn-ui"],
+      "files": [
+        {
+          "path": "cursor/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/cursor.tsx"
+        },
+        {
+          "path": "cursor/use-cursor-path.ts",
+          "type": "registry:component",
+          "target": "components/remocn/use-cursor-path.ts"
+        }
+      ]
     }
   ]
 }
