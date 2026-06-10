@@ -15,7 +15,7 @@ export const TabsExampleScene = (p: TabsExampleProps = {}) => {
     { at: 18, state: "Account", duration: 16 },
     { at: 58, state: "Password", duration: 18 },
     { at: 94, state: "Settings", duration: 12 },
-  ]);
+  ], { variant: p.variant, mode: p.mode });
   return (
     <Tabs
       style={style}
@@ -36,6 +36,11 @@ export const tabsExampleCode = (
   if (mode !== undefined && mode !== "light") props.push(`mode="${mode}"`);
   const extraProps = props.length ? `\n    ${props.join("\n    ")}` : "";
 
+  const hookOpts: string[] = [];
+  if (variant !== undefined && variant !== "pill") hookOpts.push(`variant: "${variant}"`);
+  if (mode !== undefined && mode !== "light") hookOpts.push(`mode: "${mode}"`);
+  const optsStr = hookOpts.length ? `, { ${hookOpts.join(", ")} }` : "";
+
   return `import { Tabs } from "@/components/remocn/tabs";
 import { useTabsTransition } from "@/components/remocn/use-tabs-transition";
 
@@ -44,7 +49,7 @@ export const Scene = () => {
     { at: 18, state: "Account", duration: 16 },
     { at: 58, state: "Password", duration: 18 },
     { at: 94, state: "Settings", duration: 12 },
-  ]);
+  ]${optsStr});
 
   return <Tabs style={style}${extraProps} />;
 };`;

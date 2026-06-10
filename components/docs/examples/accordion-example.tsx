@@ -15,10 +15,16 @@ export interface AccordionExampleProps {
 }
 
 export const AccordionExampleScene = (p: AccordionExampleProps = {}) => {
-  const style = useAccordionTransition([
-    { at: 18, state: "opened", duration: 16 },
-    { at: 78, state: "closed", duration: 12 },
-  ]);
+  // Forward honored color props into the hook so the interpolated card
+  // background tracks variant/mode — otherwise the baked light background wins
+  // (via `style` precedence) and dark mode leaves a white card.
+  const style = useAccordionTransition(
+    [
+      { at: 18, state: "opened", duration: 16 },
+      { at: 78, state: "closed", duration: 12 },
+    ],
+    { variant: p.variant, mode: p.mode },
+  );
   return (
     <Accordion
       title={p.title ?? "Is it accessible?"}
@@ -51,6 +57,14 @@ export const accordionExampleCode = (
   if (mode !== undefined && mode !== "light") props.push(`mode="${mode}"`);
 
   const propsStr = props.length ? `\n      ${props.join("\n      ")}\n    ` : "";
+
+  // variant/mode are also forwarded into the hook so the animated card bg tracks them.
+  const hookOpts: string[] = [];
+  if (variant !== undefined && variant !== "default")
+    hookOpts.push(`variant: "${variant}"`);
+  if (mode !== undefined && mode !== "light") hookOpts.push(`mode: "${mode}"`);
+  const optsStr = hookOpts.length ? `, { ${hookOpts.join(", ")} }` : "";
+
   return `import { Accordion } from "@/components/remocn/accordion";
 import { useAccordionTransition } from "@/components/remocn/use-accordion-transition";
 
@@ -58,7 +72,7 @@ export const Scene = () => {
   const style = useAccordionTransition([
     { at: 18, state: "opened", duration: 16 },
     { at: 78, state: "closed", duration: 12 },
-  ]);
+  ]${optsStr});
 
   return (
     <Accordion${propsStr === "" ? " " : propsStr}style={style} />

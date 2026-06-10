@@ -20,19 +20,25 @@ export const SelectExampleScene = (p: SelectExampleProps = {}) => {
       { at: 14, state: "hover" },
       { at: 26, state: "press" },
     ],
-    { variant: "outline" },
+    { variant: "outline", mode: p.mode },
   );
   // The panel reveals right after the press, then collapses near the end.
-  const panel = useSelectTransition([
-    { at: 32, state: "opened", duration: 16 },
-    { at: 96, state: "closed", duration: 12 },
-  ]);
+  const panel = useSelectTransition(
+    [
+      { at: 32, state: "opened", duration: 16 },
+      { at: 96, state: "closed", duration: 12 },
+    ],
+    { mode: p.mode },
+  );
   // One row (index 1) is highlighted, pressed, then committed as selected.
-  const row = useSelectItemTransition([
-    { at: 52, state: "hover" },
-    { at: 64, state: "press" },
-    { at: 72, state: "selected", duration: 10 },
-  ]);
+  const row = useSelectItemTransition(
+    [
+      { at: 52, state: "hover" },
+      { at: 64, state: "press" },
+      { at: 72, state: "selected", duration: 10 },
+    ],
+    { mode: p.mode },
+  );
   return (
     <Select
       style={panel}
@@ -56,6 +62,13 @@ export const selectExampleCode = (
   if (mode !== undefined && mode !== "light") props.push(`mode="${mode}"`);
   const extraProps = props.length ? `\n      ${props.join("\n      ")}` : "";
 
+  const hookOpts: string[] = [];
+  if (mode !== undefined && mode !== "light") hookOpts.push(`mode: "${mode}"`);
+  const optsStr = hookOpts.length ? `, { ${hookOpts.join(", ")} }` : "";
+  const triggerOptsStr = hookOpts.length
+    ? `, { variant: "outline", ${hookOpts.join(", ")} }`
+    : `, { variant: "outline" }`;
+
   return `import { useButtonTransition } from "@/components/remocn/use-button-transition";
 import { Select } from "@/components/remocn/select";
 import { useSelectTransition } from "@/components/remocn/use-select-transition";
@@ -66,18 +79,21 @@ export const Scene = () => {
     [
       { at: 14, state: "hover" },
       { at: 26, state: "press" },
-    ],
-    { variant: "outline" },
+    ]${triggerOptsStr},
   );
-  const panel = useSelectTransition([
-    { at: 32, state: "opened", duration: 16 },
-    { at: 96, state: "closed", duration: 12 },
-  ]);
-  const row = useSelectItemTransition([
-    { at: 52, state: "hover" },
-    { at: 64, state: "press" },
-    { at: 72, state: "selected", duration: 10 },
-  ]);
+  const panel = useSelectTransition(
+    [
+      { at: 32, state: "opened", duration: 16 },
+      { at: 96, state: "closed", duration: 12 },
+    ]${optsStr},
+  );
+  const row = useSelectItemTransition(
+    [
+      { at: 52, state: "hover" },
+      { at: 64, state: "press" },
+      { at: 72, state: "selected", duration: 10 },
+    ]${optsStr},
+  );
 
   return (
     <Select${extraProps}

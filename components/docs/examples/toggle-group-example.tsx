@@ -30,10 +30,14 @@ export const ToggleGroupExampleScene = (p: ToggleGroupExampleProps = {}) => {
   ]);
 
   // Toggle: starts on "Monthly", slides to "Yearly" on first click, back on second.
-  const toggleStyle = useToggleGroupTransition([
-    { at: 46, state: "Yearly",  duration: 14 },
-    { at: 92, state: "Monthly", duration: 14 },
-  ]);
+  // Forward mode so the animated track/segment colors track the theme.
+  const toggleStyle = useToggleGroupTransition(
+    [
+      { at: 46, state: "Yearly",  duration: 14 },
+      { at: 92, state: "Monthly", duration: 14 },
+    ],
+    { mode: p.mode },
+  );
 
   return (
     <div style={{ position: "relative", width: "100%", height: "100%" }}>
@@ -50,6 +54,8 @@ export const toggleGroupExampleCode = (
   const mode = values.mode as string | undefined;
 
   const modeStr = mode !== undefined && mode !== "light" ? ` mode="${mode}"` : "";
+  const hookOptsStr =
+    mode !== undefined && mode !== "light" ? `, { mode: "${mode}" }` : "";
 
   return `import { Cursor } from "@/components/remocn/cursor";
 import { useCursorPath } from "@/components/remocn/use-cursor-path";
@@ -76,7 +82,7 @@ export const Scene = () => {
   const toggleStyle = useToggleGroupTransition([
     { at: 46, state: "Yearly",  duration: 14 },
     { at: 92, state: "Monthly", duration: 14 },
-  ]);
+  ]${hookOptsStr});
 
   return (
     <div style={{ position: "relative", width: "100%", height: "100%" }}>

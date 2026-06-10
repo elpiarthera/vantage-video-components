@@ -16,7 +16,7 @@ export const CheckboxExampleScene = (p: CheckboxExampleProps = {}) => {
   const style = useCheckboxTransition([
     { at: 18, state: "checked", duration: 14 },
     { at: 78, state: "unchecked", duration: 12 },
-  ]);
+  ], { mode: p.mode, primary: p.primary });
   return (
     <Checkbox
       label={p.label ?? "Accept terms and conditions"}
@@ -44,6 +44,12 @@ export const checkboxExampleCode = (
   if (mode !== undefined && mode !== "light") props.push(`mode="${mode}"`);
 
   const propsStr = props.length ? ` ${props.join(" ")}` : "";
+
+  const hookOpts: string[] = [];
+  if (mode !== undefined && mode !== "light") hookOpts.push(`mode: "${mode}"`);
+  if (primary !== undefined) hookOpts.push(`primary: "${primary}"`);
+  const optsStr = hookOpts.length ? `, { ${hookOpts.join(", ")} }` : "";
+
   return `import { Checkbox } from "@/components/remocn/checkbox";
 import { useCheckboxTransition } from "@/components/remocn/use-checkbox-transition";
 
@@ -51,7 +57,7 @@ export const Scene = () => {
   const style = useCheckboxTransition([
     { at: 18, state: "checked", duration: 14 },
     { at: 78, state: "unchecked", duration: 12 },
-  ]);
+  ]${optsStr});
 
   return <Checkbox${propsStr} style={style} />;
 };`;

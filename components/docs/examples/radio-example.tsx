@@ -16,7 +16,7 @@ export const RadioExampleScene = (p: RadioExampleProps = {}) => {
   const style = useRadioTransition([
     { at: 18, state: "checked", duration: 14 },
     { at: 78, state: "unchecked", duration: 12 },
-  ]);
+  ], { mode: p.mode, primary: p.primary });
   return (
     <Radio
       label={p.label ?? "Subscribe to updates"}
@@ -44,6 +44,12 @@ export const radioExampleCode = (
   if (mode !== undefined && mode !== "light") props.push(`mode="${mode}"`);
 
   const propsStr = props.length ? ` ${props.join(" ")}` : "";
+
+  const hookOpts: string[] = [];
+  if (mode !== undefined && mode !== "light") hookOpts.push(`mode: "${mode}"`);
+  if (primary !== undefined) hookOpts.push(`primary: "${primary}"`);
+  const optsStr = hookOpts.length ? `, { ${hookOpts.join(", ")} }` : "";
+
   return `import { Radio } from "@/components/remocn/radio";
 import { useRadioTransition } from "@/components/remocn/use-radio-transition";
 
@@ -51,7 +57,7 @@ export const Scene = () => {
   const style = useRadioTransition([
     { at: 18, state: "checked", duration: 14 },
     { at: 78, state: "unchecked", duration: 12 },
-  ]);
+  ]${optsStr});
 
   return <Radio${propsStr} style={style} />;
 };`;

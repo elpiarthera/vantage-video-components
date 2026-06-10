@@ -26,10 +26,13 @@ export const PopoverExampleScene = (p: PopoverExampleProps = {}) => {
   ]);
 
   // Hover-card popover: opens shortly after the cursor arrives, closes as it leaves.
-  const popoverStyle = usePopoverTransition([
-    { at: 36,  state: "opened", duration: 10 },
-    { at: 100, state: "closed", duration: 10 },
-  ]);
+  const popoverStyle = usePopoverTransition(
+    [
+      { at: 36,  state: "opened", duration: 10 },
+      { at: 100, state: "closed", duration: 10 },
+    ],
+    { mode: p.mode },
+  );
 
   return (
     <div style={{ position: "relative", width: "100%", height: "100%" }}>
@@ -137,6 +140,10 @@ export const popoverExampleCode = (
 ): string => {
   const mode = values.mode as string | undefined;
 
+  const hookOpts: string[] = [];
+  if (mode !== undefined && mode !== "light") hookOpts.push(`mode: "${mode}"`);
+  const optsStr = hookOpts.length ? `, { ${hookOpts.join(", ")} }` : "";
+
   const modeStr =
     mode !== undefined && mode !== "light" ? ` mode="${mode}"` : "";
 
@@ -157,10 +164,12 @@ export const Scene = () => {
   ]);
 
   // Hover-card opens shortly after the cursor arrives, closes as it leaves.
-  const popoverStyle = usePopoverTransition([
-    { at: 36,  state: "opened", duration: 10 },
-    { at: 100, state: "closed", duration: 10 },
-  ]);
+  const popoverStyle = usePopoverTransition(
+    [
+      { at: 36,  state: "opened", duration: 10 },
+      { at: 100, state: "closed", duration: 10 },
+    ]${optsStr},
+  );
 
   return (
     <div style={{ position: "relative", width: "100%", height: "100%" }}>

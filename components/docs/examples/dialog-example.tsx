@@ -20,15 +20,21 @@ export interface DialogExampleProps {
 export const DialogExampleScene = (p: DialogExampleProps = {}) => {
   // The trigger Button: idle → hover → press, the press lands just before the
   // dialog opens (the "click" that triggers it).
-  const trigger = useButtonTransition([
-    { at: 14, state: "hover" },
-    { at: 26, state: "press" },
-  ]);
+  const trigger = useButtonTransition(
+    [
+      { at: 14, state: "hover" },
+      { at: 26, state: "press" },
+    ],
+    { mode: p.mode },
+  );
   // The dialog opens right after the press, then closes near the end.
-  const dialog = useDialogTransition([
-    { at: 32, state: "opened", duration: 16 },
-    { at: 92, state: "closed", duration: 12 },
-  ]);
+  const dialog = useDialogTransition(
+    [
+      { at: 32, state: "opened", duration: 16 },
+      { at: 92, state: "closed", duration: 12 },
+    ],
+    { mode: p.mode },
+  );
   return (
     <>
       <Button label="Edit profile" mode={p.mode ?? "light"} style={trigger} />
@@ -60,6 +66,10 @@ export const dialogExampleCode = (
   if (cancelLabel !== undefined && cancelLabel !== "Cancel") dialogProps.push(`cancelLabel="${cancelLabel}"`);
   if (mode !== undefined && mode !== "light") dialogProps.push(`mode="${mode}"`);
 
+  const hookOpts: string[] = [];
+  if (mode !== undefined && mode !== "light") hookOpts.push(`mode: "${mode}"`);
+  const optsStr = hookOpts.length ? `, { ${hookOpts.join(", ")} }` : "";
+
   const buttonModeStr = mode !== undefined && mode !== "light" ? ` mode="${mode}"` : "";
   const dialogPropsStr = dialogProps.length ? ` ${dialogProps.join(" ")}` : "";
 
@@ -69,14 +79,18 @@ import { Button } from "@/components/remocn/button";
 import { useButtonTransition } from "@/components/remocn/use-button-transition";
 
 export const Scene = () => {
-  const trigger = useButtonTransition([
-    { at: 14, state: "hover" },
-    { at: 26, state: "press" },
-  ]);
-  const dialog = useDialogTransition([
-    { at: 32, state: "opened", duration: 16 },
-    { at: 92, state: "closed", duration: 12 },
-  ]);
+  const trigger = useButtonTransition(
+    [
+      { at: 14, state: "hover" },
+      { at: 26, state: "press" },
+    ]${optsStr},
+  );
+  const dialog = useDialogTransition(
+    [
+      { at: 32, state: "opened", duration: 16 },
+      { at: 92, state: "closed", duration: 12 },
+    ]${optsStr},
+  );
 
   return (
     <>

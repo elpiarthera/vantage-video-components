@@ -34,16 +34,22 @@ export const TooltipExampleScene = (p: TooltipExampleProps = {}) => {
   ]);
 
   // Button: idle → hover as cursor arrives, back to idle as cursor leaves.
-  const buttonStyle = useButtonTransition([
-    { at: 28, state: "hover", duration: 8 },
-    { at: 100, state: "idle", duration: 8 },
-  ]);
+  const buttonStyle = useButtonTransition(
+    [
+      { at: 28, state: "hover", duration: 8 },
+      { at: 100, state: "idle", duration: 8 },
+    ],
+    { mode: p.mode },
+  );
 
   // Tooltip: fades in shortly after cursor arrives, fades out as cursor leaves.
-  const tooltipStyle = useTooltipTransition([
-    { at: 36, state: "visible", duration: 8 },
-    { at: 100, state: "hidden", duration: 8 },
-  ]);
+  const tooltipStyle = useTooltipTransition(
+    [
+      { at: 36, state: "visible", duration: 8 },
+      { at: 100, state: "hidden", duration: 8 },
+    ],
+    { mode: p.mode },
+  );
 
   return (
     <div style={{ position: "relative", width: "100%", height: "100%" }}>
@@ -89,6 +95,10 @@ export const tooltipExampleCode = (
   const mode = values.mode as string | undefined;
 
   const labelStr = label ?? "Add to library";
+  const hookOpts: string[] = [];
+  if (mode !== undefined && mode !== "light") hookOpts.push(`mode: "${mode}"`);
+  const optsStr = hookOpts.length ? `, { ${hookOpts.join(", ")} }` : "";
+
   const modeStr =
     mode !== undefined && mode !== "light" ? ` mode="${mode}"` : "";
 
@@ -113,16 +123,20 @@ export const Scene = () => {
   ]);
 
   // Button responds to the cursor arriving and leaving.
-  const buttonStyle = useButtonTransition([
-    { at: 28,  state: "hover", duration: 8 },
-    { at: 100, state: "idle",  duration: 8 },
-  ]);
+  const buttonStyle = useButtonTransition(
+    [
+      { at: 28,  state: "hover", duration: 8 },
+      { at: 100, state: "idle",  duration: 8 },
+    ]${optsStr},
+  );
 
   // Tooltip fades in shortly after hover, then fades out as cursor leaves.
-  const tooltipStyle = useTooltipTransition([
-    { at: 36,  state: "visible", duration: 8 },
-    { at: 100, state: "hidden",  duration: 8 },
-  ]);
+  const tooltipStyle = useTooltipTransition(
+    [
+      { at: 36,  state: "visible", duration: 8 },
+      { at: 100, state: "hidden",  duration: 8 },
+    ]${optsStr},
+  );
 
   return (
     <div style={{ position: "relative", width: "100%", height: "100%" }}>

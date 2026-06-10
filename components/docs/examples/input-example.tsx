@@ -21,7 +21,7 @@ export const InputExampleScene = (p: InputExampleProps = {}) => {
     { at: 24, state: "active", duration: 10 },
     { at: 40, state: "typing", duration: 22 },
     { at: 78, state: "invalid", duration: 12 },
-  ]);
+  ], { mode: p.mode, primary: p.primary });
   return (
     <Input
       placeholder={p.placeholder ?? "you@example.com"}
@@ -53,6 +53,12 @@ export const inputExampleCode = (
   if (mode !== undefined && mode !== "light") props.push(`mode="${mode}"`);
 
   const propsStr = props.length ? `\n      ${props.join("\n      ")}\n    ` : "";
+
+  const hookOpts: string[] = [];
+  if (mode !== undefined && mode !== "light") hookOpts.push(`mode: "${mode}"`);
+  if (primary !== undefined) hookOpts.push(`primary: "${primary}"`);
+  const optsStr = hookOpts.length ? `, { ${hookOpts.join(", ")} }` : "";
+
   return `import { Input } from "@/components/remocn/input";
 import { useInputTransition } from "@/components/remocn/use-input-transition";
 
@@ -62,7 +68,7 @@ export const Scene = () => {
     { at: 24, state: "active", duration: 10 },
     { at: 40, state: "typing", duration: 22 },
     { at: 78, state: "invalid", duration: 12 },
-  ]);
+  ]${optsStr});
 
   return (
     <Input${propsStr === "" ? " " : propsStr}style={style} />

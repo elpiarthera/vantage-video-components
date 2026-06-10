@@ -14,9 +14,10 @@ export const skeletonExampleControls = ["layout", "mode"] as const;
 export const SkeletonExampleScene = (p: SkeletonExampleProps = {}) => {
   // Shimmer for ~3 full sweep cycles (180 frames) as if waiting on data, then
   // crossfade to real content.
-  const skeletonStyle = useSkeletonTransition([
-    { at: 180, state: "loaded", duration: 16 },
-  ]);
+  const skeletonStyle = useSkeletonTransition(
+    [{ at: 180, state: "loaded", duration: 16 }],
+    { mode: p.mode },
+  );
 
   return (
     <div
@@ -79,6 +80,10 @@ export const skeletonExampleCode = (
   if (mode !== undefined && mode !== "light") props.push(`mode="${mode}"`);
   const extraProps = props.length ? `\n        ${props.join("\n        ")}\n        ` : "";
 
+  const hookOpts: string[] = [];
+  if (mode !== undefined && mode !== "light") hookOpts.push(`mode: "${mode}"`);
+  const optsStr = hookOpts.length ? `, { ${hookOpts.join(", ")} }` : "";
+
   return `import { Skeleton } from "@/components/remocn/skeleton";
 import { useSkeletonTransition } from "@/components/remocn/use-skeleton-transition";
 
@@ -87,7 +92,7 @@ export const Scene = () => {
   // crossfade to real content.
   const skeletonStyle = useSkeletonTransition([
     { at: 180, state: "loaded", duration: 16 },
-  ]);
+  ]${optsStr});
 
   return (
     <div

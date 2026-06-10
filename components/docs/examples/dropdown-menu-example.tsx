@@ -21,13 +21,16 @@ export const DropdownMenuExampleScene = (p: DropdownMenuExampleProps = {}) => {
       { at: 14, state: "hover" },
       { at: 26, state: "press" },
     ],
-    { variant: "outline" },
+    { variant: "outline", mode: p.mode },
   );
   // The menu opens just after the "click", then closes near the end.
-  const menu = useDropdownMenuTransition([
-    { at: 32, state: "opened", duration: 16 },
-    { at: 96, state: "closed", duration: 12 },
-  ]);
+  const menu = useDropdownMenuTransition(
+    [
+      { at: 32, state: "opened", duration: 16 },
+      { at: 96, state: "closed", duration: 12 },
+    ],
+    { mode: p.mode },
+  );
   // One row walks hover → press while the panel is open (no persistent
   // selection — a menu commits the action and dismisses).
   const rowState = useCurrentState(
@@ -38,7 +41,7 @@ export const DropdownMenuExampleScene = (p: DropdownMenuExampleProps = {}) => {
     ],
     "idle",
   );
-  const row = useDropdownMenuItemTransition([{ at: 0, state: rowState }]);
+  const row = useDropdownMenuItemTransition([{ at: 0, state: rowState }], { mode: p.mode });
   return (
     <DropdownMenu
       style={menu}
@@ -61,6 +64,13 @@ export const dropdownMenuExampleCode = (
   if (mode !== undefined && mode !== "light") props.push(`mode="${mode}"`);
   const extraProps = props.length ? `\n      ${props.join("\n      ")}` : "";
 
+  const hookOpts: string[] = [];
+  if (mode !== undefined && mode !== "light") hookOpts.push(`mode: "${mode}"`);
+  const optsStr = hookOpts.length ? `, { ${hookOpts.join(", ")} }` : "";
+  const triggerOptsStr = hookOpts.length
+    ? `, { variant: "outline", ${hookOpts.join(", ")} }`
+    : `, { variant: "outline" }`;
+
   return `import { DropdownMenu } from "@/components/remocn/dropdown-menu";
 import { useDropdownMenuTransition } from "@/components/remocn/use-dropdown-menu-transition";
 import { useDropdownMenuItemTransition } from "@/components/remocn/use-dropdown-menu-item-transition";
@@ -72,13 +82,14 @@ export const Scene = () => {
     [
       { at: 14, state: "hover" },
       { at: 26, state: "press" },
-    ],
-    { variant: "outline" },
+    ]${triggerOptsStr},
   );
-  const menu = useDropdownMenuTransition([
-    { at: 32, state: "opened", duration: 16 },
-    { at: 96, state: "closed", duration: 12 },
-  ]);
+  const menu = useDropdownMenuTransition(
+    [
+      { at: 32, state: "opened", duration: 16 },
+      { at: 96, state: "closed", duration: 12 },
+    ]${optsStr},
+  );
   const rowState = useCurrentState(
     [
       { at: 52, state: "hover" },
@@ -87,7 +98,7 @@ export const Scene = () => {
     ],
     "idle",
   );
-  const row = useDropdownMenuItemTransition([{ at: 0, state: rowState }]);
+  const row = useDropdownMenuItemTransition([{ at: 0, state: rowState }]${optsStr});
 
   return (
     <DropdownMenu${extraProps}

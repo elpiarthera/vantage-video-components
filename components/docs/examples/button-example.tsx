@@ -28,12 +28,19 @@ export interface ButtonExampleProps {
 
 export const ButtonExampleScene = (p: ButtonExampleProps = {}) => {
   // Timeline owns `state` via the interpolated style — never a flat prop.
-  const style = useButtonTransition([
-    { at: 12, state: "hover" },
-    { at: 30, state: "press" },
-    { at: 48, state: "loading", duration: 6 },
-    { at: 96, state: "success", duration: 16 },
-  ]);
+  // Forward the honored color props into the hook so the interpolated background
+  // tracks the current variant/mode/primary. Without this the style bakes the
+  // default-variant light background and `style` (which wins over the component's
+  // own variant/mode) makes those toggles no-ops on the button surface.
+  const style = useButtonTransition(
+    [
+      { at: 12, state: "hover" },
+      { at: 30, state: "press" },
+      { at: 48, state: "loading", duration: 6 },
+      { at: 96, state: "success", duration: 16 },
+    ],
+    { variant: p.variant, mode: p.mode, primary: p.primary },
+  );
   return (
     <Button
       label={p.label ?? "Continue"}
@@ -74,6 +81,16 @@ export const buttonExampleCode = (
   // overrides are appended before `style` so the timeline prop stays last.
   const propsStr = props.length ? `${props.join(" ")} ` : "";
 
+  // Color-affecting props are ALSO forwarded into the transition hook so the
+  // animated background tracks them (size/label only need the component prop).
+  const hookOpts: string[] = [];
+  if (variant !== undefined && variant !== "default")
+    hookOpts.push(`variant: "${variant}"`);
+  if (mode !== undefined && mode !== "light") hookOpts.push(`mode: "${mode}"`);
+  if (primary !== undefined && primary !== "#171717")
+    hookOpts.push(`primary: "${primary}"`);
+  const optsStr = hookOpts.length ? `, { ${hookOpts.join(", ")} }` : "";
+
   return `import { Button } from "@/components/remocn/button";
 import { useButtonTransition } from "@/components/remocn/use-button-transition";
 
@@ -83,7 +100,7 @@ export const Scene = () => {
     { at: 30, state: "press" },
     { at: 48, state: "loading", duration: 6 },
     { at: 96, state: "success", duration: 16 },
-  ]);
+  ]${optsStr});
 
   return <Button ${propsStr}style={style} />;
 };`;

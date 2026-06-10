@@ -32,18 +32,24 @@ export const ToastExampleScene = (p: ToastExampleProps = {}) => {
 
   // Button: idle → hover (cursor on button) → press → idle after click.
   // The click lands at 68; press starts just before so the dip is visible.
-  const buttonStyle = useButtonTransition([
-    { at: 40, state: "hover", duration: 16 },
-    { at: 62, state: "press", duration: 8 },
-    { at: 76, state: "idle", duration: 10 },
-  ]);
+  const buttonStyle = useButtonTransition(
+    [
+      { at: 40, state: "hover", duration: 16 },
+      { at: 62, state: "press", duration: 8 },
+      { at: 76, state: "idle", duration: 10 },
+    ],
+    { mode: p.mode },
+  );
 
   // Toast: slides in from below right after the click, holds ~60 frames, then
   // auto-dismisses. DEFAULT_DURATION is 12; explicit durations here are clear.
-  const toastStyle = useToastTransition([
-    { at: 84, state: "visible", duration: 12 },
-    { at: 144, state: "hidden", duration: 12 },
-  ]);
+  const toastStyle = useToastTransition(
+    [
+      { at: 84, state: "visible", duration: 12 },
+      { at: 144, state: "hidden", duration: 12 },
+    ],
+    { mode: p.mode },
+  );
 
   return (
     <div style={{ position: "relative", width: "100%", height: "100%" }}>
@@ -104,6 +110,10 @@ export const toastExampleCode = (
 
   const btnModeStr =
     mode !== undefined && mode !== "light" ? ` mode="${mode}"` : "";
+
+  const hookOpts: string[] = [];
+  if (mode !== undefined && mode !== "light") hookOpts.push(`mode: "${mode}"`);
+  const optsStr = hookOpts.length ? `, { ${hookOpts.join(", ")} }` : "";
   const toastPropsStr = toastProps.length
     ? `\n          ${toastProps.join("\n          ")}\n        `
     : "";
@@ -131,13 +141,13 @@ export const Scene = () => {
     { at: 40, state: "hover",   duration: 16 },
     { at: 62, state: "press",   duration: 8  },
     { at: 76, state: "idle",    duration: 10 },
-  ]);
+  ]${optsStr});
 
   // Toast slides in after the click, holds ~60 frames, then auto-dismisses.
   const toastStyle = useToastTransition([
     { at: 84,  state: "visible", duration: 12 },
     { at: 144, state: "hidden",  duration: 12 },
-  ]);
+  ]${optsStr});
 
   return (
     <div style={{ position: "relative", width: "100%", height: "100%" }}>

@@ -35,10 +35,13 @@ export const ContextMenuExampleScene = (p: ContextMenuExampleProps = {}) => {
   ]);
 
   // Menu: opens just after the right-click, closes after the row interaction.
-  const menuStyle = useContextMenuTransition([
-    { at: 44,  state: "opened", duration: 10 },
-    { at: 92,  state: "closed", duration: 10 },
-  ]);
+  const menuStyle = useContextMenuTransition(
+    [
+      { at: 44,  state: "opened", duration: 10 },
+      { at: 92,  state: "closed", duration: 10 },
+    ],
+    { mode: p.mode },
+  );
 
   // Row 1 ("Reload"): idle → hover → press → idle.
   const rowState = useCurrentState(
@@ -49,7 +52,7 @@ export const ContextMenuExampleScene = (p: ContextMenuExampleProps = {}) => {
     ],
     "idle",
   );
-  const rowStyle = useDropdownMenuItemTransition([{ at: 0, state: rowState }]);
+  const rowStyle = useDropdownMenuItemTransition([{ at: 0, state: rowState }], { mode: p.mode });
 
   const items = p.items ?? ["Back", "Reload", "Save As…", "Inspect"];
 
@@ -121,6 +124,10 @@ export const contextMenuExampleCode = (
   const extraProps = props.length ? `\n          ${props.join("\n          ")}` : "";
   const modeStr = mode !== undefined && mode !== "light" ? ` mode="${mode}"` : "";
 
+  const hookOpts: string[] = [];
+  if (mode !== undefined && mode !== "light") hookOpts.push(`mode: "${mode}"`);
+  const optsStr = hookOpts.length ? `, { ${hookOpts.join(", ")} }` : "";
+
   return `import { Cursor } from "@/components/remocn/cursor";
 import { useCursorPath } from "@/components/remocn/use-cursor-path";
 import { ContextMenu } from "@/components/remocn/context-menu";
@@ -147,10 +154,12 @@ export const Scene = () => {
   ]);
 
   // Menu opens at the click point, closes after the row interaction.
-  const menuStyle = useContextMenuTransition([
-    { at: 44,  state: "opened", duration: 10 },
-    { at: 92,  state: "closed", duration: 10 },
-  ]);
+  const menuStyle = useContextMenuTransition(
+    [
+      { at: 44,  state: "opened", duration: 10 },
+      { at: 92,  state: "closed", duration: 10 },
+    ]${optsStr},
+  );
 
   // Animate row 1 ("Reload"): idle → hover → press → idle.
   const rowState = useCurrentState(
@@ -161,7 +170,7 @@ export const Scene = () => {
     ],
     "idle",
   );
-  const rowStyle = useDropdownMenuItemTransition([{ at: 0, state: rowState }]);
+  const rowStyle = useDropdownMenuItemTransition([{ at: 0, state: rowState }]${optsStr});
 
   return (
     <div style={{ position: "relative", width: "100%", height: "100%" }}>

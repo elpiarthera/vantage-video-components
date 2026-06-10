@@ -25,13 +25,16 @@ export const AlertDialogExampleScene = (p: AlertDialogExampleProps = {}) => {
       { at: 14, state: "hover" },
       { at: 26, state: "press" },
     ],
-    { variant: "destructive" },
+    { variant: "destructive", mode: p.mode },
   );
   // The dialog opens right after the press, then closes near the end.
-  const dialog = useAlertDialogTransition([
-    { at: 32, state: "opened", duration: 16 },
-    { at: 92, state: "closed", duration: 12 },
-  ]);
+  const dialog = useAlertDialogTransition(
+    [
+      { at: 32, state: "opened", duration: 16 },
+      { at: 92, state: "closed", duration: 12 },
+    ],
+    { mode: p.mode },
+  );
   return (
     <>
       <Button label="Delete account" variant="destructive" mode={p.mode ?? "light"} style={trigger} />
@@ -63,6 +66,9 @@ export const alertDialogExampleCode = (
   if (cancelLabel !== undefined && cancelLabel !== "Cancel") alertDialogProps.push(`cancelLabel="${cancelLabel}"`);
   if (mode !== undefined && mode !== "light") alertDialogProps.push(`mode="${mode}"`);
 
+  const modeOptStr = mode !== undefined && mode !== "light" ? `, mode: "${mode}"` : "";
+  const dialogOptsStr = mode !== undefined && mode !== "light" ? `, { mode: "${mode}" }` : "";
+
   const buttonModeStr = mode !== undefined && mode !== "light" ? ` mode="${mode}"` : "";
   const alertDialogPropsStr = alertDialogProps.length ? ` ${alertDialogProps.join(" ")}` : "";
 
@@ -77,12 +83,14 @@ export const Scene = () => {
       { at: 14, state: "hover" },
       { at: 26, state: "press" },
     ],
-    { variant: "destructive" },
+    { variant: "destructive"${modeOptStr} },
   );
-  const dialog = useAlertDialogTransition([
-    { at: 32, state: "opened", duration: 16 },
-    { at: 92, state: "closed", duration: 12 },
-  ]);
+  const dialog = useAlertDialogTransition(
+    [
+      { at: 32, state: "opened", duration: 16 },
+      { at: 92, state: "closed", duration: 12 },
+    ]${dialogOptsStr},
+  );
 
   return (
     <>
