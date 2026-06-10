@@ -591,6 +591,26 @@
           "target": "components/remocn/use-context-menu-transition.ts"
         }
       ]
+    },
+    {
+      "name": "toggle-group",
+      "type": "registry:component",
+      "title": "UI Toggle Group",
+      "description": "A segmented control whose active value is a pure function of the timeline; a raised thumb SLIDES between segments (position + width derived from a float indicator offset, no jumps) and the labels crossfade color via mixOklch. The tabs precedent without content panels.",
+      "dependencies": ["remotion"],
+      "registryDependencies": ["remocn-ui"],
+      "files": [
+        {
+          "path": "toggle-group/index.tsx",
+          "type": "registry:component",
+          "target": "components/remocn/toggle-group.tsx"
+        },
+        {
+          "path": "toggle-group/use-toggle-group-transition.ts",
+          "type": "registry:component",
+          "target": "components/remocn/use-toggle-group-transition.ts"
+        }
+      ]
     }
   ]
 }

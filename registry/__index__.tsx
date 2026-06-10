@@ -161,6 +161,8 @@ import { PopoverPreview } from "@/registry/remocn-ui/popover/preview";
 import { popoverConfig } from "@/registry/remocn-ui/popover/config";
 import { ContextMenuPreview } from "@/registry/remocn-ui/context-menu/preview";
 import { contextMenuConfig } from "@/registry/remocn-ui/context-menu/config";
+import { ToggleGroup } from "@/registry/remocn-ui/toggle-group";
+import { toggleGroupConfig } from "@/registry/remocn-ui/toggle-group/config";
 import { ZoomThroughTransition } from "@/registry/remocn/zoom-through-transition";
 import { zoomThroughTransitionConfig } from "@/registry/remocn/zoom-through-transition/config";
 
@@ -393,6 +395,9 @@ const registry: Record<string, RegistryEntry> = {
   // wrapper: a bare panel (transparent, caller-positioned) would sit top-left,
   // so the wrapper centers it on a stage.
   "context-menu": { Component: ContextMenuPreview, config: contextMenuConfig },
+  // toggle-group registers RAW (no preview wrapper): like tabs it paints its own
+  // opaque inset:0 centered stage, so the customizer mounts it directly.
+  "toggle-group": { Component: ToggleGroup, config: toggleGroupConfig },
   "spinner": { Component: Spinner, config: spinnerConfig },
 };
 

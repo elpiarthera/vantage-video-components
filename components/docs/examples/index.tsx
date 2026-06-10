@@ -56,6 +56,10 @@ import {
   ContextMenuExampleScene,
   contextMenuExampleCode,
 } from "./context-menu-example";
+import {
+  ToggleGroupExampleScene,
+  toggleGroupExampleCode,
+} from "./toggle-group-example";
 
 export interface ExampleEntry {
   Component: ComponentType;
@@ -267,6 +271,15 @@ export const examples: Record<string, ExampleEntry> = {
     // Cursor selects row 1, menu closes at 102, cursor leaves (arrives 104+20=124);
     // a short settle then loop.
     durationInFrames: 135,
+    fps: FPS,
+    width: W,
+    height: H,
+  },
+  "toggle-group-example": {
+    Component: ToggleGroupExampleScene,
+    code: toggleGroupExampleCode,
+    // Second toggle completes at 92 + dur 14 = 106; a short settle then loop.
+    durationInFrames: 115,
     fps: FPS,
     width: W,
     height: H,
