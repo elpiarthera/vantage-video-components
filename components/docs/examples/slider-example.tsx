@@ -12,7 +12,14 @@ const THUMB_START_X = 544; // canvas x at value 20
 const THUMB_END_X   = 736; // canvas x at value 80
 const THUMB_Y       = 360; // canvas y of track center
 
-export const SliderExampleScene = () => {
+export const sliderExampleControls = ["showValue", "mode"] as const;
+
+export interface SliderExampleProps {
+  showValue?: boolean;
+  mode?: "light" | "dark";
+}
+
+export const SliderExampleScene = (p: SliderExampleProps = {}) => {
   // Cursor: park top-left → ease to thumb (arrives frame 30) → drag to end (arrives frame 100) → release.
   const cursorStyle = useCursorPath([
     { at: 0,   x: 80,           y: 60,      },
@@ -43,14 +50,27 @@ export const SliderExampleScene = () => {
           transform: "translate(-50%, -50%)",
         }}
       >
-        <Slider style={sliderStyle} width={320} showValue />
+        <Slider style={sliderStyle} width={320} showValue={p.showValue ?? true} mode={p.mode ?? "light"} />
       </div>
-      <Cursor style={cursorStyle} variant="pointer" />
+      <Cursor style={cursorStyle} variant="pointer" mode={p.mode ?? "light"} />
     </div>
   );
 };
 
-export const sliderExampleCode = `import { Cursor } from "@/components/remocn/cursor";
+export const sliderExampleCode = (
+  values: Record<string, unknown> = {},
+): string => {
+  const showValue = values.showValue as boolean | undefined;
+  const mode = values.mode as string | undefined;
+
+  const props: string[] = [];
+  if (showValue !== undefined && showValue !== true)
+    props.push(`showValue={${showValue}}`);
+  if (mode !== undefined && mode !== "light") props.push(`mode="${mode}"`);
+
+  const sliderPropsStr = props.length ? ` ${props.join(" ")}` : "";
+  const cursorModeStr = mode !== undefined && mode !== "light" ? ` mode="${mode}"` : "";
+  return `import { Cursor } from "@/components/remocn/cursor";
 import { useCursorPath } from "@/components/remocn/use-cursor-path";
 import { Slider } from "@/components/remocn/slider";
 import { useSliderTransition } from "@/components/remocn/use-slider-transition";
@@ -93,9 +113,10 @@ export const Scene = () => {
           transform: "translate(-50%, -50%)",
         }}
       >
-        <Slider style={sliderStyle} width={320} showValue />
+        <Slider style={sliderStyle} width={320}${sliderPropsStr} />
       </div>
-      <Cursor style={cursorStyle} variant="pointer" />
+      <Cursor style={cursorStyle} variant="pointer"${cursorModeStr} />
     </div>
   );
 };`;
+};

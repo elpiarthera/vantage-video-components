@@ -16,7 +16,14 @@ const CLICK_Y = 385;
 const ROW1_X = CLICK_X + 70;
 const ROW1_Y = CLICK_Y + 60;
 
-export const ContextMenuExampleScene = () => {
+export interface ContextMenuExampleProps {
+  items?: string[];
+  mode?: "light" | "dark";
+}
+
+export const contextMenuExampleControls = ["items", "mode"] as const;
+
+export const ContextMenuExampleScene = (p: ContextMenuExampleProps = {}) => {
   // Cursor: park → ease to card → right-click → move DOWN onto row 1 → click it → leave.
   const cursorStyle = useCursorPath([
     { at: 0,   x: 80,      y: 60  },
@@ -43,6 +50,8 @@ export const ContextMenuExampleScene = () => {
     "idle",
   );
   const rowStyle = useDropdownMenuItemTransition([{ at: 0, state: rowState }]);
+
+  const items = p.items ?? ["Back", "Reload", "Save As…", "Inspect"];
 
   return (
     <div style={{ position: "relative", width: "100%", height: "100%" }}>
@@ -89,16 +98,30 @@ export const ContextMenuExampleScene = () => {
       >
         <ContextMenu
           style={menuStyle}
+          items={items}
           itemStyles={[undefined, rowStyle, undefined, undefined]}
+          mode={p.mode ?? "light"}
         />
       </div>
 
-      <Cursor style={cursorStyle} variant="pointer" />
+      <Cursor style={cursorStyle} variant="pointer" mode={p.mode ?? "light"} />
     </div>
   );
 };
 
-export const contextMenuExampleCode = `import { Cursor } from "@/components/remocn/cursor";
+export const contextMenuExampleCode = (
+  values: Record<string, unknown> = {},
+): string => {
+  const items = values.items as string[] | undefined;
+  const mode = values.mode as string | undefined;
+
+  const props: string[] = [];
+  if (items !== undefined) props.push(`items={${JSON.stringify(items)}}`);
+  if (mode !== undefined && mode !== "light") props.push(`mode="${mode}"`);
+  const extraProps = props.length ? `\n          ${props.join("\n          ")}` : "";
+  const modeStr = mode !== undefined && mode !== "light" ? ` mode="${mode}"` : "";
+
+  return `import { Cursor } from "@/components/remocn/cursor";
 import { useCursorPath } from "@/components/remocn/use-cursor-path";
 import { ContextMenu } from "@/components/remocn/context-menu";
 import { useContextMenuTransition } from "@/components/remocn/use-context-menu-transition";
@@ -161,13 +184,14 @@ export const Scene = () => {
 
       {/* Context menu positioned at the click point — caller owns placement. */}
       <div style={{ position: "absolute", left: CLICK_X, top: CLICK_Y }}>
-        <ContextMenu
+        <ContextMenu${extraProps}
           style={menuStyle}
           itemStyles={[undefined, rowStyle, undefined, undefined]}
         />
       </div>
 
-      <Cursor style={cursorStyle} variant="pointer" />
+      <Cursor style={cursorStyle} variant="pointer"${modeStr} />
     </div>
   );
 };`;
+};

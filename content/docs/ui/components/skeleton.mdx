@@ -3,7 +3,7 @@ title: Skeleton
 description: A shimmer placeholder that crossfades to real content when loaded
 ---
 
-<ComponentPreview name="skeleton" />
+<UiComponentPreview name="skeleton" />
 
 A state atom that crossfades between a shimmer placeholder and real content. Its appearance (`loading`, `loaded`) is a pure function of the `state` prop. Pass a state directly or drive it from the Remotion timeline via `useCurrentState`. The component reads no frame — only the animated `SkeletonBlock` motion atom inside the placeholder does. The two opacity layers always sum to 1 so the crossfade never dims the bounding box.
 
@@ -14,10 +14,6 @@ A state atom that crossfades between a shimmer placeholder and real content. Its
 <Note>
 Installing `skeleton` automatically installs the shared `remocn-ui` core (`lib/remocn-ui/`) and the `skeleton-block` motion atom via `registryDependencies` (`["remocn-ui", "skeleton-block"]`). You do not need to install them separately. `skeleton` (the state atom), `use-skeleton-transition` (the hook), and `skeleton-block` (the shimmer renderer) are all copied into your project.
 </Note>
-
-## Example
-
-<LiveExample name="skeleton-example" />
 
 ## States
 

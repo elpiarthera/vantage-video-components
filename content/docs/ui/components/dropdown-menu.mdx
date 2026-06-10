@@ -3,7 +3,7 @@ title: DropdownMenu
 description: A dropdown menu container with opened/closed states and action rows
 ---
 
-<ComponentPreview name="dropdown-menu" />
+<UiComponentPreview name="dropdown-menu" />
 
 A state atom representing a complete dropdown menu: a trigger button and a panel of actionable items. Its appearance (opened, closed) is a pure function of the `state` prop. Pass a state directly or drive it from the Remotion timeline via `useCurrentState`. The component reads no frame — only the state value you give it. The panel reveals below the trigger with opacity, scale, and vertical translation animations.
 
@@ -14,10 +14,6 @@ A state atom representing a complete dropdown menu: a trigger button and a panel
 <Note>
 Installing `dropdown-menu` automatically installs the shared `remocn-ui` core (`lib/remocn-ui/`), the `button` primitive, and the `dropdown-menu-item` atom via `registryDependencies` (`["remocn-ui", "button", "dropdown-menu-item"]`). You do not need to install them separately. The trigger reuses the Button `outline` variant, and the panel renders a column of DropdownMenuItem rows.
 </Note>
-
-## Example
-
-<LiveExample name="dropdown-menu-example" />
 
 ## States
 

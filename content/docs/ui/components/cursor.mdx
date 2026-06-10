@@ -3,7 +3,7 @@ title: Cursor
 description: An animated cursor that follows a scripted path with click ripple and press effects
 ---
 
-<ComponentPreview name="cursor" />
+<UiComponentPreview name="cursor" />
 
 A motion atom that renders an animated cursor as a pure function of the `CursorStyle` it receives. The cursor reads no frame itself — the single time source is `useCursorPath` on the caller's side, which folds a path of waypoints into a resolved position, ripple, and press-dip visual. This is the **value-channel** variant of the primitive pattern: instead of a string-state timeline it drives numeric position channels directly.
 
@@ -14,10 +14,6 @@ A motion atom that renders an animated cursor as a pure function of the `CursorS
 <Note>
 Installing `cursor` automatically installs the shared `remocn-ui` core (`lib/remocn-ui/`) via `registryDependencies` (`["remocn-ui"]`). You do not need to install it separately. Both `cursor` (the renderer) and `use-cursor-path` (the hook) are copied into your project.
 </Note>
-
-## Example
-
-<LiveExample name="cursor-example" />
 
 ## Waypoints
 

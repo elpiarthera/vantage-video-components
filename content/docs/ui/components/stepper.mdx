@@ -3,7 +3,7 @@ title: Stepper
 description: A multi-step progress indicator that advances along a scripted numeric position timeline
 ---
 
-<ComponentPreview name="stepper" />
+<UiComponentPreview name="stepper" />
 
 A value-channel atom whose active position (`0`–`n-1`) is a pure function of the `activeIndex` prop or an interpolated `StepperStyle` from `useStepperTransition`. The component reads no frame — only the position you give it. This is the **value-channel** variant of the primitive pattern: instead of a string-state timeline it drives a continuous numeric position channel, the same deviation used by the Progress primitive.
 
@@ -16,10 +16,6 @@ As `position` advances, each circle fills from muted to primary, the checkmark d
 <Note>
 Installing `stepper` automatically installs the shared `remocn-ui` core (`lib/remocn-ui/`) via `registryDependencies` (`["remocn-ui"]`). You do not need to install it separately. Both `stepper` (the renderer) and `use-stepper-transition` (the hook) are copied into your project.
 </Note>
-
-## Example
-
-<LiveExample name="stepper-example" />
 
 ## Step position
 

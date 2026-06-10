@@ -3,7 +3,7 @@ title: Slider
 description: A range slider with a draggable thumb driven by a scripted value and thumb-state timeline
 ---
 
-<ComponentPreview name="slider" />
+<UiComponentPreview name="slider" />
 
 A dual-channel value atom whose fill (`0`–`100`) and thumb appearance (`idle`, `hover`, `press`) are a pure function of the props it receives. The component reads no frame. This is a **dual-channel** variant of the value-channel pattern: `useSliderTransition` drives a numeric fill channel and a thumb-state channel independently through one `SliderStyle`, so cursor-synced drag scenes compose naturally.
 
@@ -14,10 +14,6 @@ A dual-channel value atom whose fill (`0`–`100`) and thumb appearance (`idle`,
 <Note>
 Installing `slider` automatically installs the shared `remocn-ui` core (`lib/remocn-ui/`) via `registryDependencies` (`["remocn-ui"]`). You do not need to install it separately. Both `slider` (the renderer) and `use-slider-transition` (the hook) are copied into your project.
 </Note>
-
-## Example
-
-<LiveExample name="slider-example" />
 
 ## Value & thumb
 

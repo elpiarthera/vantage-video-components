@@ -3,15 +3,48 @@
 import { Switch } from "@/registry/remocn-ui/switch";
 import { useSwitchTransition } from "@/registry/remocn-ui/switch/use-switch-transition";
 
-export const SwitchExampleScene = () => {
+export const switchExampleControls = ["label", "size", "primary", "mode"] as const;
+
+export interface SwitchExampleProps {
+  label?: string;
+  size?: "sm" | "default" | "lg";
+  primary?: string;
+  mode?: "light" | "dark";
+}
+
+export const SwitchExampleScene = (p: SwitchExampleProps = {}) => {
   const style = useSwitchTransition([
     { at: 18, state: "checked", duration: 14 },
     { at: 78, state: "unchecked", duration: 12 },
   ]);
-  return <Switch label="Enable notifications" style={style} />;
+  return (
+    <Switch
+      label={p.label ?? "Enable notifications"}
+      size={p.size ?? "default"}
+      primary={p.primary}
+      mode={p.mode ?? "light"}
+      style={style}
+    />
+  );
 };
 
-export const switchExampleCode = `import { Switch } from "@/components/remocn/switch";
+export const switchExampleCode = (
+  values: Record<string, unknown> = {},
+): string => {
+  const label = values.label as string | undefined;
+  const size = values.size as string | undefined;
+  const primary = values.primary as string | undefined;
+  const mode = values.mode as string | undefined;
+
+  const props: string[] = [];
+  if (label !== undefined && label !== "Enable notifications")
+    props.push(`label="${label}"`);
+  if (size !== undefined && size !== "default") props.push(`size="${size}"`);
+  if (primary !== undefined) props.push(`primary="${primary}"`);
+  if (mode !== undefined && mode !== "light") props.push(`mode="${mode}"`);
+
+  const propsStr = props.length ? ` ${props.join(" ")}` : "";
+  return `import { Switch } from "@/components/remocn/switch";
 import { useSwitchTransition } from "@/components/remocn/use-switch-transition";
 
 export const Scene = () => {
@@ -20,5 +53,6 @@ export const Scene = () => {
     { at: 78, state: "unchecked", duration: 12 },
   ]);
 
-  return <Switch label="Enable notifications" style={style} />;
+  return <Switch${propsStr} style={style} />;
 };`;
+};

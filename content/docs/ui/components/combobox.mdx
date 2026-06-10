@@ -3,7 +3,7 @@ title: Combobox
 description: A searchable select with a typed-query input, filtered panel, and row selection
 ---
 
-<ComponentPreview name="combobox" />
+<UiComponentPreview name="combobox" />
 
 A state atom representing a searchable select: a text-input trigger and a panel of filtered options. Its appearance (`opened`, `closed`) is a pure function of the `state` prop. Pass a state directly or drive it from the Remotion timeline via `useCurrentState`. The component reads no frame — only the state value you give it. The panel reveals below the trigger with opacity, scale, and vertical lift animations. The trigger reuses the Input visual presets; the panel rows reuse the SelectItem atom.
 
@@ -14,10 +14,6 @@ A state atom representing a searchable select: a text-input trigger and a panel 
 <Note>
 Installing `combobox` automatically installs the shared `remocn-ui` core (`lib/remocn-ui/`), the `input` primitive, and the `select-item` atom via `registryDependencies` (`["remocn-ui", "input", "select-item"]`). You do not need to install them separately. The trigger renders from Input's visual presets, and the panel renders a column of SelectItem rows.
 </Note>
-
-## Example
-
-<LiveExample name="combobox-example" />
 
 ## States
 

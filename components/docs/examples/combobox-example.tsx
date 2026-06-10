@@ -12,7 +12,14 @@ const TYPE_START = 32;
 const FPS = 30;
 const CPS = 4;
 
-export const ComboboxExampleScene = () => {
+export const comboboxExampleControls = ["placeholder", "mode"] as const;
+
+export interface ComboboxExampleProps {
+  placeholder?: string;
+  mode?: "light" | "dark";
+}
+
+export const ComboboxExampleScene = (p: ComboboxExampleProps = {}) => {
   const frame = useCurrentFrame();
 
   // Panel: opens at frame 16, closes at frame 100.
@@ -44,12 +51,26 @@ export const ComboboxExampleScene = () => {
         query={QUERY}
         revealCount={revealed}
         itemStyles={[itemStyle]}
+        placeholder={p.placeholder ?? "Select a fruit…"}
+        mode={p.mode ?? "light"}
       />
     </div>
   );
 };
 
-export const comboboxExampleCode = `import { useCurrentFrame } from "remotion";
+export const comboboxExampleCode = (
+  values: Record<string, unknown> = {},
+): string => {
+  const placeholder = values.placeholder as string | undefined;
+  const mode = values.mode as string | undefined;
+
+  const props: string[] = [];
+  if (placeholder !== undefined && placeholder !== "Select a fruit…")
+    props.push(`placeholder="${placeholder}"`);
+  if (mode !== undefined && mode !== "light") props.push(`mode="${mode}"`);
+  const extraProps = props.length ? `\n        ${props.join("\n        ")}` : "";
+
+  return `import { useCurrentFrame } from "remotion";
 import { revealCount } from "@/lib/remocn-ui";
 import { Combobox } from "@/components/remocn/combobox";
 import { useComboboxTransition } from "@/components/remocn/use-combobox-transition";
@@ -87,7 +108,7 @@ export const Scene = () => {
 
   return (
     <div style={{ position: "relative", width: "100%", height: "100%" }}>
-      <Combobox
+      <Combobox${extraProps}
         style={panelStyle}
         query={QUERY}
         revealCount={revealed}
@@ -96,3 +117,4 @@ export const Scene = () => {
     </div>
   );
 };`;
+};

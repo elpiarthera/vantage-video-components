@@ -3,7 +3,7 @@ title: Input
 description: An input field whose visual state is a pure function of the timeline
 ---
 
-<ComponentPreview name="input" />
+<UiComponentPreview name="input" />
 
 A state atom whose appearance (idle, hover, active, typing, invalid) is a pure function of the `state` prop. Pass a state directly or drive it from the Remotion timeline via `useCurrentState`. The component reads no frame — only the state value you give it.
 
@@ -14,10 +14,6 @@ A state atom whose appearance (idle, hover, active, typing, invalid) is a pure f
 <Note>
 Installing `input` automatically installs the shared `remocn-ui` core (`lib/remocn-ui/`) via `registryDependencies`. You do not need to install it separately.
 </Note>
-
-## Example
-
-<LiveExample name="input-example" />
 
 ## States
 

@@ -3,7 +3,7 @@ title: Tooltip
 description: A small floating label that appears above an anchor on hover
 ---
 
-<ComponentPreview name="tooltip" />
+<UiComponentPreview name="tooltip" />
 
 A state atom whose appearance (`hidden`, `visible`) is a pure function of the `state` prop. Pass a state directly or drive it from the Remotion timeline via `useCurrentState`. The component reads no frame — only the state value you give it. The tooltip fades in at 0.96 scale, slides 4 px toward the anchor, and rests fully visible; `hidden` reverses the motion. Placement is the caller's responsibility — the tooltip renders inline and the caller wraps it in an absolutely-positioned anchor div.
 
@@ -14,10 +14,6 @@ A state atom whose appearance (`hidden`, `visible`) is a pure function of the `s
 <Note>
 Installing `tooltip` automatically installs the shared `remocn-ui` core (`lib/remocn-ui/`) via `registryDependencies` (`["remocn-ui"]`). You do not need to install it separately. Both `tooltip` (the renderer) and `use-tooltip-transition` (the hook) are copied into your project.
 </Note>
-
-## Example
-
-<LiveExample name="tooltip-example" />
 
 ## States
 

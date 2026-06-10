@@ -3,7 +3,7 @@ title: Toast
 description: A notification that slides in from below, holds, then auto-dismisses
 ---
 
-<ComponentPreview name="toast" />
+<UiComponentPreview name="toast" />
 
 A state atom whose appearance (`hidden`, `visible`) is a pure function of the `state` prop. Pass a state directly or drive it from the Remotion timeline via `useCurrentState`. The component reads no frame — only the state value you give it. The toast enters from 16 px below at 0.97 scale, fades and scales up to rest, then reverses on dismiss.
 
@@ -14,10 +14,6 @@ A state atom whose appearance (`hidden`, `visible`) is a pure function of the `s
 <Note>
 Installing `toast` automatically installs the shared `remocn-ui` core (`lib/remocn-ui/`) via `registryDependencies` (`["remocn-ui"]`). You do not need to install it separately. Both `toast` (the renderer) and `use-toast-transition` (the hook) are copied into your project.
 </Note>
-
-## Example
-
-<LiveExample name="toast-example" />
 
 ## States
 

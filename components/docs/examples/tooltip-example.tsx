@@ -15,7 +15,16 @@ const BTN_Y = 360;
 const AWAY_X = 200;
 const AWAY_Y = 200;
 
-export const TooltipExampleScene = () => {
+export const tooltipExampleControls = [
+  "label", "mode",
+] as const;
+
+export interface TooltipExampleProps {
+  label?: string;
+  mode?: "light" | "dark";
+}
+
+export const TooltipExampleScene = (p: TooltipExampleProps = {}) => {
   // Cursor: park top-left → ease onto button (arrives 28) → hover →
   // move away at frame 90 (arrives 110).
   const cursorStyle = useCursorPath([
@@ -48,7 +57,7 @@ export const TooltipExampleScene = () => {
           transform: "translate(-50%, -50%)",
         }}
       >
-        <Button label="Hover me" style={buttonStyle} />
+        <Button label="Hover me" style={buttonStyle} mode={p.mode ?? "light"} />
 
         {/* Tooltip is anchored relative to the button: centered above it. */}
         <div
@@ -60,8 +69,9 @@ export const TooltipExampleScene = () => {
           }}
         >
           <Tooltip
-            label="Keyboard shortcut ⌘K"
+            label={p.label ?? "Add to library"}
             side="top"
+            mode={p.mode ?? "light"}
             style={tooltipStyle}
           />
         </div>
@@ -72,7 +82,17 @@ export const TooltipExampleScene = () => {
   );
 };
 
-export const tooltipExampleCode = `import { Cursor } from "@/components/remocn/cursor";
+export const tooltipExampleCode = (
+  values: Record<string, unknown> = {},
+): string => {
+  const label = values.label as string | undefined;
+  const mode = values.mode as string | undefined;
+
+  const labelStr = label ?? "Add to library";
+  const modeStr =
+    mode !== undefined && mode !== "light" ? ` mode="${mode}"` : "";
+
+  return `import { Cursor } from "@/components/remocn/cursor";
 import { useCursorPath } from "@/components/remocn/use-cursor-path";
 import { Button } from "@/components/remocn/button";
 import { useButtonTransition } from "@/components/remocn/use-button-transition";
@@ -114,7 +134,7 @@ export const Scene = () => {
           transform: "translate(-50%, -50%)",
         }}
       >
-        <Button label="Hover me" style={buttonStyle} />
+        <Button label="Hover me" style={buttonStyle}${modeStr} />
 
         {/* Tooltip sits above the button; the caller owns the anchor position. */}
         <div
@@ -125,7 +145,7 @@ export const Scene = () => {
             transform: "translateX(-50%)",
           }}
         >
-          <Tooltip label="Keyboard shortcut ⌘K" side="top" style={tooltipStyle} />
+          <Tooltip label="${labelStr}" side="top"${modeStr} style={tooltipStyle} />
         </div>
       </div>
 
@@ -133,3 +153,4 @@ export const Scene = () => {
     </div>
   );
 };`;
+};

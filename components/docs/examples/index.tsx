@@ -71,7 +71,14 @@ import {
 
 export interface ExampleEntry {
   Component: ComponentType;
-  code: string;
+  /**
+   * Vestigial after the LiveExample → UiComponentPreview migration. The Code tab
+   * now sources its template from `UI_SCENE_META[name].code` (the scene's own
+   * `…ExampleCode` function), so nothing reads this field anymore — it is kept
+   * only to avoid churn across all 26 entries. Safe to drop in a later cleanup.
+   * Migrated entries hold a function template; any legacy entry holds a string.
+   */
+  code: string | ((values: Record<string, unknown>) => string);
   durationInFrames: number;
   fps: number;
   width: number;

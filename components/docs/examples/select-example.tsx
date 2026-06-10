@@ -5,7 +5,14 @@ import { Select } from "@/registry/remocn-ui/select";
 import { useSelectTransition } from "@/registry/remocn-ui/select/use-select-transition";
 import { useSelectItemTransition } from "@/registry/remocn-ui/select-item/use-select-item-transition";
 
-export const SelectExampleScene = () => {
+export const selectExampleControls = ["label", "mode"] as const;
+
+export interface SelectExampleProps {
+  label?: string;
+  mode?: "light" | "dark";
+}
+
+export const SelectExampleScene = (p: SelectExampleProps = {}) => {
   // The trigger: idle → hover → press, the press lands just before the panel
   // opens (the "click" that triggers it). Fed to the Select via `triggerStyle`.
   const triggerStyle = useButtonTransition(
@@ -29,14 +36,27 @@ export const SelectExampleScene = () => {
   return (
     <Select
       style={panel}
-      label="Select a fruit"
+      label={p.label ?? "Select a fruit"}
       triggerStyle={triggerStyle}
       itemStyles={[undefined, row, undefined, undefined]}
+      mode={p.mode ?? "light"}
     />
   );
 };
 
-export const selectExampleCode = `import { useButtonTransition } from "@/components/remocn/use-button-transition";
+export const selectExampleCode = (
+  values: Record<string, unknown> = {},
+): string => {
+  const label = values.label as string | undefined;
+  const mode = values.mode as string | undefined;
+
+  const props: string[] = [];
+  if (label !== undefined && label !== "Select a fruit")
+    props.push(`label="${label}"`);
+  if (mode !== undefined && mode !== "light") props.push(`mode="${mode}"`);
+  const extraProps = props.length ? `\n      ${props.join("\n      ")}` : "";
+
+  return `import { useButtonTransition } from "@/components/remocn/use-button-transition";
 import { Select } from "@/components/remocn/select";
 import { useSelectTransition } from "@/components/remocn/use-select-transition";
 import { useSelectItemTransition } from "@/components/remocn/use-select-item-transition";
@@ -60,11 +80,11 @@ export const Scene = () => {
   ]);
 
   return (
-    <Select
+    <Select${extraProps}
       style={panel}
-      label="Select a fruit"
       triggerStyle={triggerStyle}
       itemStyles={[undefined, row, undefined, undefined]}
     />
   );
 };`;
+};

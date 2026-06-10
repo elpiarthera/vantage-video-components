@@ -2,8 +2,16 @@
 
 import { Skeleton } from "@/registry/remocn-ui/skeleton";
 import { useSkeletonTransition } from "@/registry/remocn-ui/skeleton/use-skeleton-transition";
+import type { SkeletonLayout } from "@/registry/remocn-ui/skeleton";
 
-export const SkeletonExampleScene = () => {
+export interface SkeletonExampleProps {
+  layout?: SkeletonLayout;
+  mode?: "light" | "dark";
+}
+
+export const skeletonExampleControls = ["layout", "mode"] as const;
+
+export const SkeletonExampleScene = (p: SkeletonExampleProps = {}) => {
   // Shimmer for ~3 full sweep cycles (180 frames) as if waiting on data, then
   // crossfade to real content.
   const skeletonStyle = useSkeletonTransition([
@@ -20,7 +28,11 @@ export const SkeletonExampleScene = () => {
         justifyContent: "center",
       }}
     >
-      <Skeleton style={skeletonStyle} layout="card">
+      <Skeleton
+        style={skeletonStyle}
+        layout={p.layout ?? "card"}
+        mode={p.mode ?? "light"}
+      >
         {/* Real content — defines the box size; revealed on crossfade. */}
         <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
           <div
@@ -56,7 +68,18 @@ export const SkeletonExampleScene = () => {
   );
 };
 
-export const skeletonExampleCode = `import { Skeleton } from "@/components/remocn/skeleton";
+export const skeletonExampleCode = (
+  values: Record<string, unknown> = {},
+): string => {
+  const layout = values.layout as string | undefined;
+  const mode = values.mode as string | undefined;
+
+  const props: string[] = [];
+  if (layout !== undefined && layout !== "card") props.push(`layout="${layout}"`);
+  if (mode !== undefined && mode !== "light") props.push(`mode="${mode}"`);
+  const extraProps = props.length ? `\n        ${props.join("\n        ")}\n        ` : "";
+
+  return `import { Skeleton } from "@/components/remocn/skeleton";
 import { useSkeletonTransition } from "@/components/remocn/use-skeleton-transition";
 
 export const Scene = () => {
@@ -76,7 +99,7 @@ export const Scene = () => {
         justifyContent: "center",
       }}
     >
-      <Skeleton style={skeletonStyle} layout="card">
+      <Skeleton${extraProps}style={skeletonStyle}>
         {/* Real content — defines the box size; revealed on crossfade. */}
         <div style={{ display: "flex", gap: 14, alignItems: "center" }}>
           <div
@@ -111,3 +134,4 @@ export const Scene = () => {
     </div>
   );
 };`;
+};

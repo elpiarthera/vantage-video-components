@@ -3,7 +3,7 @@ title: Context Menu
 description: A right-click menu panel that opens at the cursor point with no built-in trigger
 ---
 
-<ComponentPreview name="context-menu" />
+<UiComponentPreview name="context-menu" />
 
 A state atom representing a context menu panel. Its appearance (`opened`, `closed`) is a pure function of the `state` prop. Pass a state directly or drive it from the Remotion timeline via `useCurrentState`. The component reads no frame — only the state value you give it. Unlike `DropdownMenu`, there is no built-in trigger — the context menu opens at the cursor click point and the **caller** positions it there. The panel grows from its top-left corner (the click point) with opacity, scale, and vertical lift.
 
@@ -14,10 +14,6 @@ A state atom representing a context menu panel. Its appearance (`opened`, `close
 <Note>
 Installing `context-menu` automatically installs the shared `remocn-ui` core (`lib/remocn-ui/`) and the `dropdown-menu-item` atom via `registryDependencies` (`["remocn-ui", "dropdown-menu-item"]`). You do not need to install them separately. The panel rows reuse the DropdownMenuItem atom.
 </Note>
-
-## Example
-
-<LiveExample name="context-menu-example" />
 
 ## States
 

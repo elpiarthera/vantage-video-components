@@ -11,7 +11,18 @@ import { useToastTransition } from "@/registry/remocn-ui/toast/use-toast-transit
 const BTN_X = 620; // cursor tip target X (the pointer hotspot lands here)
 const BTN_Y = 360; // cursor tip target Y
 
-export const ToastExampleScene = () => {
+export const toastExampleControls = [
+  "title", "description", "variant", "mode",
+] as const;
+
+export interface ToastExampleProps {
+  title?: string;
+  description?: string;
+  variant?: "default" | "success" | "error";
+  mode?: "light" | "dark";
+}
+
+export const ToastExampleScene = (p: ToastExampleProps = {}) => {
   // Cursor: park top-left → ease onto button (arrives 40) → click at 68.
   const cursorStyle = useCursorPath([
     { at: 0, x: 80, y: 60 },
@@ -46,7 +57,7 @@ export const ToastExampleScene = () => {
           transform: "translate(-50%, -50%)",
         }}
       >
-        <Button label="Show toast" style={buttonStyle} />
+        <Button label="Show toast" style={buttonStyle} mode={p.mode ?? "light"} />
       </div>
 
       {/* Toast anchored bottom-right, 24px from edges */}
@@ -58,9 +69,10 @@ export const ToastExampleScene = () => {
         }}
       >
         <Toast
-          title="Changes saved"
-          description="Your preferences have been updated."
-          variant="success"
+          title={p.title ?? "Changes saved"}
+          description={p.description ?? "Your profile has been updated."}
+          variant={p.variant ?? "success"}
+          mode={p.mode ?? "light"}
           style={toastStyle}
         />
       </div>
@@ -70,7 +82,33 @@ export const ToastExampleScene = () => {
   );
 };
 
-export const toastExampleCode = `import { Cursor } from "@/components/remocn/cursor";
+export const toastExampleCode = (
+  values: Record<string, unknown> = {},
+): string => {
+  const title = values.title as string | undefined;
+  const description = values.description as string | undefined;
+  const variant = values.variant as string | undefined;
+  const mode = values.mode as string | undefined;
+
+  const toastProps: string[] = [];
+  if (title !== undefined && title !== "Changes saved")
+    toastProps.push(`title="${title}"`);
+  if (
+    description !== undefined &&
+    description !== "Your profile has been updated."
+  )
+    toastProps.push(`description="${description}"`);
+  if (variant !== undefined && variant !== "success")
+    toastProps.push(`variant="${variant}"`);
+  if (mode !== undefined && mode !== "light") toastProps.push(`mode="${mode}"`);
+
+  const btnModeStr =
+    mode !== undefined && mode !== "light" ? ` mode="${mode}"` : "";
+  const toastPropsStr = toastProps.length
+    ? `\n          ${toastProps.join("\n          ")}\n        `
+    : "";
+
+  return `import { Cursor } from "@/components/remocn/cursor";
 import { useCursorPath } from "@/components/remocn/use-cursor-path";
 import { Button } from "@/components/remocn/button";
 import { useButtonTransition } from "@/components/remocn/use-button-transition";
@@ -111,19 +149,15 @@ export const Scene = () => {
           transform: "translate(-50%, -50%)",
         }}
       >
-        <Button label="Show toast" style={buttonStyle} />
+        <Button label="Show toast" style={buttonStyle}${btnModeStr} />
       </div>
 
       <div style={{ position: "absolute", right: 24, bottom: 24 }}>
-        <Toast
-          title="Changes saved"
-          description="Your preferences have been updated."
-          variant="success"
-          style={toastStyle}
-        />
+        <Toast${toastPropsStr === "" ? "\n          title=\"Changes saved\"\n          description=\"Your profile has been updated.\"\n          variant=\"success\"\n        " : toastPropsStr}style={toastStyle} />
       </div>
 
       <Cursor style={cursorStyle} variant="pointer" />
     </div>
   );
 };`;
+};

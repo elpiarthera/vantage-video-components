@@ -3,7 +3,7 @@ title: Drawer
 description: A bottom panel whose opened/closed state is a pure function of the timeline
 ---
 
-<ComponentPreview name="drawer" />
+<UiComponentPreview name="drawer" />
 
 A state atom whose appearance (closed, opened) is a pure function of the `state` prop. Pass a state directly or drive it from the Remotion timeline via `useCurrentState`. The component reads no frame — only the state value you give it. The wrapper is transparent by design: Drawer is a modal layer meant to compose over another scene, so it does not paint an opaque background. The panel is anchored to the bottom edge and slides up into view: it has rounded top corners, a drag-handle pill at the top, and no close (X) button — the handle stands in for the dismiss affordance.
 
@@ -14,10 +14,6 @@ A state atom whose appearance (closed, opened) is a pure function of the `state`
 <Note>
 Installing `drawer` automatically installs the shared `remocn-ui` core (`lib/remocn-ui/`) via `registryDependencies` (`["remocn-ui"]`). You do not need to install it separately. If you want to pair Drawer with the Button as its trigger in the canonical lifecycle example, install `button` separately.
 </Note>
-
-## Example
-
-<LiveExample name="drawer-example" />
 
 ## States
 

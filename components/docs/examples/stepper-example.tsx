@@ -3,7 +3,14 @@
 import { Stepper } from "@/registry/remocn-ui/stepper";
 import { useStepperTransition } from "@/registry/remocn-ui/stepper/use-stepper-transition";
 
-export const StepperExampleScene = () => {
+export interface StepperExampleProps {
+  steps?: string[];
+  mode?: "light" | "dark";
+}
+
+export const stepperExampleControls = ["steps", "mode"] as const;
+
+export const StepperExampleScene = (p: StepperExampleProps = {}) => {
   // Advance through 3 steps: "Account" (0) → "Plan" (1) → "Done" (2).
   // Start explicitly at index 0 (else the timeline holds the first step's index
   // before it fires); each step arrives at the end of a 24-frame ease.
@@ -16,12 +23,27 @@ export const StepperExampleScene = () => {
   return (
     <div style={{ position: "relative", width: "100%", height: "100%" }}>
       {/* Stepper renders position:absolute;inset:0 — it fills and centers itself. */}
-      <Stepper style={stepperStyle} />
+      <Stepper
+        style={stepperStyle}
+        steps={p.steps ?? ["Account", "Plan", "Done"]}
+        mode={p.mode ?? "light"}
+      />
     </div>
   );
 };
 
-export const stepperExampleCode = `import { Stepper } from "@/components/remocn/stepper";
+export const stepperExampleCode = (
+  values: Record<string, unknown> = {},
+): string => {
+  const steps = values.steps as string[] | undefined;
+  const mode = values.mode as string | undefined;
+
+  const props: string[] = [];
+  if (steps !== undefined) props.push(`steps={${JSON.stringify(steps)}}`);
+  if (mode !== undefined && mode !== "light") props.push(`mode="${mode}"`);
+  const extraProps = props.length ? `\n        ${props.join("\n        ")}\n        ` : "";
+
+  return `import { Stepper } from "@/components/remocn/stepper";
 import { useStepperTransition } from "@/components/remocn/use-stepper-transition";
 
 export const Scene = () => {
@@ -35,7 +57,8 @@ export const Scene = () => {
 
   return (
     <div style={{ position: "relative", width: "100%", height: "100%" }}>
-      <Stepper style={stepperStyle} />
+      <Stepper${extraProps}style={stepperStyle} />
     </div>
   );
 };`;
+};

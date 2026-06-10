@@ -3,7 +3,7 @@ title: Select
 description: A dropdown select container with opened/closed states and item panel
 ---
 
-<ComponentPreview name="select" />
+<UiComponentPreview name="select" />
 
 A state atom representing a complete select dropdown: a trigger button and a panel of selectable items. Its appearance (opened, closed) is a pure function of the `state` prop. Pass a state directly or drive it from the Remotion timeline via `useCurrentState`. The component reads no frame — only the state value you give it. The panel reveals below the trigger with opacity, scale, and vertical translation animations.
 
@@ -14,10 +14,6 @@ A state atom representing a complete select dropdown: a trigger button and a pan
 <Note>
 Installing `select` automatically installs the shared `remocn-ui` core (`lib/remocn-ui/`), the `button` primitive, and the `select-item` atom via `registryDependencies` (`["remocn-ui", "button", "select-item"]`). You do not need to install them separately. The trigger reuses the Button `outline` variant, and the panel renders a column of SelectItem rows.
 </Note>
-
-## Example
-
-<LiveExample name="select-example" />
 
 ## States
 

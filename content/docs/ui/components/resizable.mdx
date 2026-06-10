@@ -3,7 +3,7 @@ title: Resizable
 description: A two-panel split container whose divider ratio and handle state are driven by a scripted dual-channel timeline
 ---
 
-<ComponentPreview name="resizable" />
+<UiComponentPreview name="resizable" />
 
 A dual-channel value atom whose panel split ratio (`0`–`1`) and handle appearance (`idle`, `hover`, `press`) are a pure function of the props it receives. The component reads no frame. This is a **dual-channel** variant of the value-channel pattern: `useResizableTransition` drives a numeric ratio channel and a handle-state channel independently through one `ResizableStyle`, so cursor-synced drag scenes compose naturally — the same pattern as the Slider primitive.
 
@@ -14,10 +14,6 @@ A dual-channel value atom whose panel split ratio (`0`–`1`) and handle appeara
 <Note>
 Installing `resizable` automatically installs the shared `remocn-ui` core (`lib/remocn-ui/`) via `registryDependencies` (`["remocn-ui"]`). You do not need to install it separately. Both `resizable` (the renderer) and `use-resizable-transition` (the hook) are copied into your project.
 </Note>
-
-## Example
-
-<LiveExample name="resizable-example" />
 
 ## Ratio & handle
 

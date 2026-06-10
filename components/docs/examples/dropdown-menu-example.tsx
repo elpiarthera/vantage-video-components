@@ -6,7 +6,14 @@ import { useDropdownMenuItemTransition } from "@/registry/remocn-ui/dropdown-men
 import { useButtonTransition } from "@/registry/remocn-ui/button/use-button-transition";
 import { useCurrentState } from "@/lib/remocn-ui";
 
-export const DropdownMenuExampleScene = () => {
+export const dropdownMenuExampleControls = ["label", "mode"] as const;
+
+export interface DropdownMenuExampleProps {
+  label?: string;
+  mode?: "light" | "dark";
+}
+
+export const DropdownMenuExampleScene = (p: DropdownMenuExampleProps = {}) => {
   // The trigger: idle → hover → press, the press lands just before the menu
   // opens (the "click" that triggers it).
   const triggerStyle = useButtonTransition(
@@ -35,13 +42,26 @@ export const DropdownMenuExampleScene = () => {
   return (
     <DropdownMenu
       style={menu}
+      label={p.label ?? "Options"}
       triggerStyle={triggerStyle}
       itemStyles={[undefined, row, undefined, undefined]}
+      mode={p.mode ?? "light"}
     />
   );
 };
 
-export const dropdownMenuExampleCode = `import { DropdownMenu } from "@/components/remocn/dropdown-menu";
+export const dropdownMenuExampleCode = (
+  values: Record<string, unknown> = {},
+): string => {
+  const label = values.label as string | undefined;
+  const mode = values.mode as string | undefined;
+
+  const props: string[] = [];
+  if (label !== undefined && label !== "Options") props.push(`label="${label}"`);
+  if (mode !== undefined && mode !== "light") props.push(`mode="${mode}"`);
+  const extraProps = props.length ? `\n      ${props.join("\n      ")}` : "";
+
+  return `import { DropdownMenu } from "@/components/remocn/dropdown-menu";
 import { useDropdownMenuTransition } from "@/components/remocn/use-dropdown-menu-transition";
 import { useDropdownMenuItemTransition } from "@/components/remocn/use-dropdown-menu-item-transition";
 import { useButtonTransition } from "@/components/remocn/use-button-transition";
@@ -70,10 +90,11 @@ export const Scene = () => {
   const row = useDropdownMenuItemTransition([{ at: 0, state: rowState }]);
 
   return (
-    <DropdownMenu
+    <DropdownMenu${extraProps}
       style={menu}
       triggerStyle={triggerStyle}
       itemStyles={[undefined, row, undefined, undefined]}
     />
   );
 };`;
+};

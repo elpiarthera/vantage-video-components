@@ -3,7 +3,7 @@ title: Popover
 description: A floating card that appears beside an anchor with arbitrary content
 ---
 
-<ComponentPreview name="popover" />
+<UiComponentPreview name="popover" />
 
 A state atom whose appearance (`closed`, `opened`) is a pure function of the `state` prop. Pass a state directly or drive it from the Remotion timeline via `useCurrentState`. The component reads no frame — only the state value you give it. The card fades in at 0.97 scale, slides 6 px toward the anchor, and rests fully visible; `closed` reverses the motion. Placement is the caller's responsibility — the popover renders inline and the caller wraps it in an absolutely-positioned anchor div.
 
@@ -16,10 +16,6 @@ The hover-card pattern (a rich profile card that appears on hover) is this compo
 <Note>
 Installing `popover` automatically installs the shared `remocn-ui` core (`lib/remocn-ui/`) via `registryDependencies` (`["remocn-ui"]`). You do not need to install it separately. Both `popover` (the renderer) and `use-popover-transition` (the hook) are copied into your project.
 </Note>
-
-## Example
-
-<LiveExample name="popover-example" />
 
 ## States
 

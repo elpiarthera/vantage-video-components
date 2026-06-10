@@ -13,7 +13,13 @@ const TYPE_START = 20;
 const FPS = 30;
 const CPS = 4;
 
-export const CommandMenuExampleScene = () => {
+export const commandMenuExampleControls = ["mode"] as const;
+
+export interface CommandMenuExampleProps {
+  mode?: "light" | "dark";
+}
+
+export const CommandMenuExampleScene = (p: CommandMenuExampleProps = {}) => {
   const frame = useCurrentFrame();
 
   // Panel: closed → opened at frame 16, then closed again at frame 108.
@@ -45,12 +51,22 @@ export const CommandMenuExampleScene = () => {
         query={QUERY}
         revealCount={revealed}
         itemStyles={[itemStyle]}
+        mode={p.mode ?? "light"}
       />
     </div>
   );
 };
 
-export const commandMenuExampleCode = `import { useCurrentFrame } from "remotion";
+export const commandMenuExampleCode = (
+  values: Record<string, unknown> = {},
+): string => {
+  const mode = values.mode as string | undefined;
+
+  const props: string[] = [];
+  if (mode !== undefined && mode !== "light") props.push(`mode="${mode}"`);
+  const extraProps = props.length ? `\n        ${props.join("\n        ")}` : "";
+
+  return `import { useCurrentFrame } from "remotion";
 import { revealCount } from "@/lib/remocn-ui";
 import { CommandMenu } from "@/components/remocn/command-menu";
 import { useCommandMenuTransition } from "@/components/remocn/use-command-menu-transition";
@@ -88,7 +104,7 @@ export const Scene = () => {
 
   return (
     <div style={{ position: "relative", width: "100%", height: "100%" }}>
-      <CommandMenu
+      <CommandMenu${extraProps}
         style={panelStyle}
         query={QUERY}
         revealCount={revealed}
@@ -97,3 +113,4 @@ export const Scene = () => {
     </div>
   );
 };`;
+};
