@@ -83,11 +83,11 @@ export function Hero() {
               className="mb-5 h-7 gap-1.5 rounded-full px-3 text-xs"
               render={
                 <Link
-                  href="/stars"
+                  href="/docs/ui"
                   onClick={() =>
                     trackEvent("cta_clicked", {
-                      cta: "hero_stars_badge",
-                      destination: "/stars",
+                      cta: "hero_ui_badge",
+                      destination: "/docs/ui",
                     })
                   }
                 />
@@ -98,7 +98,7 @@ export function Hero() {
                 ·
               </span>
               <span className="text-muted-foreground">
-                Turn your repo&rsquo;s stars into a video
+                Introducing <span className="text-foreground">remocn/ui</span>
               </span>
               <ArrowRight className="size-3" aria-hidden="true" />
             </Badge>
