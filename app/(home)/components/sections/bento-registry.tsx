@@ -4,7 +4,7 @@ import { Player, type PlayerRef } from "@remotion/player";
 import { ArrowRight, Check, Copy } from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { SPRING_SOFT } from "@/config/site";
 import { useTrackEvent } from "@/lib/analytics";
@@ -13,6 +13,7 @@ import registry from "@/registry/__index__";
 import { SpotlightSurface } from "@/components/spotlight-surface";
 import { FadeUp } from "../fade-up";
 import { SectionHeading } from "../section-heading";
+import { useAutoplay } from "../use-autoplay";
 
 /** Copyable `npx shadcn add` pill shown in each card footer. */
 function InstallPill({ name }: { name: string }) {
@@ -80,27 +81,7 @@ function BentoCard({
   const entry = registry[name];
   const playerRef = useRef<PlayerRef>(null);
 
-  // Reliable autoplay — `<Player autoPlay>` mounts a tick before its imperative
-  // handle is ready (worse under Strict Mode's dev double-mount) and silently
-  // stalls; mount paused and drive play() via the ref on the next animation
-  // frame with a one-shot retry. Mirrors PreviewStage / use-player-controls.ts.
-  useEffect(() => {
-    if (!entry) return;
-    let raf1 = 0;
-    let raf2 = 0;
-    raf1 = requestAnimationFrame(() => {
-      playerRef.current?.play();
-      raf2 = requestAnimationFrame(() => {
-        if (playerRef.current && !playerRef.current.isPlaying()) {
-          playerRef.current.play();
-        }
-      });
-    });
-    return () => {
-      if (raf1) cancelAnimationFrame(raf1);
-      if (raf2) cancelAnimationFrame(raf2);
-    };
-  }, [entry]);
+  useAutoplay(playerRef, Boolean(entry));
 
   return (
     <motion.div
@@ -143,6 +124,7 @@ function BentoCard({
             compositionHeight={entry.config.compositionHeight}
             style={{ width: "100%", height: "100%" }}
             loop
+            initiallyMuted
             acknowledgeRemotionLicense
           />
         ) : null}

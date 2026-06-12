@@ -6,7 +6,6 @@ import {
   type KeyboardEvent,
   type PointerEvent,
   useCallback,
-  useEffect,
   useMemo,
   useRef,
   useState,
@@ -18,6 +17,7 @@ import registry from "@/registry/__index__";
 import { FadeUp } from "../fade-up";
 import { SectionHeading } from "../section-heading";
 import { SYNTAX_DARK, TypewriterCodeBlock } from "../typewriter-code-block";
+import { useAutoplay } from "../use-autoplay";
 
 const COMPONENT = "typewriter";
 
@@ -256,27 +256,7 @@ export function InteractiveCode() {
   const entry = registry[COMPONENT];
   const playerRef = useRef<PlayerRef>(null);
 
-  // Reliable autoplay — `<Player autoPlay>` mounts a tick before its imperative
-  // handle is ready (worse under Strict Mode's dev double-mount) and silently
-  // stalls; mount paused and drive play() via the ref on the next animation
-  // frame with a one-shot retry. Mirrors PreviewStage / use-player-controls.ts.
-  useEffect(() => {
-    if (!entry) return;
-    let raf1 = 0;
-    let raf2 = 0;
-    raf1 = requestAnimationFrame(() => {
-      playerRef.current?.play();
-      raf2 = requestAnimationFrame(() => {
-        if (playerRef.current && !playerRef.current.isPlaying()) {
-          playerRef.current.play();
-        }
-      });
-    });
-    return () => {
-      if (raf1) cancelAnimationFrame(raf1);
-      if (raf2) cancelAnimationFrame(raf2);
-    };
-  }, [entry]);
+  useAutoplay(playerRef, Boolean(entry));
 
   const [text, setText] = useState(TYPEWRITER_DEFAULTS.text);
   const [fontSize, setFontSize] = useState(TYPEWRITER_DEFAULTS.fontSize);
@@ -390,6 +370,7 @@ export function InteractiveCode() {
                     compositionHeight={entry.config.compositionHeight}
                     style={{ width: "100%", height: "100%", display: "block" }}
                     loop
+                    initiallyMuted
                     acknowledgeRemotionLicense
                   />
                 ) : null}

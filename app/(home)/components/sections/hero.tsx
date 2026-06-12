@@ -4,7 +4,7 @@ import { Player, type PlayerRef } from "@remotion/player";
 import { ArrowRight, Pause, Play } from "lucide-react";
 import { motion } from "motion/react";
 import Link from "next/link";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { INSTALL_COMMAND, SPRING_BOUNCE } from "@/config/site";
@@ -13,6 +13,7 @@ import { HERO_CODE } from "@/lib/config/snippets";
 import registry from "@/registry/__index__";
 import { FadeUp } from "../fade-up";
 import { InstallCommand } from "../install-command";
+import { useAutoplay } from "../use-autoplay";
 
 export function Hero() {
   const heroEntry = registry["glass-code-block"];
@@ -41,27 +42,7 @@ export function Hero() {
     }
   }, [trackEvent]);
 
-  // Reliable autoplay — `<Player autoPlay>` mounts a tick before its imperative
-  // handle is ready (worse under Strict Mode's dev double-mount) and silently
-  // stalls (Pause UI, frozen frame). Mount paused and drive play() via the ref
-  // on the next animation frame with a one-shot retry. Mirrors PreviewStage /
-  // stars/hooks/use-player-controls.ts.
-  useEffect(() => {
-    let raf1 = 0;
-    let raf2 = 0;
-    raf1 = requestAnimationFrame(() => {
-      playerRef.current?.play();
-      raf2 = requestAnimationFrame(() => {
-        if (playerRef.current && !playerRef.current.isPlaying()) {
-          playerRef.current.play();
-        }
-      });
-    });
-    return () => {
-      if (raf1) cancelAnimationFrame(raf1);
-      if (raf2) cancelAnimationFrame(raf2);
-    };
-  }, []);
+  useAutoplay(playerRef);
 
   const aspectRatio = heroEntry
     ? `${heroEntry.config.compositionWidth} / ${heroEntry.config.compositionHeight}`
@@ -174,6 +155,7 @@ export function Hero() {
                   compositionHeight={heroEntry.config.compositionHeight}
                   style={{ width: "100%", height: "100%", display: "block" }}
                   loop
+                  initiallyMuted
                   acknowledgeRemotionLicense
                 />
               ) : null}
