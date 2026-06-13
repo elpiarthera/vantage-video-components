@@ -4,6 +4,7 @@ import {
   type GitHubStarsProps,
   SAMPLE_STARGAZERS,
 } from "@/registry/remocn/github-stars";
+import { CinematicCutSampleRoot } from "../../examples/cinematic-cut-sample";
 
 /**
  * Sample props so the composition validates + renders standalone in the Remotion
@@ -20,22 +21,24 @@ const DEFAULT_PROPS: GitHubStarsProps = {
 };
 
 /**
- * Bundle root. Declares the single `github-stars` composition at full native
- * horizontal quality (1280×720 / 30fps / 300 frames). The server overrides
- * width/height per orientation at render time (see lib/server/render.ts) — one
- * composition, no duplicate vertical entry.
+ * Bundle root. Declares:
+ * - `github-stars` — original demo composition
+ * - `CinematicCutSample` — Phase B pilot: cinematic-cut transition demo
  */
 export function RemotionRoot() {
   return (
-    <Composition
-      id="github-stars"
-      component={GitHubStars}
-      durationInFrames={300}
-      fps={30}
-      width={1280}
-      height={720}
-      defaultProps={DEFAULT_PROPS}
-    />
+    <>
+      <Composition
+        id="github-stars"
+        component={GitHubStars}
+        durationInFrames={300}
+        fps={30}
+        width={1280}
+        height={720}
+        defaultProps={DEFAULT_PROPS}
+      />
+      <CinematicCutSampleRoot />
+    </>
   );
 }
 

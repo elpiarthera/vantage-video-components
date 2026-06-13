@@ -1,0 +1,13 @@
+{
+  "name": "cinematic-cut",
+  "type": "registry:component",
+  "description": "Cinematic hard-cut transition for Remotion with literary or snappy easing and a one-frame accent burst.",
+  "dependencies": ["remotion"],
+  "files": [
+    {
+      "path": "src/registry/components/transitions/cinematic-cut/cinematic-cut.tsx",
+      "type": "registry:component",
+      "target": "remotion/transitions/cinematic-cut.tsx"
+    }
+  ]
+}
