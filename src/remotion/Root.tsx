@@ -5,10 +5,15 @@ import {
   SAMPLE_STARGAZERS,
 } from "@/registry/remocn/github-stars";
 import { CinematicCutSampleRoot } from "../../examples/cinematic-cut-sample";
-import { FadeBlurSampleRoot } from "../../examples/fade-blur-sample";
-import { SlideRevealSampleRoot } from "../../examples/slide-reveal-sample";
-import { ZoomPulseSampleRoot } from "../../examples/zoom-pulse-sample";
 import { ColorShiftSampleRoot } from "../../examples/color-shift-sample";
+import { FadeBlurSampleRoot } from "../../examples/fade-blur-sample";
+import { InlineHighlightSampleRoot } from "../../examples/inline-highlight-sample";
+import { MarkerHighlightSampleRoot } from "../../examples/marker-highlight-sample";
+import { ShimmerSweepSampleRoot } from "../../examples/shimmer-sweep-sample";
+import { SlideRevealSampleRoot } from "../../examples/slide-reveal-sample";
+import { StaggeredFadeUpSampleRoot } from "../../examples/staggered-fade-up-sample";
+import { TypewriterSampleRoot } from "../../examples/typewriter-sample";
+import { ZoomPulseSampleRoot } from "../../examples/zoom-pulse-sample";
 
 /**
  * Sample props so the composition validates + renders standalone in the Remotion
@@ -46,6 +51,11 @@ export function RemotionRoot() {
       <SlideRevealSampleRoot />
       <ZoomPulseSampleRoot />
       <ColorShiftSampleRoot />
+      <TypewriterSampleRoot />
+      <InlineHighlightSampleRoot />
+      <StaggeredFadeUpSampleRoot />
+      <ShimmerSweepSampleRoot />
+      <MarkerHighlightSampleRoot />
     </>
   );
 }

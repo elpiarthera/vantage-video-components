@@ -1,0 +1,68 @@
+---
+title: Shimmer Sweep
+description: A luminous amber sweep travels across text, simulating a specular highlight on metallic type. Snappy easing default, BRAND.md aligned.
+---
+
+## Description
+
+`ShimmerSweep` renders two overlapping text spans: a base layer in `baseColor` and a gradient-clipped overlay whose `backgroundPosition` sweeps from right to left across the text over `sweepFrames`. The result simulates a specular highlight passing across metallic type — a single amber flash that reads as premium.
+
+The sweep uses `snappy` easing by default (`cubic-bezier(0.4, 0, 0.2, 1)`) because the specular motion reads as UI-chrome rather than narrative content. Only the `transform` and `backgroundPosition` properties are animated — never `width`, `height`, or layout properties.
+
+BRAND.md compliance: `baseColor` defaults to `--vantage-muted` (`#9ca3af`), `sweepColor` to `--vantage-accent` (`#f59e0b`). `oklch()` color values are resolved to sRGB fallbacks at runtime.
+
+Composed with Remotion primitives — `AbsoluteFill`, `useCurrentFrame`, `interpolate` — not the `@remotion/transitions` TransitionSeries API.
+
+## Preview
+
+<video src="/previews/shimmer-sweep.mp4" autoPlay loop muted playsInline width="540" height="960" />
+
+## Installation
+
+```bash
+npx shadcn add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/shimmer-sweep.json
+```
+
+## Usage
+
+```tsx
+import { AbsoluteFill, Composition } from 'remotion'
+import { ShimmerSweep } from '@/remotion/text-effects/shimmer-sweep'
+
+function ShimmerScene() {
+  return (
+    <AbsoluteFill style={{ background: '#0a0a0a' }}>
+      <ShimmerSweep
+        text="Vantage"
+        baseColor="#9ca3af"
+        sweepColor="#f59e0b"
+        sweepFrames={45}
+        easing="snappy"
+      />
+    </AbsoluteFill>
+  )
+}
+
+export function MyComposition() {
+  return (
+    <Composition
+      id="ShimmerSweepDemo"
+      component={ShimmerScene}
+      durationInFrames={60}
+      fps={30}
+      width={540}
+      height={960}
+    />
+  )
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `text` | `string` | — | The text to apply the shimmer effect to. |
+| `baseColor` | `string` | `"oklch(0.62 0.01 80)"` | Static base text color (resolved to `#9ca3af`). |
+| `sweepColor` | `string` | `"#f59e0b"` | Color of the sweeping highlight. BRAND.md amber accent. |
+| `sweepFrames` | `number` (20–90) | `45` | Number of frames over which the sweep travels from right to left. |
+| `easing` | `"literary" \| "snappy"` | `"snappy"` | Easing curve. `snappy` is default for chrome-like specular motion. |

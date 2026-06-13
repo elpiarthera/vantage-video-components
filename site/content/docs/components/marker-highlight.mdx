@@ -1,0 +1,70 @@
+---
+title: Marker Highlight
+description: Draws a semi-transparent amber marker highlight band over a word, left-to-right, with text color reversal. Literary easing default, BRAND.md aligned.
+---
+
+## Description
+
+`MarkerHighlight` expands a semi-transparent highlight band across a target word as if drawn by a felt-tip marker. The band scales horizontally from left to right using `scaleX` (a transform-only animation, per BRAND.md motion doctrine). As the marker covers the word, the text color shifts to `textShiftColor` — defaulting to `--vantage-bg` (`#0a0a0a`) for a dark-on-amber reversal.
+
+The marker color defaults to `oklch(0.74 0.16 60 / 0.35)` — the BRAND.md amber accent at 35% opacity, preserving legibility while maintaining the single-accent-per-scene doctrine. The `aria-hidden="true"` attribute is applied to the decorative marker span so screen readers receive only the plain text.
+
+Composed with Remotion primitives — `AbsoluteFill`, `useCurrentFrame`, `interpolate`, `interpolateColors` — not the `@remotion/transitions` TransitionSeries API.
+
+## Preview
+
+<video src="/previews/marker-highlight.mp4" autoPlay loop muted playsInline width="540" height="960" />
+
+## Installation
+
+```bash
+npx shadcn add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/marker-highlight.json
+```
+
+## Usage
+
+```tsx
+import { AbsoluteFill, Composition } from 'remotion'
+import { MarkerHighlight } from '@/remotion/text-effects/marker-highlight'
+
+function MarkerScene() {
+  return (
+    <AbsoluteFill style={{ background: '#0a0a0a' }}>
+      <MarkerHighlight
+        text="The future is written."
+        highlightWord="future"
+        markerColor="rgba(245,158,11,0.35)"
+        textShiftColor="#0a0a0a"
+        drawFrames={18}
+        easing="literary"
+        startFrame={0}
+      />
+    </AbsoluteFill>
+  )
+}
+
+export function MyComposition() {
+  return (
+    <Composition
+      id="MarkerHighlightDemo"
+      component={MarkerScene}
+      durationInFrames={60}
+      fps={30}
+      width={540}
+      height={960}
+    />
+  )
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `text` | `string` | — | The full sentence text. |
+| `highlightWord` | `string` | — | The word to highlight. First occurrence in `text` is used. |
+| `markerColor` | `string` | `"oklch(0.74 0.16 60 / 0.35)"` | Marker fill color. Amber accent at 35% opacity per BRAND.md Rule 1. |
+| `textShiftColor` | `string` | `"#0a0a0a"` | Color the highlighted word's text shifts to as the marker draws. |
+| `drawFrames` | `number` (8–40) | `18` | Number of frames for the marker to fully draw across the word. |
+| `easing` | `"literary" \| "snappy"` | `"literary"` | Easing curve for the marker draw animation. |
+| `startFrame` | `number` | `0` | Frame at which the marker draw begins. |

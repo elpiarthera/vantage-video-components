@@ -22,10 +22,40 @@
       "url": "https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/fade-blur.json"
     },
     {
+      "name": "inline-highlight",
+      "type": "registry:component",
+      "description": "Animates a single word's color within a sentence from neutral to warm amber accent. Literary or snappy easing, BRAND.md aligned.",
+      "url": "https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/inline-highlight.json"
+    },
+    {
+      "name": "marker-highlight",
+      "type": "registry:component",
+      "description": "Draws a semi-transparent marker highlight band over a word, left-to-right, with text color reversal. Literary easing default, BRAND.md amber accent aligned.",
+      "url": "https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/marker-highlight.json"
+    },
+    {
+      "name": "shimmer-sweep",
+      "type": "registry:component",
+      "description": "A luminous amber sweep travels across text simulating a specular highlight on metallic type. Snappy easing default, BRAND.md aligned.",
+      "url": "https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/shimmer-sweep.json"
+    },
+    {
       "name": "slide-reveal",
       "type": "registry:component",
       "description": "Remotion-primitive-based slide transition. Translates child from off-screen at distance×100% to 0 along chosen axis (left/right/up/down). Combined with opacity fade per BRAND.md. Uses AbsoluteFill + useCurrentFrame + interpolate.",
       "url": "https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/slide-reveal.json"
+    },
+    {
+      "name": "staggered-fade-up",
+      "type": "registry:component",
+      "description": "Reveals words sequentially, each fading in while rising from below. Stagger delay and rise distance are configurable. Literary or snappy easing, BRAND.md aligned.",
+      "url": "https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/staggered-fade-up.json"
+    },
+    {
+      "name": "typewriter",
+      "type": "registry:component",
+      "description": "Character-by-character text reveal with blinking cursor. Brand-aligned to BRAND.md OKLCH palette and Cormorant/Georgia typography.",
+      "url": "https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/typewriter.json"
     },
     {
       "name": "zoom-pulse",
