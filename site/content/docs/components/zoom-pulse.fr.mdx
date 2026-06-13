@@ -1,6 +1,72 @@
 ---
-title: zoom-pulse
-description: Animation Ken Burns lente (1.0x → 1.04x) ajoutant de la vie aux arrière-plans d'images statiques.
+title: Zoom Pulse
+description: Transition d'impulsion de mise à l'échelle basée sur les primitives Remotion. Interpolation de scale fluide de scaleFrom à scaleTo avec un dépassement naturel. Easing literary ou snappy depuis BRAND.md.
 ---
 
-{/* T6 remplira cette page avec : aperçu MP4, commande d'installation, code d'utilisation et tableau de props à 4 colonnes. */}
+## Description
+
+`ZoomPulse` anime son enfant avec une interpolation de scale contrôlée incluant un dépassement naturel à 60% de la durée de l'impulsion avant de se stabiliser à `scaleTo`. Ce pattern à trois keyframes — `scaleFrom` → pic de dépassement → `scaleTo` — crée l'effet organique de "respiration" décrit dans la doctrine de zoom BRAND.md, évitant le claquement artificiel d'un scale linéaire ou l'excès d'un spring.
+
+La plage par défaut (`scaleFrom: 0.92`, `scaleTo: 1.06`) respecte la contrainte BRAND.md de ±8% autour de 1.0, ce qui la rend adaptée aux effets Ken Burns sur les arrière-plans d'images. Ne jamais appliquer `ZoomPulse` aux superpositions de texte (rendu comme un logiciel de présentation). Utiliser l'easing `literary` pour les révélations dramatiques ; `snappy` uniquement pour les éléments de chrome UI où l'immédiateté importe.
+
+## Aperçu
+
+<video src="/previews/zoom-pulse.mp4" autoPlay loop muted playsInline width="540" height="960" />
+
+## Installation
+
+```bash
+npx shadcn add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/zoom-pulse.json
+```
+
+## Utilisation
+
+```tsx
+import { AbsoluteFill, Composition, Img, staticFile } from 'remotion'
+import { ZoomPulse } from '@/remotion/transitions/zoom-pulse'
+
+function ScèneArrièrePlan() {
+  return (
+    <AbsoluteFill>
+      <ZoomPulse
+        scaleFrom={0.92}
+        scaleTo={1.06}
+        pulseFrames={30}
+        easing="literary"
+        startFrame={0}
+      >
+        <AbsoluteFill>
+          <Img
+            src={staticFile('backdrop.jpg')}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+        </AbsoluteFill>
+      </ZoomPulse>
+    </AbsoluteFill>
+  )
+}
+
+export function MaComposition() {
+  return (
+    <Composition
+      id="ZoomPulseDemo"
+      component={ScèneArrièrePlan}
+      durationInFrames={60}
+      fps={30}
+      width={1080}
+      height={1920}
+    />
+  )
+}
+```
+
+## Propriétés
+
+| Prop | Type | Défaut | Description |
+|------|------|--------|-------------|
+| `scaleFrom` | `number` (0.5–2) | `0.92` | Scale initial au début de l'impulsion. |
+| `scaleTo` | `number` (0.5–2) | `1.06` | Scale final à la fin de l'impulsion. |
+| `pulseFrames` | `number` (8–60) | `30` | Nombre total de frames pour l'impulsion de scale, dépassement inclus. |
+| `easing` | `"literary" \| "snappy"` | `"literary"` | Courbe d'easing appliquée aux trois keyframes de l'interpolation de scale. |
+| `children` | `ReactNode` | Contenu démo | Contenu à mettre à l'échelle — typiquement un arrière-plan image, jamais du texte. |
+| `startFrame` | `number` | `0` | Frame à laquelle l'impulsion démarre, relative au début de la composition. |

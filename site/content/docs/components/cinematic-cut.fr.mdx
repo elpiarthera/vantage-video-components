@@ -1,6 +1,68 @@
 ---
-title: cinematic-cut
-description: Coupe franche instantanée avec flash de fuite de lumière ambrée optionnel au point de transition.
+title: Cinematic Cut
+description: Transition coupe franche cinématographique pour Remotion avec easing literary ou snappy et un flash d'accent d'une frame.
 ---
 
-{/* T6 remplira cette page avec : aperçu MP4, commande d'installation, code d'utilisation et tableau de props à 4 colonnes. */}
+## Description
+
+`CinematicCut` produit un changement de scène instantané entre deux couches Remotion, ponctué d'un flash d'accent ambré de 1 à 2 frames au point de coupe. La scène sortante subit une légère compression proxy simulant le flou de mouvement — via `scaleX`/`scaleY` — sur une courte fenêtre pré-coupe, donnant à la coupe franche un poids photochimique sans aucun fondu enchaîné. À utiliser pour les changements de scènes narratifs où la clarté temporelle est essentielle : la coupe est précise, le drama vit dans la fuite de lumière.
+
+Deux modes d'easing sont disponibles : `literary` (`cubic-bezier(0.25, 0.46, 0.45, 0.94)`) pour des transitions contemplatives et pesantes, et `snappy` (`cubic-bezier(0.4, 0, 0.2, 1)`) pour des coupes de chrome UI plus vives. Le flash d'accent respecte le token de couleur OKLCH `oklch(0.74 0.16 60)` avec un fallback hex sRGB pour le renderer Remotion.
+
+## Aperçu
+
+<video src="/previews/cinematic-cut.mp4" autoPlay loop muted playsInline width="540" height="960" />
+
+## Installation
+
+```bash
+npx shadcn add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/cinematic-cut.json
+```
+
+## Utilisation
+
+```tsx
+import { AbsoluteFill, Composition } from 'remotion'
+import { CinematicCut } from '@/remotion/transitions/cinematic-cut'
+
+function ScèneCoupe() {
+  return (
+    <AbsoluteFill>
+      <CinematicCut
+        direction="horizontal"
+        duration={20}
+        accentColor="oklch(0.74 0.16 60)"
+        easing="literary"
+        transitionStart={45}
+        from={<AbsoluteFill style={{ background: '#0a0a0a' }} />}
+        to={<AbsoluteFill style={{ background: '#141414' }} />}
+      />
+    </AbsoluteFill>
+  )
+}
+
+export function MaComposition() {
+  return (
+    <Composition
+      id="MaCoupe"
+      component={ScèneCoupe}
+      durationInFrames={90}
+      fps={30}
+      width={1080}
+      height={1920}
+    />
+  )
+}
+```
+
+## Propriétés
+
+| Prop | Type | Défaut | Description |
+|------|------|--------|-------------|
+| `direction` | `"horizontal" \| "vertical" \| "diagonal"` | `"horizontal"` | Axe de compression de la scène sortante avant la coupe. |
+| `duration` | `number` (8–60) | `20` | Fenêtre en frames pour la compression proxy du flou de mouvement. |
+| `accentColor` | `string` | `"oklch(0.74 0.16 60)"` | Couleur du flash d'accent de 1-2 frames. Les valeurs OKLCH sont converties en sRGB en interne. |
+| `easing` | `"literary" \| "snappy"` | `"literary"` | Courbe d'easing pour l'animation proxy du flou de mouvement. |
+| `from` | `ReactNode` | Panneau démo | La scène sortante rendue avant `transitionStart`. |
+| `to` | `ReactNode` | Panneau démo | La scène entrante rendue à partir de `transitionStart`. |
+| `transitionStart` | `number` | point médian | Frame à laquelle la coupe se déclenche. Par défaut `Math.floor(durationInFrames * 0.5)`. |

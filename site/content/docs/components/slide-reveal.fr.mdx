@@ -1,6 +1,71 @@
 ---
-title: slide-reveal
-description: Entrée en glissement sur l'axe Y combinée avec un fondu d'opacité. Support ligne par ligne séquentiel.
+title: Slide Reveal
+description: Transition de glissement basée sur les primitives Remotion. Déplace l'enfant depuis hors-champ à distance×100% jusqu'à 0 le long de l'axe choisi (gauche/droite/haut/bas). Easing literary ou snappy depuis BRAND.md.
 ---
 
-{/* T6 remplira cette page avec : aperçu MP4, commande d'installation, code d'utilisation et tableau de props à 4 colonnes. */}
+## Description
+
+`SlideReveal` déplace son enfant depuis une position hors-champ — jusqu'à `distance × 100%` le long de l'axe choisi — vers sa position finale, en couplant le mouvement à un fondu d'opacité simultané sur la première moitié de la durée de transition. Cette entrée combinée glissement + fondu est la technique Vantage canonique pour les éléments de contenu : texte d'accompagnement, encarts de données et couches de légendes.
+
+Conformément à la doctrine de glissement BRAND.md, `SlideReveal` est réservé aux éléments de contenu et ne doit jamais être appliqué aux arrière-plans plein cadre ni aux titres Cormorant Display H1. À combiner avec `FadeBlur` pour une entrée raffinée à deux couches. La direction prend en charge les quatre axes : `left` (le contenu entre depuis la gauche), `right`, `up` et `down`. La prop `distance` contrôle l'éloignement de la position de départ hors-champ, de `0` (aucun mouvement) à `1` (décalage plein viewport).
+
+## Aperçu
+
+<video src="/previews/slide-reveal.mp4" autoPlay loop muted playsInline width="540" height="960" />
+
+## Installation
+
+```bash
+npx shadcn add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/slide-reveal.json
+```
+
+## Utilisation
+
+```tsx
+import { AbsoluteFill, Composition, Sequence } from 'remotion'
+import { SlideReveal } from '@/remotion/transitions/slide-reveal'
+
+function ScèneContenu() {
+  return (
+    <AbsoluteFill style={{ background: '#0a0a0a' }}>
+      <Sequence from={10}>
+        <SlideReveal
+          direction="left"
+          durationFrames={24}
+          distance={1}
+          easing="literary"
+          startFrame={0}
+        >
+          <AbsoluteFill style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <p style={{ color: '#e8e0d0', fontSize: 24 }}>Le texte d'accompagnement entre ici</p>
+          </AbsoluteFill>
+        </SlideReveal>
+      </Sequence>
+    </AbsoluteFill>
+  )
+}
+
+export function MaComposition() {
+  return (
+    <Composition
+      id="SlideRevealDemo"
+      component={ScèneContenu}
+      durationInFrames={60}
+      fps={30}
+      width={1080}
+      height={1920}
+    />
+  )
+}
+```
+
+## Propriétés
+
+| Prop | Type | Défaut | Description |
+|------|------|--------|-------------|
+| `direction` | `"left" \| "right" \| "up" \| "down"` | `"left"` | L'axe et la direction depuis lesquels le contenu entre dans le cadre. |
+| `durationFrames` | `number` (8–60) | `24` | Nombre de frames pour la transition complète glissement+fondu. |
+| `distance` | `number` (0–1) | `1` | Fraction de la dimension du viewport utilisée comme décalage de départ hors-champ. `1` = décalage pleine largeur/hauteur. |
+| `easing` | `"literary" \| "snappy"` | `"literary"` | Courbe d'easing pour l'animation de translation. Le fondu d'opacité utilise la même courbe sur les 50% premiers de la durée. |
+| `children` | `ReactNode` | Contenu démo | Contenu à faire glisser dans la vue. |
+| `startFrame` | `number` | `0` | Frame à laquelle le glissement démarre, relative au début de la composition. |

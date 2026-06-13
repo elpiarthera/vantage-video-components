@@ -1,6 +1,68 @@
 ---
-title: cinematic-cut
-description: Instantaneous hard cut with optional amber light-leak flash at the transition point.
+title: Cinematic Cut
+description: Cinematic hard-cut transition for Remotion with literary or snappy easing and a one-frame accent burst.
 ---
 
-{/* T6 will populate this page with: preview MP4, install command, usage code, and 4-column props table. */}
+## Description
+
+`CinematicCut` delivers an instantaneous scene change between two Remotion layers, punctuated by a 1-2 frame amber accent burst at the cut frame. The outgoing scene undergoes a subtle motion-blur proxy — a `scaleX`/`scaleY` compression over a short pre-cut window — giving the hard cut a photochemical weight without any dissolve. Use it for narrative scene changes where temporal clarity matters: the cut is precise, the drama lives in the light-leak.
+
+Two easing modes are available: `literary` (`cubic-bezier(0.25, 0.46, 0.45, 0.94)`) for contemplative, weighty transitions, and `snappy` (`cubic-bezier(0.4, 0, 0.2, 1)`) for brisker UI-chrome cuts. The accent flash respects the OKLCH brand token `oklch(0.74 0.16 60)` with an sRGB hex fallback for Remotion's renderer.
+
+## Preview
+
+<video src="/previews/cinematic-cut.mp4" autoPlay loop muted playsInline width="540" height="960" />
+
+## Installation
+
+```bash
+npx shadcn add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/cinematic-cut.json
+```
+
+## Usage
+
+```tsx
+import { AbsoluteFill, Composition } from 'remotion'
+import { CinematicCut } from '@/remotion/transitions/cinematic-cut'
+
+function CutScene() {
+  return (
+    <AbsoluteFill>
+      <CinematicCut
+        direction="horizontal"
+        duration={20}
+        accentColor="oklch(0.74 0.16 60)"
+        easing="literary"
+        transitionStart={45}
+        from={<AbsoluteFill style={{ background: '#0a0a0a' }} />}
+        to={<AbsoluteFill style={{ background: '#141414' }} />}
+      />
+    </AbsoluteFill>
+  )
+}
+
+export function MyComposition() {
+  return (
+    <Composition
+      id="MyCut"
+      component={CutScene}
+      durationInFrames={90}
+      fps={30}
+      width={1080}
+      height={1920}
+    />
+  )
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `direction` | `"horizontal" \| "vertical" \| "diagonal"` | `"horizontal"` | Axis along which the outgoing scene compresses before the cut. |
+| `duration` | `number` (8–60) | `20` | Frame window for the motion-blur compression pre-cut. |
+| `accentColor` | `string` | `"oklch(0.74 0.16 60)"` | Color of the 1-2 frame accent flash. OKLCH values are converted to sRGB internally. |
+| `easing` | `"literary" \| "snappy"` | `"literary"` | Easing curve for the motion-blur proxy animation. |
+| `from` | `ReactNode` | Demo panel | The outgoing scene rendered before `transitionStart`. |
+| `to` | `ReactNode` | Demo panel | The incoming scene rendered at and after `transitionStart`. |
+| `transitionStart` | `number` | midpoint | Frame at which the cut fires. Defaults to `Math.floor(durationInFrames * 0.5)`. |

@@ -1,6 +1,69 @@
 ---
-title: color-shift
-description: Superposition de voile ambre chaud qui modifie l'ambiance de la scène sans changer le contenu.
+title: Color Shift
+description: Transition d'interpolation de couleur de fond basée sur les primitives Remotion. Utilise interpolateColors pour une fluidité perceptuelle entre deux tokens de couleur OKLCH BRAND.md. Easing literary ou snappy.
 ---
 
-{/* T6 remplira cette page avec : aperçu MP4, commande d'installation, code d'utilisation et tableau de props à 4 colonnes. */}
+## Description
+
+`ColorShift` interpole la couleur de fond d'un `AbsoluteFill` entre `fromColor` et `toColor` en utilisant la fonction `interpolateColors` de Remotion, qui produit des transitions perceptuellement fluides entre deux couleurs encodées en hex. La palette par défaut correspond directement aux tokens BRAND.md : `#0a0a0a` (`--vantage-bg`, `oklch(0.16 0 0)`) vers `#f59e0b` (`--vantage-accent`, `oklch(0.74 0.16 60)`).
+
+Utiliser `ColorShift` pour les transitions d'ambiance de scène dans un arrière-plan continu — il accompagne un contenu qui change, il ne le remplace pas. Appliquer au maximum une superposition de décalage de couleur par scène. Combinées aux fuites de lumière sur un reel complet, la doctrine BRAND.md limite les décalages de couleur + fuites de lumière à 2-3 par composition. `fromColor` et `toColor` acceptent tous les deux n'importe quelle chaîne hex ; les valeurs OKLCH doivent être pré-résolues en hex sRGB avant d'être passées en props.
+
+## Aperçu
+
+<video src="/previews/color-shift.mp4" autoPlay loop muted playsInline width="540" height="960" />
+
+## Installation
+
+```bash
+npx shadcn add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/color-shift.json
+```
+
+## Utilisation
+
+```tsx
+import { AbsoluteFill, Composition, Sequence } from 'remotion'
+import { ColorShift } from '@/remotion/transitions/color-shift'
+
+function ScèneAmbiance() {
+  return (
+    <AbsoluteFill>
+      <ColorShift
+        fromColor="#0a0a0a"
+        toColor="#f59e0b"
+        durationFrames={30}
+        easing="literary"
+        startFrame={0}
+      >
+        <AbsoluteFill style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <p style={{ color: '#e8e0d0', fontSize: 24 }}>Contenu superposé au-dessus du décalage de couleur</p>
+        </AbsoluteFill>
+      </ColorShift>
+    </AbsoluteFill>
+  )
+}
+
+export function MaComposition() {
+  return (
+    <Composition
+      id="ColorShiftDemo"
+      component={ScèneAmbiance}
+      durationInFrames={60}
+      fps={30}
+      width={1080}
+      height={1920}
+    />
+  )
+}
+```
+
+## Propriétés
+
+| Prop | Type | Défaut | Description |
+|------|------|--------|-------------|
+| `fromColor` | `string` (hex) | `"#0a0a0a"` | Couleur de fond de départ. Doit être une chaîne hex (OKLCH doit être pré-résolu). |
+| `toColor` | `string` (hex) | `"#f59e0b"` | Couleur de fond d'arrivée. Doit être une chaîne hex. |
+| `durationFrames` | `number` (8–60) | `30` | Nombre de frames sur lesquelles la transition de couleur se joue. |
+| `easing` | `"literary" \| "snappy"` | `"literary"` | Courbe d'easing appliquée à la valeur de progression avant l'interpolation de couleur. |
+| `children` | `ReactNode` | Contenu démo | Contenu optionnel à rendre au-dessus du fond qui change. |
+| `startFrame` | `number` | `0` | Frame à laquelle la transition de couleur démarre, relative au début de la composition. |

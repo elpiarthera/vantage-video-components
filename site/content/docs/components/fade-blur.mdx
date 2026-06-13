@@ -1,6 +1,71 @@
 ---
-title: fade-blur
-description: Opacity + CSS blur composite reveal using the literary-ease curve. Ideal for body text entrances.
+title: Fade Blur
+description: Remotion-primitive-based fade + blur transition. Opacity 0→1 with blur blurMax→0 (or reverse for fade-out). Literary or snappy easing from BRAND.md motion vocabulary.
 ---
 
-{/* T6 will populate this page with: preview MP4, install command, usage code, and 4-column props table. */}
+## Description
+
+`FadeBlur` composes opacity and CSS `blur()` into a single editorial reveal. On fade-in, opacity climbs from 0 to 1 while blur dissolves from `blurMax` to 0 — the content crystallises from a soft haze into sharp focus. On fade-out, the motion reverses. This dual-dimension entrance is the canonical Vantage technique for body text and subtitle layers: it avoids the flatness of a bare opacity fade while remaining lighter than a full slide.
+
+Both easing curves are sourced from the BRAND.md motion vocabulary: `literary` (`cubic-bezier(0.25, 0.46, 0.45, 0.94)`) for narrative content entrances, `snappy` (`cubic-bezier(0.4, 0, 0.2, 1)`) for UI-chrome transitions. Composed with Remotion primitives — `AbsoluteFill`, `useCurrentFrame`, `interpolate` — not the `@remotion/transitions` TransitionSeries API.
+
+## Preview
+
+<video src="/previews/fade-blur.mp4" autoPlay loop muted playsInline width="540" height="960" />
+
+## Installation
+
+```bash
+npx shadcn add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/fade-blur.json
+```
+
+## Usage
+
+```tsx
+import { AbsoluteFill, Composition, Sequence } from 'remotion'
+import { FadeBlur } from '@/remotion/transitions/fade-blur'
+
+function ContentScene() {
+  return (
+    <AbsoluteFill style={{ background: '#0a0a0a' }}>
+      <Sequence from={0}>
+        <FadeBlur
+          direction="in"
+          durationFrames={20}
+          blurMax={12}
+          easing="literary"
+          startFrame={0}
+        >
+          <AbsoluteFill style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <h1 style={{ color: '#e5e7eb', fontSize: 56 }}>Your Content</h1>
+          </AbsoluteFill>
+        </FadeBlur>
+      </Sequence>
+    </AbsoluteFill>
+  )
+}
+
+export function MyComposition() {
+  return (
+    <Composition
+      id="FadeBlurDemo"
+      component={ContentScene}
+      durationInFrames={60}
+      fps={30}
+      width={1080}
+      height={1920}
+    />
+  )
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `direction` | `"in" \| "out"` | `"in"` | Fade direction: `"in"` reveals content, `"out"` conceals it. |
+| `durationFrames` | `number` (8–60) | `20` | Number of frames over which the fade+blur plays. |
+| `blurMax` | `number` (0–30) | `12` | Peak blur radius in pixels at the start of a fade-in (or end of fade-out). |
+| `easing` | `"literary" \| "snappy"` | `"literary"` | Easing curve applied to both opacity and blur interpolation. |
+| `children` | `ReactNode` | Demo content | Content to wrap inside the fade-blur transition. |
+| `startFrame` | `number` | `0` | Frame at which the transition begins, relative to the composition start. |
