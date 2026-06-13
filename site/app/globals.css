@@ -1,0 +1,88 @@
+@import "tailwindcss";
+@import "fumadocs-ui/style.css";
+
+/* ── Vantage Brand Tokens — OKLCH palette (from BRAND.md) ── */
+:root {
+  --vantage-bg:                  oklch(0.16 0 0);
+  --vantage-surface:             oklch(0.18 0.008 290);
+  --vantage-accent:              oklch(0.74 0.16 60);
+  --vantage-muted:               oklch(0.65 0 0);
+  --vantage-prose:               oklch(0.91 0 0);
+  --vantage-warm-white:          oklch(0.93 0.01 80);
+  --vantage-secondary-highlight: oklch(0.79 0.04 76);
+  --vantage-border:              oklch(0.22 0 0);
+  --vantage-heading:             oklch(1 0 0);
+
+  /* Typography stack */
+  --font-display: "Cormorant Display", "Cormorant", Georgia, serif;
+  --font-body:    Georgia, "Times New Roman", serif;
+  --font-caption: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* Fumadocs CSS variable overrides — dark-first brand */
+  --color-fd-background:   oklch(0.16 0 0);
+  --color-fd-foreground:   oklch(0.91 0 0);
+  --color-fd-muted:        oklch(0.18 0.008 290);
+  --color-fd-muted-foreground: oklch(0.65 0 0);
+  --color-fd-popover:      oklch(0.18 0.008 290);
+  --color-fd-popover-foreground: oklch(0.91 0 0);
+  --color-fd-card:         oklch(0.18 0.008 290);
+  --color-fd-card-foreground: oklch(0.91 0 0);
+  --color-fd-border:       oklch(0.22 0 0);
+  --color-fd-primary:      oklch(0.74 0.16 60);
+  --color-fd-primary-foreground: oklch(0.16 0 0);
+  --color-fd-secondary:    oklch(0.22 0 0);
+  --color-fd-secondary-foreground: oklch(0.91 0 0);
+  --color-fd-accent:       oklch(0.22 0 0);
+  --color-fd-accent-foreground: oklch(0.91 0 0);
+  --color-fd-ring:         oklch(0.74 0.16 60);
+  --radius: 0.5rem;
+}
+
+/* sRGB fallback for environments without oklch() support */
+@supports not (color: oklch(0 0 0)) {
+  :root {
+    --vantage-bg:                  #0a0a0a;
+    --vantage-surface:             #141414;
+    --vantage-accent:              #f59e0b;
+    --vantage-muted:               #9ca3af;
+    --vantage-prose:               #e5e7eb;
+    --vantage-warm-white:          #e8e0d0;
+    --vantage-secondary-highlight: #c9b99a;
+    --vantage-border:              #1f2937;
+    --vantage-heading:             #ffffff;
+    --color-fd-background:         #0a0a0a;
+    --color-fd-foreground:         #e5e7eb;
+    --color-fd-primary:            #f59e0b;
+    --color-fd-border:             #1f2937;
+  }
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  background-color: var(--vantage-bg);
+  color: var(--vantage-prose);
+  font-family: var(--font-body);
+}
+
+h1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--vantage-heading);
+}
+
+h2 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  color: var(--vantage-prose);
+}
+
+/* Ease curves */
+:root {
+  --literary-ease: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --ui-ease:       cubic-bezier(0.4, 0, 0.2, 1);
+}
