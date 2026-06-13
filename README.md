@@ -1,19 +1,21 @@
 <p align="center">
-  <img src="./public/hero.png" alt="remocn — shadcn registry for Remotion" />
+  <img src="./public/hero.png" alt="vantage-video-components — cinematic Remotion component registry" />
 </p>
 
-# remocn
+# vantage-video-components
 
-> A shadcn registry of production-ready animations, transitions, backgrounds, and scenes for [Remotion](https://www.remotion.dev/).
+> Cinematic Remotion component registry, brand-aligned with VantageOS / ElPi Corp. A shadcn-style registry of production-ready animations, transitions, backgrounds, and scenes for [Remotion](https://www.remotion.dev/).
 
-remocn is a copy-paste component library for building videos in Remotion. Instead of writing every fade, wipe, and kinetic title from scratch, you `npx shadcn add` a polished primitive into your project and own the code. Built for solo builders and small teams who need a product demo video shipped today, not next week.
+vantage-video-components is a copy-paste component library for building videos in Remotion, aligned with the ElPi Corp design system (OKLCH near-black canvas, warm amber accent, Cormorant Display / Georgia typography). Install via the shadcn CLI — components copy into your project and you own the code.
 
-## Why remocn
+Forked from [kapishdima/remocn](https://github.com/kapishdima/remocn) — MIT. Extended for VantageOS production pipelines.
 
-- **Remotion has no batteries-included component library** You either build every animation from scratch or copy snippets from blog posts. remocn gives you a curated registry of primitives and full scenes that just work.
-- **Polished motion is hard** Easing curves, spring physics, transition timing — remocn ships components that already feel right, so you can focus on storytelling instead of tuning `interpolate()` calls.
-- **You own the code** Components are copied into your repo (shadcn philosophy). No runtime dependency, no version lock-in, no black box — tweak anything you want.
-- **Solo builders need demo videos fast** Compose a launch trailer, changelog clip, or feature walkthrough from prebuilt blocks in an afternoon.
+## Why vantage-video-components
+
+- **Remotion has no batteries-included component library** — remocn gave us the foundation; this fork aligns it with the ElPi brand system and VantageOS production pipeline requirements.
+- **Polished motion aligned with ElPi doctrine** — OKLCH dark canvas, single warm-amber accent, restraint motion language (no gratuitous flourishes). Components that feel right in a VantageOS promo reel out of the box.
+- **You own the code** — shadcn philosophy: components copy into your repo. No runtime dependency, no version lock-in.
+- **Pipeline-ready** — designed to slot into the fal.ai → Remotion production pipeline: fal.ai generates assets, vantage-video-components composes them into MP4.
 
 ## What's inside
 
@@ -25,17 +27,27 @@ remocn is a copy-paste component library for building videos in Remotion. Instea
 - **UI blocks** — Glass Code Block, Terminal Simulator, Browser Flow, Toast Notification, Animated Charts, Code Diff Wipe, Device Mockup Zoom, Simulated Cursor, Morphing Modal, Progress Steps
 - **Full compositions** — Product Launch Trailer, Hero Device Assemble, Changelog Bite, Pricing Tier Focus, Landing Code Showcase, Terminal to Browser Deploy, Live Code Compilation
 
-Browse the full catalog with interactive previews at [remocn.dev](https://remocn.dev).
+## Brand alignment
+
+Components are adapted to the ElPi / VantageOS design system:
+
+- Background: `oklch(0.16 0 0)` (near-black `#0a0a0a`) — not white
+- Accent: `oklch(0.74 0.16 60)` (warm amber `#f59e0b`) — single accent per frame
+- Typography: Cormorant Display ≥56px, Georgia below, system-ui for captions
+- No `"use client"` directives — clean for Remotion render context
+- No Geist Sans CSS variable references
+
+See `docs/BRAND-ALIGNMENT.md` for full alignment notes and token mapping.
 
 ## Installation
 
 Remotion is a prerequisite — set up a Remotion project first if you don't have one (`npx create-video@latest`). Then add any component from the registry:
 
 ```bash
-npx shadcn@latest add @remocn/blur-reveal
+npx shadcn@latest add @vantage-video/blur-reveal
 ```
 
-The component lands in `components/remocn/blur-reveal.tsx` and is yours to edit.
+The component lands in `components/vantage-video/blur-reveal.tsx` and is yours to edit.
 
 ## Local development
 
@@ -48,39 +60,10 @@ bun run registry:build   # rebuild the shadcn registry JSON
 bun run lint             # biome check
 ```
 
-## Self-hosting (server-side MP4 render)
+## Attribution
 
-The `/stars` live generator renders MP4s server-side with `@remotion/renderer`
-(headless Chromium), so export works in every browser. Either way, headless
-Chromium needs its system libraries, the Chrome Headless Shell baked in, and the
-Remotion entry pre-bundled. Two deploy paths on Coolify:
+Forked from [kapishdima/remocn](https://github.com/kapishdima/remocn) — MIT License. See `NOTICE.md` for full upstream attribution.
 
-**Nixpacks (Coolify default build pack)** — `nixpacks.toml` declares the Chromium
-apt packages so Nixpacks installs them. Set the Coolify commands in the UI:
+---
 
-- Build: `bun install && bun run build && bun run remotion:browser && bun run bundle:remotion`
-- Start: `bun run start`
-
-Under Nixpacks the `Dockerfile` is **not** used.
-
-**Dockerfile build pack** — switch the resource's build pack to Dockerfile and the
-included `Dockerfile` (Debian + Chromium libs) handles everything: it bakes in the
-Chrome Headless Shell and the pre-bundled Remotion entry. No separate build/start
-commands needed.
-
-Sized for a Hetzner CPX42. Configure the render via env vars — see `.env.example`
-(`RENDER_WORK_DIR`, `RENDER_MAX_CONCURRENT`, `REMOTION_CONCURRENCY`,
-`RENDER_TIMEOUT_MS`, and the per-IP rate-limit knobs). Run `bun install` after
-pulling dependency changes so `bun.lock` matches before building.
-
-## Tech stack
-
-- [Remotion](https://www.remotion.dev/) 4.0 + `@remotion/player` for in-browser previews
-- [Next.js](https://nextjs.org/) 16 + React 19
-- [Tailwind CSS](https://tailwindcss.com/) 4
-- [Fumadocs](https://fumadocs.vercel.app/) for documentation
-- [shadcn](https://ui.shadcn.com/) registry format
-
-## License
-
-MIT. Open core — primitives and base compositions are free forever. Premium blocks and a video builder are on the roadmap.
+Orchestrator: Rho — VantageOS Team | 2026-06-13

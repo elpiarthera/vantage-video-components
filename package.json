@@ -1,7 +1,16 @@
 {
-  "name": "remocn",
-  "version": "0.1.0",
+  "name": "vantage-video-components",
+  "version": "0.0.1",
+  "description": "Cinematic Remotion component registry, brand-aligned with VantageOS / ElPi Corp",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elpiarthera/vantage-video-components.git"
+  },
+  "bugs": {
+    "url": "https://github.com/elpiarthera/vantage-video-components/issues"
+  },
+  "homepage": "https://github.com/elpiarthera/vantage-video-components",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
