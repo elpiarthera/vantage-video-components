@@ -9,9 +9,14 @@ import { ColorShiftSampleRoot } from "../../examples/color-shift-sample";
 import { FadeBlurSampleRoot } from "../../examples/fade-blur-sample";
 import { InlineHighlightSampleRoot } from "../../examples/inline-highlight-sample";
 import { MarkerHighlightSampleRoot } from "../../examples/marker-highlight-sample";
+import { MatrixDecodeSampleRoot } from "../../examples/matrix-decode-sample";
+import { RGBGlitchTextSampleRoot } from "../../examples/rgb-glitch-text-sample";
 import { ShimmerSweepSampleRoot } from "../../examples/shimmer-sweep-sample";
 import { SlideRevealSampleRoot } from "../../examples/slide-reveal-sample";
+import { SlotMachineRollSampleRoot } from "../../examples/slot-machine-roll-sample";
 import { StaggeredFadeUpSampleRoot } from "../../examples/staggered-fade-up-sample";
+import { StrikethroughReplaceSampleRoot } from "../../examples/strikethrough-replace-sample";
+import { TrackingInSampleRoot } from "../../examples/tracking-in-sample";
 import { TypewriterSampleRoot } from "../../examples/typewriter-sample";
 import { ZoomPulseSampleRoot } from "../../examples/zoom-pulse-sample";
 
@@ -56,6 +61,11 @@ export function RemotionRoot() {
       <StaggeredFadeUpSampleRoot />
       <ShimmerSweepSampleRoot />
       <MarkerHighlightSampleRoot />
+      <TrackingInSampleRoot />
+      <SlotMachineRollSampleRoot />
+      <MatrixDecodeSampleRoot />
+      <RGBGlitchTextSampleRoot />
+      <StrikethroughReplaceSampleRoot />
     </>
   );
 }

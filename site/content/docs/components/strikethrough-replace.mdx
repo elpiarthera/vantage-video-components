@@ -1,0 +1,66 @@
+---
+title: Strikethrough Replace
+description: Draws an amber strikethrough across old text, fades it out, then reveals replacement text with an upward slide. Literary ease, dark canvas, brand amber accent line.
+---
+
+## Description
+
+`StrikethroughReplace` runs a three-phase animation: the amber accent line (`--vantage-accent` `#f59e0b`) draws across `oldText` over `strikeFrames`, `oldText` fades out, then `newText` slides in with literary ease over `revealFrames`. The struck text renders in `--vantage-muted` (`#9ca3af`) — the secondary text register — before fading out.
+
+The amber strikethrough line is the single accent point per scene per BRAND.md Rule 1. Do not layer additional amber elements in the same frame.
+
+Phases use absolute frame counts (not `durationInFrames`-relative), making this predictable to sequence in any composition regardless of total clip length.
+
+## Preview
+
+<video src="/previews/strikethrough-replace.mp4" autoPlay loop muted playsInline width="540" height="960" />
+
+## Installation
+
+```bash
+npx shadcn add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/strikethrough-replace.json
+```
+
+## Usage
+
+```tsx
+import { AbsoluteFill, Composition } from 'remotion'
+import { StrikethroughReplace } from '@/remotion/text-effects/strikethrough-replace'
+
+function ReplaceScene() {
+  return (
+    <AbsoluteFill style={{ background: '#0a0a0a' }}>
+      <StrikethroughReplace
+        oldText="Complicated"
+        newText="Simple"
+        strikeFrames={14}
+        revealFrames={14}
+        font="georgia"
+      />
+    </AbsoluteFill>
+  )
+}
+
+export function MyComposition() {
+  return (
+    <Composition
+      id="StrikethroughReplaceDemo"
+      component={ReplaceScene}
+      durationInFrames={90}
+      fps={30}
+      width={540}
+      height={960}
+    />
+  )
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `oldText` | `string` | — | The text to strike through and replace. |
+| `newText` | `string` | — | The replacement text that slides in. |
+| `strikeFrames` | `number` (8–30) | `14` | Frames to draw the strikethrough line across `oldText`. |
+| `revealFrames` | `number` (8–30) | `14` | Frames to fade in `newText` after the strike completes. |
+| `font` | `"cormorant" \| "georgia" \| "system-ui"` | `"georgia"` | Typography family. Georgia renders at 48px (body register, ≤56px per BRAND.md). |

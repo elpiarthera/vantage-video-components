@@ -1,0 +1,68 @@
+---
+title: Tracking In
+description: Les lettres s'élargissent depuis un espacement large et flou pour arriver nettes et serrées. Easing literary ou snappy. Canvas sombre OKLCH, typographie Cormorant/Georgia.
+---
+
+## Description
+
+`TrackingIn` anime le texte depuis un état de grande interlettrage flou vers un rendu net et serré. La physique du spring s'adapte à la prop `easing` : `literary` (amortissement lent BRAND.md) pour les cartes titre narratives, `snappy` pour les révélations d'interface.
+
+La sélection de police respecte la Règle 2 de BRAND.md : `cormorant` (Cormorant Display, 72px) pour les titres héros ≥56px, `georgia` (48px) pour le corps, `system-ui` pour les légendes. Le texte s'affiche en `--vantage-warm-white` (`#e8e0d0`) sur `--vantage-bg` (`#0a0a0a`).
+
+Composé avec les primitives Remotion — `AbsoluteFill`, `spring`, `interpolate` — sans l'API TransitionSeries de `@remotion/transitions`.
+
+## Aperçu
+
+<video src="/previews/tracking-in.mp4" autoPlay loop muted playsInline width="540" height="960" />
+
+## Installation
+
+```bash
+npx shadcn add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/tracking-in.json
+```
+
+## Utilisation
+
+```tsx
+import { AbsoluteFill, Composition } from 'remotion'
+import { TrackingIn } from '@/remotion/text-effects/tracking-in'
+
+function ScèneTitre() {
+  return (
+    <AbsoluteFill style={{ background: '#0a0a0a' }}>
+      <TrackingIn
+        text="Les lettres arrivent."
+        startLetterSpacing={0.15}
+        startBlur={8}
+        durationFrames={22}
+        easing="literary"
+        font="cormorant"
+      />
+    </AbsoluteFill>
+  )
+}
+
+export function MaComposition() {
+  return (
+    <Composition
+      id="TrackingInDemo"
+      component={ScèneTitre}
+      durationInFrames={90}
+      fps={30}
+      width={540}
+      height={960}
+    />
+  )
+}
+```
+
+## Props
+
+| Prop | Type | Défaut | Description |
+|------|------|--------|-------------|
+| `text` | `string` | — | Texte à animer. |
+| `startLetterSpacing` | `number` (0.05–0.4) | `0.15` | Espacement initial des lettres en em avant l'animation. |
+| `startBlur` | `number` (0–20) | `8` | Rayon de flou initial en pixels. |
+| `durationFrames` | `number` (8–60) | `22` | Durée du fondu d'opacité en frames. |
+| `easing` | `"literary" \| "snappy"` | `"literary"` | Caractère du mouvement. `literary` = amortissement lent, `snappy` = plus vif. |
+| `font` | `"cormorant" \| "georgia" \| "system-ui"` | `"cormorant"` | Famille typographique. `cormorant` s'affiche à 72px (minimum 56px selon BRAND.md). |

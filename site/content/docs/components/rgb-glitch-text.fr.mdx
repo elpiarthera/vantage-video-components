@@ -1,0 +1,64 @@
+---
+title: RGB Glitch Text
+description: Aberration chromatique RGB en un seul coup sur le texte. Les copies rouge, verte et bleue se décalent aléatoirement pendant la fenêtre de glitch, puis se stabilisent. Canvas sombre.
+---
+
+## Description
+
+`RGBGlitchText` déclenche une seule aberration chromatique au début de la composition (frames `0..glitchFrames`). Pendant le glitch, trois copies de canaux de couleur (rouge `#ff0040`, vert `#00ff80`, bleu `#0080ff`) sont rendues avec des décalages aléatoires en pixels via `mix-blend-mode: screen` sur le canvas sombre. Après `glitchFrames`, le texte se stabilise proprement en `--vantage-warm-white`.
+
+Le design en un seul coup est intentionnel — les glitches en boucle infinie sont perçus comme des erreurs plutôt que comme un style. Utilisez dans une `<Sequence>` pour déclencher à des moments précis de la timeline.
+
+## Aperçu
+
+<video src="/previews/rgb-glitch-text.mp4" autoPlay loop muted playsInline width="540" height="960" />
+
+## Installation
+
+```bash
+npx shadcn add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/rgb-glitch-text.json
+```
+
+## Utilisation
+
+```tsx
+import { AbsoluteFill, Composition, Sequence } from 'remotion'
+import { RGBGlitchText } from '@/remotion/text-effects/rgb-glitch-text'
+
+function ScèneGlitch() {
+  return (
+    <AbsoluteFill style={{ background: '#0a0a0a' }}>
+      <Sequence from={30}>
+        <RGBGlitchText
+          text="SIGNAL"
+          glitchFrames={10}
+          offsetPx={4}
+          font="cormorant"
+        />
+      </Sequence>
+    </AbsoluteFill>
+  )
+}
+
+export function MaComposition() {
+  return (
+    <Composition
+      id="RGBGlitchTextDemo"
+      component={ScèneGlitch}
+      durationInFrames={90}
+      fps={30}
+      width={540}
+      height={960}
+    />
+  )
+}
+```
+
+## Props
+
+| Prop | Type | Défaut | Description |
+|------|------|--------|-------------|
+| `text` | `string` | — | Texte à afficher. Les 6 premiers caractères servent de graine pour l'aléatoire. |
+| `glitchFrames` | `number` (2–30) | `10` | Durée de la fenêtre de glitch en frames. Après, le texte est stable. |
+| `offsetPx` | `number` (0–12) | `4` | Décalage maximum en pixels pour chaque canal de couleur. L'axe Y est à 40% de cette valeur. |
+| `font` | `"cormorant" \| "georgia" \| "system-ui"` | `"cormorant"` | Famille typographique. Cormorant s'affiche à 80px (registre héros H1). |

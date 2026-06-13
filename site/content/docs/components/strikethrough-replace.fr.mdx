@@ -1,0 +1,66 @@
+---
+title: Strikethrough Replace
+description: Trace un trait de rature ambre sur l'ancien texte, le fait disparaître, puis révèle le texte de remplacement avec un glissement vers le haut. Easing literary, canvas sombre, trait ambre de la marque.
+---
+
+## Description
+
+`StrikethroughReplace` exécute une animation en trois phases : le trait ambre (`--vantage-accent` `#f59e0b`) se dessine sur `oldText` pendant `strikeFrames`, `oldText` s'efface, puis `newText` glisse vers le haut avec un easing literary pendant `revealFrames`. Le texte rayé s'affiche en `--vantage-muted` (`#9ca3af`) — le registre de texte secondaire — avant de disparaître.
+
+Le trait de rature ambre est le seul point d'accent par scène selon la Règle 1 de BRAND.md. Ne pas superposer d'autres éléments ambre dans la même frame.
+
+Les phases utilisent des comptages de frames absolus (non relatifs à `durationInFrames`), ce qui facilite le séquençage dans n'importe quelle composition.
+
+## Aperçu
+
+<video src="/previews/strikethrough-replace.mp4" autoPlay loop muted playsInline width="540" height="960" />
+
+## Installation
+
+```bash
+npx shadcn add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/strikethrough-replace.json
+```
+
+## Utilisation
+
+```tsx
+import { AbsoluteFill, Composition } from 'remotion'
+import { StrikethroughReplace } from '@/remotion/text-effects/strikethrough-replace'
+
+function ScèneRemplacement() {
+  return (
+    <AbsoluteFill style={{ background: '#0a0a0a' }}>
+      <StrikethroughReplace
+        oldText="Compliqué"
+        newText="Simple"
+        strikeFrames={14}
+        revealFrames={14}
+        font="georgia"
+      />
+    </AbsoluteFill>
+  )
+}
+
+export function MaComposition() {
+  return (
+    <Composition
+      id="StrikethroughReplaceDemo"
+      component={ScèneRemplacement}
+      durationInFrames={90}
+      fps={30}
+      width={540}
+      height={960}
+    />
+  )
+}
+```
+
+## Props
+
+| Prop | Type | Défaut | Description |
+|------|------|--------|-------------|
+| `oldText` | `string` | — | Texte à rayer et remplacer. |
+| `newText` | `string` | — | Texte de remplacement qui glisse vers le haut. |
+| `strikeFrames` | `number` (8–30) | `14` | Frames pour tracer le trait de rature sur `oldText`. |
+| `revealFrames` | `number` (8–30) | `14` | Frames pour faire apparaître `newText` après la rature. |
+| `font` | `"cormorant" \| "georgia" \| "system-ui"` | `"georgia"` | Famille typographique. Georgia s'affiche à 48px (registre corps, ≤56px selon BRAND.md). |

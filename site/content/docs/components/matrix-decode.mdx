@@ -1,0 +1,66 @@
+---
+title: Matrix Decode
+description: Text characters scramble with random glyphs then decode left-to-right. Each character flashes in brand amber on reveal. Dark canvas, deterministic seed.
+---
+
+## Description
+
+`MatrixDecode` scrambles each character position with random glyphs from `glyphAlphabet`, then sequentially reveals the true character from left to right over `revealFrames`. Each character flashes in `--vantage-accent` amber (`#f59e0b`) for 2 frames at the moment of reveal, then settles to `--vantage-warm-white`.
+
+Scramble characters render in `--vantage-muted` (`#9ca3af`) — the secondary text register — to create visual contrast between decoded and pending characters. A `seed` parameter ensures deterministic scramble patterns across renders.
+
+Composed with Remotion `random()` (deterministic seeded random) + `useCurrentFrame`. No `@remotion/transitions` API used.
+
+## Preview
+
+<video src="/previews/matrix-decode.mp4" autoPlay loop muted playsInline width="540" height="960" />
+
+## Installation
+
+```bash
+npx shadcn add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/matrix-decode.json
+```
+
+## Usage
+
+```tsx
+import { AbsoluteFill, Composition } from 'remotion'
+import { MatrixDecode } from '@/remotion/text-effects/matrix-decode'
+
+function DecodeScene() {
+  return (
+    <AbsoluteFill style={{ background: '#0a0a0a' }}>
+      <MatrixDecode
+        text="TRUTH DECODED"
+        revealFrames={36}
+        glyphAlphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        font="system-ui"
+        seed={42}
+      />
+    </AbsoluteFill>
+  )
+}
+
+export function MyComposition() {
+  return (
+    <Composition
+      id="MatrixDecodeDemo"
+      component={DecodeScene}
+      durationInFrames={90}
+      fps={30}
+      width={540}
+      height={960}
+    />
+  )
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `text` | `string` | — | The target text to decode into. |
+| `revealFrames` | `number` (8–80) | `36` | Total frame window for sequential character reveals. |
+| `glyphAlphabet` | `string` | `"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"` | Character pool for scramble phase. |
+| `font` | `"cormorant" \| "georgia" \| "system-ui"` | `"system-ui"` | Typography family. system-ui defaults for monospace/terminal register. |
+| `seed` | `number` | `42` | Seed for deterministic scramble sequence. Change to get different scramble patterns. |

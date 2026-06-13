@@ -1,0 +1,66 @@
+---
+title: Matrix Decode
+description: Les caractères du texte se brouillent avec des glyphes aléatoires, puis se décodent de gauche à droite. Chaque caractère flashe en ambre à la révélation. Canvas sombre, graine déterministe.
+---
+
+## Description
+
+`MatrixDecode` brouille chaque position de caractère avec des glyphes aléatoires issus de `glyphAlphabet`, puis révèle séquentiellement le vrai caractère de gauche à droite sur `revealFrames` frames. Chaque caractère flashe en ambre `--vantage-accent` (`#f59e0b`) pendant 2 frames au moment de la révélation, puis s'installe en `--vantage-warm-white`.
+
+Les caractères brouillés s'affichent en `--vantage-muted` (`#9ca3af`) — le registre de texte secondaire — pour créer un contraste visuel entre les caractères décodés et en attente. Un paramètre `seed` assure des séquences de brouillage déterministes entre les rendus.
+
+Composé avec Remotion `random()` (aléatoire déterministe) + `useCurrentFrame`. Aucune API `@remotion/transitions` utilisée.
+
+## Aperçu
+
+<video src="/previews/matrix-decode.mp4" autoPlay loop muted playsInline width="540" height="960" />
+
+## Installation
+
+```bash
+npx shadcn add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/matrix-decode.json
+```
+
+## Utilisation
+
+```tsx
+import { AbsoluteFill, Composition } from 'remotion'
+import { MatrixDecode } from '@/remotion/text-effects/matrix-decode'
+
+function ScèneDécodage() {
+  return (
+    <AbsoluteFill style={{ background: '#0a0a0a' }}>
+      <MatrixDecode
+        text="VÉRITÉ DÉCODÉE"
+        revealFrames={36}
+        glyphAlphabet="ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        font="system-ui"
+        seed={42}
+      />
+    </AbsoluteFill>
+  )
+}
+
+export function MaComposition() {
+  return (
+    <Composition
+      id="MatrixDecodeDemo"
+      component={ScèneDécodage}
+      durationInFrames={90}
+      fps={30}
+      width={540}
+      height={960}
+    />
+  )
+}
+```
+
+## Props
+
+| Prop | Type | Défaut | Description |
+|------|------|--------|-------------|
+| `text` | `string` | — | Texte cible à décoder. |
+| `revealFrames` | `number` (8–80) | `36` | Fenêtre totale de frames pour les révélations séquentielles. |
+| `glyphAlphabet` | `string` | `"ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"` | Pool de caractères pour la phase de brouillage. |
+| `font` | `"cormorant" \| "georgia" \| "system-ui"` | `"system-ui"` | Famille typographique. system-ui par défaut pour le registre monospace/terminal. |
+| `seed` | `number` | `42` | Graine pour la séquence de brouillage déterministe. |

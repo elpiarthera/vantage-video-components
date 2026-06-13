@@ -1,0 +1,64 @@
+---
+title: Slot Machine Roll
+description: Les colonnes de caractères défilent verticalement d'une valeur à l'autre. Les caractères modifiés s'illuminent en ambre à l'atterrissage. Canvas sombre OKLCH, chiffres tabulaires.
+---
+
+## Description
+
+`SlotMachineRoll` anime chaque colonne de caractères indépendamment, comme une bobine de machine à sous, de `from` vers `to`. Les colonnes se décalent selon `rollFrames`. Les caractères qui changent entre `from` et `to` flashent en ambre `--vantage-accent` (`#f59e0b`) à l'atterrissage — un seul accent par scène selon la Règle 1 de BRAND.md.
+
+`tabular-nums` est appliqué automatiquement pour les chaînes numériques et les prix. La police par défaut est Georgia (registre corps) car les chiffres de prix se situent dans la plage 56px.
+
+## Aperçu
+
+<video src="/previews/slot-machine-roll.mp4" autoPlay loop muted playsInline width="540" height="960" />
+
+## Installation
+
+```bash
+npx shadcn add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/slot-machine-roll.json
+```
+
+## Utilisation
+
+```tsx
+import { AbsoluteFill, Composition } from 'remotion'
+import { SlotMachineRoll } from '@/remotion/text-effects/slot-machine-roll'
+
+function ScènePrix() {
+  return (
+    <AbsoluteFill style={{ background: '#0a0a0a' }}>
+      <SlotMachineRoll
+        from="$99"
+        to="$199"
+        rollFrames={30}
+        accentColor="#f59e0b"
+        font="georgia"
+      />
+    </AbsoluteFill>
+  )
+}
+
+export function MaComposition() {
+  return (
+    <Composition
+      id="SlotMachineRollDemo"
+      component={ScènePrix}
+      durationInFrames={90}
+      fps={30}
+      width={540}
+      height={960}
+    />
+  )
+}
+```
+
+## Props
+
+| Prop | Type | Défaut | Description |
+|------|------|--------|-------------|
+| `from` | `string` | `"$99"` | Valeur de départ. |
+| `to` | `string` | `"$199"` | Valeur d'arrivée. |
+| `rollFrames` | `number` (8–80) | `30` | Durée totale du défilement en frames. Contrôle l'intervalle de décalage entre colonnes. |
+| `accentColor` | `string` | `"#f59e0b"` | Couleur des caractères modifiés à l'atterrissage. Par défaut : ambre `--vantage-accent` de BRAND.md. |
+| `font` | `"cormorant" \| "georgia" \| "system-ui"` | `"georgia"` | Famille typographique. Georgia s'affiche à 56px (registre corps/callout). |

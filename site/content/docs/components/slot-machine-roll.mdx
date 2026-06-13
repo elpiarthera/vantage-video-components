@@ -1,0 +1,64 @@
+---
+title: Slot Machine Roll
+description: Character columns scroll vertically from one value to another. Changed characters highlight in brand amber on landing. OKLCH dark canvas, tabular numerals.
+---
+
+## Description
+
+`SlotMachineRoll` animates each character column independently, rolling from `from` to `to` like a slot machine reel. Columns stagger based on `rollFrames`. Characters that change between `from` and `to` flash in `--vantage-accent` amber (`#f59e0b`) on landing — one accent moment per scene per BRAND.md Rule 1.
+
+`tabular-nums` is applied automatically for price/number strings. Font defaults to Georgia (body register) since price figures sit at 56px in the body range.
+
+## Preview
+
+<video src="/previews/slot-machine-roll.mp4" autoPlay loop muted playsInline width="540" height="960" />
+
+## Installation
+
+```bash
+npx shadcn add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/slot-machine-roll.json
+```
+
+## Usage
+
+```tsx
+import { AbsoluteFill, Composition } from 'remotion'
+import { SlotMachineRoll } from '@/remotion/text-effects/slot-machine-roll'
+
+function PriceScene() {
+  return (
+    <AbsoluteFill style={{ background: '#0a0a0a' }}>
+      <SlotMachineRoll
+        from="$99"
+        to="$199"
+        rollFrames={30}
+        accentColor="#f59e0b"
+        font="georgia"
+      />
+    </AbsoluteFill>
+  )
+}
+
+export function MyComposition() {
+  return (
+    <Composition
+      id="SlotMachineRollDemo"
+      component={PriceScene}
+      durationInFrames={90}
+      fps={30}
+      width={540}
+      height={960}
+    />
+  )
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `from` | `string` | `"$99"` | Starting string value. |
+| `to` | `string` | `"$199"` | Ending string value. |
+| `rollFrames` | `number` (8–80) | `30` | Total roll duration in frames. Controls stagger interval between columns. |
+| `accentColor` | `string` | `"#f59e0b"` | Color for changed characters on landing. Defaults to BRAND.md `--vantage-accent`. |
+| `font` | `"cormorant" \| "georgia" \| "system-ui"` | `"georgia"` | Typography family. Georgia renders at 56px (body/callout register). |

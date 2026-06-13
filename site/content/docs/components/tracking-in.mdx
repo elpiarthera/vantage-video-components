@@ -1,0 +1,68 @@
+---
+title: Tracking In
+description: Letters expand from wide letter-spacing and blur into tight, sharp text. Literary or snappy easing. OKLCH dark canvas, Cormorant/Georgia typography.
+---
+
+## Description
+
+`TrackingIn` animates text from a wide, blurred tracking state into crisp, tight lettering. The spring physics adapt to the `easing` prop: `literary` (BRAND.md slow damping) for narrative title cards, `snappy` for UI-register reveals.
+
+Font selection respects BRAND.md Rule 2: `cormorant` (Cormorant Display, 72px) for reel hero titles ≥56px, `georgia` (48px) for body, `system-ui` for caption. Text renders in `--vantage-warm-white` (`#e8e0d0`) on `--vantage-bg` (`#0a0a0a`).
+
+Composed with Remotion primitives — `AbsoluteFill`, `spring`, `interpolate` — not the `@remotion/transitions` TransitionSeries API.
+
+## Preview
+
+<video src="/previews/tracking-in.mp4" autoPlay loop muted playsInline width="540" height="960" />
+
+## Installation
+
+```bash
+npx shadcn add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/tracking-in.json
+```
+
+## Usage
+
+```tsx
+import { AbsoluteFill, Composition } from 'remotion'
+import { TrackingIn } from '@/remotion/text-effects/tracking-in'
+
+function TitleScene() {
+  return (
+    <AbsoluteFill style={{ background: '#0a0a0a' }}>
+      <TrackingIn
+        text="Letters arrive."
+        startLetterSpacing={0.15}
+        startBlur={8}
+        durationFrames={22}
+        easing="literary"
+        font="cormorant"
+      />
+    </AbsoluteFill>
+  )
+}
+
+export function MyComposition() {
+  return (
+    <Composition
+      id="TrackingInDemo"
+      component={TitleScene}
+      durationInFrames={90}
+      fps={30}
+      width={540}
+      height={960}
+    />
+  )
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `text` | `string` | — | The text to animate in. |
+| `startLetterSpacing` | `number` (0.05–0.4) | `0.15` | Initial letter spacing in em units before animation. |
+| `startBlur` | `number` (0–20) | `8` | Initial blur radius in pixels. |
+| `durationFrames` | `number` (8–60) | `22` | Opacity fade duration in frames. Spring duration is controlled by spring config. |
+| `easing` | `"literary" \| "snappy"` | `"literary"` | Motion character. `literary` = slow damping, `snappy` = brisker UI-register. |
+| `font` | `"cormorant" \| "georgia" \| "system-ui"` | `"cormorant"` | Typography family. `cormorant` renders at 72px per BRAND.md ≥56px rule. |

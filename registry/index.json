@@ -34,6 +34,18 @@
       "url": "https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/marker-highlight.json"
     },
     {
+      "name": "matrix-decode",
+      "type": "registry:component",
+      "description": "Text characters scramble with random glyphs then decode left-to-right. Brand amber flash on each character reveal, dark canvas OKLCH palette.",
+      "url": "https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/matrix-decode.json"
+    },
+    {
+      "name": "rgb-glitch-text",
+      "type": "registry:component",
+      "description": "One-shot RGB chromatic aberration glitch on text. Red/green/blue channel copies offset randomly during glitch window, then settle cleanly. Dark canvas.",
+      "url": "https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/rgb-glitch-text.json"
+    },
+    {
       "name": "shimmer-sweep",
       "type": "registry:component",
       "description": "A luminous amber sweep travels across text simulating a specular highlight on metallic type. Snappy easing default, BRAND.md aligned.",
@@ -46,10 +58,28 @@
       "url": "https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/slide-reveal.json"
     },
     {
+      "name": "slot-machine-roll",
+      "type": "registry:component",
+      "description": "Character columns scroll vertically from one value to another, slot-machine style. Changed characters highlight in brand amber on landing.",
+      "url": "https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/slot-machine-roll.json"
+    },
+    {
       "name": "staggered-fade-up",
       "type": "registry:component",
       "description": "Reveals words sequentially, each fading in while rising from below. Stagger delay and rise distance are configurable. Literary or snappy easing, BRAND.md aligned.",
       "url": "https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/staggered-fade-up.json"
+    },
+    {
+      "name": "strikethrough-replace",
+      "type": "registry:component",
+      "description": "Draws an amber strikethrough across old text, fades it out, then reveals replacement text with upward slide. Literary ease, dark canvas, brand amber accent.",
+      "url": "https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/strikethrough-replace.json"
+    },
+    {
+      "name": "tracking-in",
+      "type": "registry:component",
+      "description": "Letters expand from wide tracking + blur into tight, sharp text. Brand-aligned OKLCH palette, Cormorant/Georgia typography, literary or snappy easing.",
+      "url": "https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/tracking-in.json"
     },
     {
       "name": "typewriter",

@@ -1,0 +1,67 @@
+---
+title: RGB Glitch Text
+description: One-shot RGB chromatic aberration on text. Red, green, and blue channel copies offset randomly during the glitch window, then settle cleanly. Dark canvas.
+---
+
+## Description
+
+`RGBGlitchText` fires a single chromatic aberration glitch at the start of the composition (frames `0..glitchFrames`). During the glitch, three color-channel copies (red `#ff0040`, green `#00ff80`, blue `#0080ff`) are rendered with random pixel offsets using `mix-blend-mode: screen` on the dark canvas. After `glitchFrames`, the text stabilises cleanly in `--vantage-warm-white`.
+
+The one-shot design is intentional — infinite-loop glitches read as broken rather than stylistic. Use within a `<Sequence>` to trigger at specific composition timestamps.
+
+Composed with Remotion `random()` (deterministic per frame + seed) + `useCurrentFrame`. Text string seeds the randomness, ensuring consistent patterns for identical inputs.
+
+## Preview
+
+<video src="/previews/rgb-glitch-text.mp4" autoPlay loop muted playsInline width="540" height="960" />
+
+## Installation
+
+```bash
+npx shadcn add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/rgb-glitch-text.json
+```
+
+## Usage
+
+```tsx
+import { AbsoluteFill, Composition, Sequence } from 'remotion'
+import { RGBGlitchText } from '@/remotion/text-effects/rgb-glitch-text'
+
+function GlitchScene() {
+  return (
+    <AbsoluteFill style={{ background: '#0a0a0a' }}>
+      {/* Glitch fires at sequence start — wrap in Sequence to position in timeline */}
+      <Sequence from={30}>
+        <RGBGlitchText
+          text="SIGNAL"
+          glitchFrames={10}
+          offsetPx={4}
+          font="cormorant"
+        />
+      </Sequence>
+    </AbsoluteFill>
+  )
+}
+
+export function MyComposition() {
+  return (
+    <Composition
+      id="RGBGlitchTextDemo"
+      component={GlitchScene}
+      durationInFrames={90}
+      fps={30}
+      width={540}
+      height={960}
+    />
+  )
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `text` | `string` | — | The text to display. First 6 characters seed the randomness. |
+| `glitchFrames` | `number` (2–30) | `10` | Duration of the glitch window in frames. After this, text is stable. |
+| `offsetPx` | `number` (0–12) | `4` | Maximum pixel offset for each color channel. Y-axis offset is 40% of this value. |
+| `font` | `"cormorant" \| "georgia" \| "system-ui"` | `"cormorant"` | Typography family. Cormorant renders at 80px (H1 hero register). |

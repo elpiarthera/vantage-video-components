@@ -1,4 +1,4 @@
 {
   "title": "Composants",
-  "pages": ["index", "cinematic-cut", "fade-blur", "slide-reveal", "zoom-pulse", "color-shift", "typewriter", "inline-highlight", "staggered-fade-up", "shimmer-sweep", "marker-highlight"]
+  "pages": ["index", "cinematic-cut", "fade-blur", "slide-reveal", "zoom-pulse", "color-shift", "typewriter", "inline-highlight", "staggered-fade-up", "shimmer-sweep", "marker-highlight", "tracking-in", "slot-machine-roll", "matrix-decode", "rgb-glitch-text", "strikethrough-replace"]
 }
