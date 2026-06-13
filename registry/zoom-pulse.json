@@ -1,0 +1,13 @@
+{
+  "name": "zoom-pulse",
+  "type": "registry:component",
+  "description": "Remotion-primitive-based scale pulse transition. Smooth scale interpolation from scaleFrom to scaleTo with a natural overshoot at 60% of the pulse duration. Literary or snappy easing from BRAND.md. Uses AbsoluteFill + useCurrentFrame + interpolate.",
+  "dependencies": ["remotion"],
+  "files": [
+    {
+      "path": "src/registry/components/transitions/zoom-pulse/zoom-pulse.tsx",
+      "type": "registry:component",
+      "target": "remotion/transitions/zoom-pulse.tsx"
+    }
+  ]
+}

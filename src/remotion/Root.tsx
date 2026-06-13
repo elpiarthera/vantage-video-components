@@ -5,6 +5,10 @@ import {
   SAMPLE_STARGAZERS,
 } from "@/registry/remocn/github-stars";
 import { CinematicCutSampleRoot } from "../../examples/cinematic-cut-sample";
+import { FadeBlurSampleRoot } from "../../examples/fade-blur-sample";
+import { SlideRevealSampleRoot } from "../../examples/slide-reveal-sample";
+import { ZoomPulseSampleRoot } from "../../examples/zoom-pulse-sample";
+import { ColorShiftSampleRoot } from "../../examples/color-shift-sample";
 
 /**
  * Sample props so the composition validates + renders standalone in the Remotion
@@ -38,6 +42,10 @@ export function RemotionRoot() {
         defaultProps={DEFAULT_PROPS}
       />
       <CinematicCutSampleRoot />
+      <FadeBlurSampleRoot />
+      <SlideRevealSampleRoot />
+      <ZoomPulseSampleRoot />
+      <ColorShiftSampleRoot />
     </>
   );
 }

@@ -1,0 +1,13 @@
+{
+  "name": "slide-reveal",
+  "type": "registry:component",
+  "description": "Remotion-primitive-based slide transition. Translates child from off-screen at distance×100% to 0 along chosen axis (left/right/up/down). Combined with opacity fade per BRAND.md. Uses AbsoluteFill + useCurrentFrame + interpolate.",
+  "dependencies": ["remotion"],
+  "files": [
+    {
+      "path": "src/registry/components/transitions/slide-reveal/slide-reveal.tsx",
+      "type": "registry:component",
+      "target": "remotion/transitions/slide-reveal.tsx"
+    }
+  ]
+}
