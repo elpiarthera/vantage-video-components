@@ -18,6 +18,7 @@
     "lint": "biome check",
     "format": "biome format --write",
     "registry:build": "shadcn build",
+    "build:registry": "node scripts/build-registry.mjs",
     "remotion:browser": "bun scripts/ensure-browser.mts",
     "bundle:remotion": "bun scripts/bundle-remotion.mts",
     "render:demos": "bun scripts/render-demos.mts",

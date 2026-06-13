@@ -1,0 +1,37 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "vantage-video-components",
+  "homepage": "https://github.com/elpiarthera/vantage-video-components",
+  "items": [
+    {
+      "name": "cinematic-cut",
+      "type": "registry:component",
+      "description": "Cinematic hard-cut transition for Remotion with literary or snappy easing and a one-frame accent burst.",
+      "url": "https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/cinematic-cut.json"
+    },
+    {
+      "name": "color-shift",
+      "type": "registry:component",
+      "description": "Remotion-primitive-based background-color interpolation transition. Uses interpolateColors for perceptually smooth transitions between any two BRAND.md OKLCH-anchored color tokens. Literary or snappy easing. Uses AbsoluteFill + useCurrentFrame + interpolate + interpolateColors.",
+      "url": "https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/color-shift.json"
+    },
+    {
+      "name": "fade-blur",
+      "type": "registry:component",
+      "description": "Remotion-primitive-based fade + blur transition. Opacity 0→1 with blur blurMax→0 (or reverse for fade-out). Literary or snappy easing from BRAND.md motion vocabulary. Uses AbsoluteFill + useCurrentFrame + interpolate.",
+      "url": "https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/fade-blur.json"
+    },
+    {
+      "name": "slide-reveal",
+      "type": "registry:component",
+      "description": "Remotion-primitive-based slide transition. Translates child from off-screen at distance×100% to 0 along chosen axis (left/right/up/down). Combined with opacity fade per BRAND.md. Uses AbsoluteFill + useCurrentFrame + interpolate.",
+      "url": "https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/slide-reveal.json"
+    },
+    {
+      "name": "zoom-pulse",
+      "type": "registry:component",
+      "description": "Remotion-primitive-based scale pulse transition. Smooth scale interpolation from scaleFrom to scaleTo with a natural overshoot at 60% of the pulse duration. Literary or snappy easing from BRAND.md. Uses AbsoluteFill + useCurrentFrame + interpolate.",
+      "url": "https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/zoom-pulse.json"
+    }
+  ]
+}
