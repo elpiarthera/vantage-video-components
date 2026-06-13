@@ -1,0 +1,13 @@
+{
+  "name": "fade-blur",
+  "type": "registry:component",
+  "description": "Remotion-primitive-based fade + blur transition. Opacity 0→1 with blur blurMax→0 (or reverse for fade-out). Literary or snappy easing from BRAND.md motion vocabulary. Uses AbsoluteFill + useCurrentFrame + interpolate.",
+  "dependencies": ["remotion"],
+  "files": [
+    {
+      "path": "src/registry/components/transitions/fade-blur/fade-blur.tsx",
+      "type": "registry:component",
+      "target": "remotion/transitions/fade-blur.tsx"
+    }
+  ]
+}
