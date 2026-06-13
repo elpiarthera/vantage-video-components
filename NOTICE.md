@@ -25,6 +25,10 @@ This repository (`vantage-video-components`) is a fork of remocn. The original M
 
 The upstream remocn project remains MIT-licensed and continues to evolve at https://github.com/kapishdima/remocn. This fork is independently maintained under the ElPi Corp umbrella.
 
+### Imported sub-folder attribution
+
+`.claude/skills/remotion-best-practices/` — imported from kapishdima/remocn @ .agents/skills/remotion-best-practices (MIT, see upstream LICENSE).
+
 ---
 
 MIT License
