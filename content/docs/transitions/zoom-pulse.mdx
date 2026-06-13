@@ -1,0 +1,122 @@
+---
+title: Zoom Pulse
+description: Scale-punch transition that pushes scenes through a shared zoom peak before snapping to the cut, giving editorial impact to a simple cut.
+---
+
+## Description
+
+`ZoomPulse` adds kinetic weight to a cut by pushing both the outgoing and incoming scenes through a shared scale peak. The outgoing scene scales up toward `scalePeak` as it approaches the cut, while the incoming scene starts at that same peak and decelerates back to `1.0`. The result is a lens-punch feel — as if the camera breathed in just before and out just after the edit.
+
+Three direction modes fine-tune the effect: `punch` (both scenes traverse the scale peak together) is the signature look for high-energy product demos; `in` scales only the incoming scene; `out` scales only the departing scene. An amber radial flash at the exact cut frame marks the instant without persisting.
+
+## Preview
+
+<video src="/previews/zoom-pulse.mp4" autoPlay loop muted playsInline width={540} height={303} style={{ borderRadius: 8, maxWidth: "100%" }} />
+
+## Installation
+
+```bash
+npx shadcn add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/zoom-pulse.json
+```
+
+The component lands in `remotion/transitions/zoom-pulse.tsx` and is yours to edit.
+
+## Usage
+
+```tsx
+import { AbsoluteFill, Composition } from "remotion";
+import { ZoomPulse } from "@/remotion/transitions/zoom-pulse";
+
+function SceneA() {
+  return <AbsoluteFill style={{ background: "#0a0a0a" }} />;
+}
+
+function SceneB() {
+  return <AbsoluteFill style={{ background: "#141414" }} />;
+}
+
+function MyComposition() {
+  return (
+    <ZoomPulse
+      direction="punch"
+      durationFrames={18}
+      scalePeak={1.08}
+      accentColor="#f59e0b"
+      easing="snappy"
+      transitionStart={36}
+      from={<SceneA />}
+      to={<SceneB />}
+    />
+  );
+}
+
+export function Root() {
+  return (
+    <Composition
+      id="MyZoomPulse"
+      component={MyComposition}
+      durationInFrames={90}
+      fps={30}
+      width={1920}
+      height={1080}
+    />
+  );
+}
+```
+
+## Props
+
+<PropsTable
+  rows={[
+    {
+      name: "from",
+      type: "ReactNode",
+      description: "The outgoing scene. Falls back to a labeled dark panel.",
+    },
+    {
+      name: "to",
+      type: "ReactNode",
+      description: "The incoming scene. Falls back to a labeled dark panel.",
+    },
+    {
+      name: "direction",
+      type: '"in" | "out" | "punch"',
+      default: '"punch"',
+      description: "Which scene traverses the scale peak. punch applies the zoom arc to both scenes for maximum impact.",
+    },
+    {
+      name: "durationFrames",
+      type: "number (8–60)",
+      default: "18",
+      description: "Total length of the zoom pulse in frames at 30 fps. The cut occurs at the midpoint.",
+    },
+    {
+      name: "scalePeak",
+      type: "number (1.01–1.5)",
+      default: "1.08",
+      description: "Maximum scale factor at the cut point. Values above 1.15 start to feel aggressive; 1.04–1.10 is the production sweet-spot.",
+    },
+    {
+      name: "accentColor",
+      type: "string",
+      default: '"oklch(0.74 0.16 60)"',
+      description: "OKLCH or hex color for the 2-frame radial flash at the cut frame.",
+    },
+    {
+      name: "easing",
+      type: '"literary" | "snappy"',
+      default: '"snappy"',
+      description: "Cubic-bezier easing per BRAND.md. snappy = cubic-bezier(0.4, 0, 0.2, 1). literary = cubic-bezier(0.25, 0.46, 0.45, 0.94).",
+    },
+    {
+      name: "transitionStart",
+      type: "number",
+      default: "Math.floor(durationInFrames * 0.4)",
+      description: "Frame at which the zoom pulse begins. The cut fires at transitionStart + Math.floor(durationFrames * 0.5).",
+    },
+  ]}
+/>
+
+<Warning title="Scale and overflow">
+  Scaling above 1.0 can reveal the edges of your composition canvas. Ensure your `from` and `to` scenes extend slightly beyond the composition bounds, or apply `overflow: hidden` to the composition wrapper to prevent canvas edges from becoming visible at peak scale.
+</Warning>

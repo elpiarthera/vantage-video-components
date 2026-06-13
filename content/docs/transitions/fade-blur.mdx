@@ -1,0 +1,122 @@
+---
+title: Fade Blur
+description: Cross-dissolve transition where scenes fade through a shared blur peak, producing a filmic soft-cut with an optional amber bloom.
+---
+
+## Description
+
+`FadeBlur` dissolves two scenes through a peak of gaussian blur, creating the visual equivalent of a camera rack-focus between chapters. The blur rises on the outgoing scene while the incoming scene emerges from behind the same blur, so both share a single moment of maximum softness before sharpening back to full resolution.
+
+Three operational modes give precise control: `cross` runs the full dissolve through the blur peak (the typical choice); `in` blurs only the incoming scene as it arrives; `out` blurs only the departing scene as it leaves. The optional amber bloom at the crossover point preserves the BRAND.md single-accent restraint while marking the seam.
+
+## Preview
+
+<video src="/previews/fade-blur.mp4" autoPlay loop muted playsInline width={540} height={303} style={{ borderRadius: 8, maxWidth: "100%" }} />
+
+## Installation
+
+```bash
+npx shadcn add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/fade-blur.json
+```
+
+The component lands in `remotion/transitions/fade-blur.tsx` and is yours to edit.
+
+## Usage
+
+```tsx
+import { AbsoluteFill, Composition } from "remotion";
+import { FadeBlur } from "@/remotion/transitions/fade-blur";
+
+function SceneA() {
+  return <AbsoluteFill style={{ background: "#0a0a0a" }} />;
+}
+
+function SceneB() {
+  return <AbsoluteFill style={{ background: "#141414" }} />;
+}
+
+function MyComposition() {
+  return (
+    <FadeBlur
+      direction="cross"
+      durationFrames={20}
+      blurRadius={12}
+      accentColor="#f59e0b"
+      easing="literary"
+      transitionStart={35}
+      from={<SceneA />}
+      to={<SceneB />}
+    />
+  );
+}
+
+export function Root() {
+  return (
+    <Composition
+      id="MyFadeBlur"
+      component={MyComposition}
+      durationInFrames={90}
+      fps={30}
+      width={1920}
+      height={1080}
+    />
+  );
+}
+```
+
+## Props
+
+<PropsTable
+  rows={[
+    {
+      name: "from",
+      type: "ReactNode",
+      description: "The outgoing scene. Falls back to a labeled dark panel.",
+    },
+    {
+      name: "to",
+      type: "ReactNode",
+      description: "The incoming scene. Falls back to a labeled dark panel.",
+    },
+    {
+      name: "direction",
+      type: '"in" | "out" | "cross"',
+      default: '"cross"',
+      description: "Which scene receives the blur animation. cross dissolves both scenes through a shared blur peak.",
+    },
+    {
+      name: "durationFrames",
+      type: "number (8–60)",
+      default: "20",
+      description: "Length of the full blur transition in frames at 30 fps.",
+    },
+    {
+      name: "blurRadius",
+      type: "number (0–40)",
+      default: "12",
+      description: "Peak gaussian blur radius in pixels. Values above 20 produce a dreamlike quality; values below 8 feel like a subtle soft-cut.",
+    },
+    {
+      name: "accentColor",
+      type: "string",
+      default: '"oklch(0.74 0.16 60)"',
+      description: "OKLCH or hex color for the amber bloom radial overlay at the crossover point.",
+    },
+    {
+      name: "easing",
+      type: '"literary" | "snappy"',
+      default: '"literary"',
+      description: "Cubic-bezier easing per BRAND.md. literary = cubic-bezier(0.25, 0.46, 0.45, 0.94). snappy = cubic-bezier(0.4, 0, 0.2, 1).",
+    },
+    {
+      name: "transitionStart",
+      type: "number",
+      default: "Math.floor(durationInFrames * 0.5) − Math.floor(durationFrames * 0.5)",
+      description: "Frame at which the blur transition begins. Defaults to centering the window around the composition midpoint.",
+    },
+  ]}
+/>
+
+<Warning title="CSS filter in Remotion">
+  `filter: blur()` animates the GPU compositing layer. Keep `blurRadius` at 20 or below during fast cuts (under 15 frames) — extreme blur on very short transitions can produce a visual strobe rather than a soft dissolve.
+</Warning>

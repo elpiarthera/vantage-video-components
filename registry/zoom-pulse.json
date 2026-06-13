@@ -1,0 +1,13 @@
+{
+  "name": "zoom-pulse",
+  "type": "registry:component",
+  "description": "Scale-punch transition that pushes scenes through a shared zoom peak before snapping to the cut, giving editorial impact to a simple cut.",
+  "dependencies": ["remotion"],
+  "files": [
+    {
+      "path": "src/registry/components/transitions/zoom-pulse/zoom-pulse.tsx",
+      "type": "registry:component",
+      "target": "remotion/transitions/zoom-pulse.tsx"
+    }
+  ]
+}

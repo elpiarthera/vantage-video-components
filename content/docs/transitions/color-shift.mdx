@@ -1,0 +1,122 @@
+---
+title: Color Shift
+description: Cross-dissolve transition that washes through a brand-color overlay at the midpoint, signalling a tonal shift between scenes.
+---
+
+## Description
+
+`ColorShift` dissolves two scenes while a flat-color overlay arcs up to `overlayOpacityPeak` at the midpoint and recedes to transparent. The overlay functions as a tonal signal: `warm` uses the canonical amber accent (`#f59e0b`) to signal narrative warmth or time-of-day shifts; `cool` uses a restrained blue for contrast-scene cuts; `neutral` uses a near-white screen blend for editorial whiteout moments.
+
+Unlike a flash cut, the overlay's opacity arc is gradual — viewers read it as a mood shift rather than a technical flash. The cross-dissolve underneath ensures no hard edge, making this the most editorial-light transition in the set.
+
+## Preview
+
+<video src="/previews/color-shift.mp4" autoPlay loop muted playsInline width={540} height={303} style={{ borderRadius: 8, maxWidth: "100%" }} />
+
+## Installation
+
+```bash
+npx shadcn add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/color-shift.json
+```
+
+The component lands in `remotion/transitions/color-shift.tsx` and is yours to edit.
+
+## Usage
+
+```tsx
+import { AbsoluteFill, Composition } from "remotion";
+import { ColorShift } from "@/remotion/transitions/color-shift";
+
+function SceneA() {
+  return <AbsoluteFill style={{ background: "#0a0a0a" }} />;
+}
+
+function SceneB() {
+  return <AbsoluteFill style={{ background: "#141414" }} />;
+}
+
+function MyComposition() {
+  return (
+    <ColorShift
+      direction="warm"
+      durationFrames={24}
+      overlayOpacityPeak={0.45}
+      accentColor="#f59e0b"
+      easing="literary"
+      transitionStart={36}
+      from={<SceneA />}
+      to={<SceneB />}
+    />
+  );
+}
+
+export function Root() {
+  return (
+    <Composition
+      id="MyColorShift"
+      component={MyComposition}
+      durationInFrames={90}
+      fps={30}
+      width={1920}
+      height={1080}
+    />
+  );
+}
+```
+
+## Props
+
+<PropsTable
+  rows={[
+    {
+      name: "from",
+      type: "ReactNode",
+      description: "The outgoing scene. Falls back to a labeled dark panel.",
+    },
+    {
+      name: "to",
+      type: "ReactNode",
+      description: "The incoming scene. Falls back to a labeled dark panel.",
+    },
+    {
+      name: "direction",
+      type: '"warm" | "cool" | "neutral"',
+      default: '"warm"',
+      description: "Color register for the midpoint overlay. warm = amber #f59e0b. cool = blue #3b82f6. neutral = near-white screen blend.",
+    },
+    {
+      name: "durationFrames",
+      type: "number (8–60)",
+      default: "24",
+      description: "Total length of the color-shift dissolve in frames at 30 fps.",
+    },
+    {
+      name: "overlayOpacityPeak",
+      type: "number (0–1)",
+      default: "0.45",
+      description: "Maximum opacity of the color overlay at the transition midpoint. Values above 0.6 start to feel like a flash cut.",
+    },
+    {
+      name: "accentColor",
+      type: "string",
+      default: '"oklch(0.74 0.16 60)"',
+      description: "Custom hex or OKLCH color for the warm overlay. Only applied when direction is warm. Ignored for cool and neutral.",
+    },
+    {
+      name: "easing",
+      type: '"literary" | "snappy"',
+      default: '"literary"',
+      description: "Cubic-bezier easing per BRAND.md. literary = cubic-bezier(0.25, 0.46, 0.45, 0.94). snappy = cubic-bezier(0.4, 0, 0.2, 1).",
+    },
+    {
+      name: "transitionStart",
+      type: "number",
+      default: "Math.floor(durationInFrames * 0.4)",
+      description: "Frame at which the color-shift dissolve begins.",
+    },
+  ]}
+/>
+
+<Warning title="BRAND.md amber restraint">
+  `direction="warm"` introduces an amber overlay across the full composition width. Per BRAND.md, this counts as the accent usage for every frame it occupies. Avoid combining it with scenes that already contain amber title lines, accent borders, or icon fills — the overlay will flood the frame with competing warmth.
+</Warning>

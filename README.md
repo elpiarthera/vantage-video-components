@@ -44,10 +44,10 @@ See `docs/BRAND-ALIGNMENT.md` for full alignment notes and token mapping.
 Remotion is a prerequisite — set up a Remotion project first if you don't have one (`npx create-video@latest`). Then add any component from the registry:
 
 ```bash
-npx shadcn@latest add @vantage-video/blur-reveal
+npx shadcn add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/fade-blur.json
 ```
 
-The component lands in `components/vantage-video/blur-reveal.tsx` and is yours to edit.
+The component lands in `remotion/transitions/fade-blur.tsx` and is yours to edit. Replace `fade-blur` with any registry name — e.g. `cinematic-cut`, `slide-reveal`, `zoom-pulse`, `color-shift` — to install a different transition.
 
 ## Local development
 

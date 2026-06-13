@@ -1,0 +1,115 @@
+---
+title: Cinematic Cut
+description: Cinematic hard-cut transition for Remotion with literary or snappy easing and a one-frame accent burst.
+---
+
+## Description
+
+`CinematicCut` is an instantaneous scene change that earns its weight through a brief motion-blur compression on the outgoing frame and a single amber accent flash at the cut point. The visual cue is subconscious — viewers read it as a confident editorial decision rather than a technical transition. Use it when a dissolve would read as hesitant or a wipe would read as decorative.
+
+The `literary` easing follows a slow-in / slow-out cubic-bezier that suits contemplative, narrative cuts. The `snappy` preset uses the Material standard curve for brisk chapter changes or UI-rhythm cuts inside a product reel.
+
+## Preview
+
+<video src="/previews/cinematic-cut.mp4" autoPlay loop muted playsInline width={540} height={303} style={{ borderRadius: 8, maxWidth: "100%" }} />
+
+## Installation
+
+```bash
+npx shadcn add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/cinematic-cut.json
+```
+
+The component lands in `remotion/transitions/cinematic-cut.tsx` and is yours to edit.
+
+## Usage
+
+```tsx
+import { AbsoluteFill, Composition, Sequence } from "remotion";
+import { CinematicCut } from "@/remotion/transitions/cinematic-cut";
+
+function SceneA() {
+  return <AbsoluteFill style={{ background: "#0a0a0a" }} />;
+}
+
+function SceneB() {
+  return <AbsoluteFill style={{ background: "#141414" }} />;
+}
+
+function MyComposition() {
+  return (
+    <CinematicCut
+      direction="horizontal"
+      duration={20}
+      accentColor="#f59e0b"
+      easing="literary"
+      transitionStart={45}
+      from={<SceneA />}
+      to={<SceneB />}
+    />
+  );
+}
+
+export function Root() {
+  return (
+    <Composition
+      id="MyCinematicCut"
+      component={MyComposition}
+      durationInFrames={90}
+      fps={30}
+      width={1920}
+      height={1080}
+    />
+  );
+}
+```
+
+## Props
+
+<PropsTable
+  rows={[
+    {
+      name: "from",
+      type: "ReactNode",
+      description: "The outgoing scene. Falls back to a labeled dark panel.",
+    },
+    {
+      name: "to",
+      type: "ReactNode",
+      description: "The incoming scene. Falls back to a labeled dark panel.",
+    },
+    {
+      name: "direction",
+      type: '"horizontal" | "vertical" | "diagonal"',
+      default: '"horizontal"',
+      description: "Axis of the subtle outgoing-frame motion-blur compression.",
+    },
+    {
+      name: "duration",
+      type: "number (8–60)",
+      default: "20",
+      description: "Length of the motion-blur window in frames at 30 fps. The actual cut is instantaneous; this governs the pre-cut compression.",
+    },
+    {
+      name: "accentColor",
+      type: "string",
+      default: '"oklch(0.74 0.16 60)"',
+      description: "OKLCH or hex color for the one-frame accent burst radial gradient. sRGB hex fallback recommended for render environments.",
+    },
+    {
+      name: "easing",
+      type: '"literary" | "snappy"',
+      default: '"literary"',
+      description: "Cubic-bezier easing per BRAND.md. literary = cubic-bezier(0.25, 0.46, 0.45, 0.94). snappy = cubic-bezier(0.4, 0, 0.2, 1).",
+    },
+    {
+      name: "transitionStart",
+      type: "number",
+      default: "Math.floor(durationInFrames * 0.5)",
+      description: "Frame at which the cut occurs. Defaults to the midpoint of the composition.",
+    },
+  ]}
+/>
+
+<Warning title="One accent per scene">
+  Per BRAND.md restraint rules, the accent flash must be the sole amber element on any frame it occupies. If your `from` or `to` scenes already use `--vantage-accent`, lower the flash opacity or set `accentColor` to `"transparent"` to avoid competing warmth signals.
+</Warning>

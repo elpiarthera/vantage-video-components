@@ -1,0 +1,13 @@
+{
+  "name": "color-shift",
+  "type": "registry:component",
+  "description": "Cross-dissolve transition that washes through a brand-color overlay at the midpoint, signalling a tonal shift between scenes.",
+  "dependencies": ["remotion"],
+  "files": [
+    {
+      "path": "src/registry/components/transitions/color-shift/color-shift.tsx",
+      "type": "registry:component",
+      "target": "remotion/transitions/color-shift.tsx"
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "name": "slide-reveal",
+  "type": "registry:component",
+  "description": "Directional slide transition where the outgoing scene pushes off while the incoming scene sweeps in, with a fleeting amber streak at the seam.",
+  "dependencies": ["remotion"],
+  "files": [
+    {
+      "path": "src/registry/components/transitions/slide-reveal/slide-reveal.tsx",
+      "type": "registry:component",
+      "target": "remotion/transitions/slide-reveal.tsx"
+    }
+  ]
+}

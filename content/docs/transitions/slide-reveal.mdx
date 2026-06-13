@@ -1,0 +1,122 @@
+---
+title: Slide Reveal
+description: Directional slide transition where the outgoing scene pushes off while the incoming scene sweeps in, with a fleeting amber streak at the seam.
+---
+
+## Description
+
+`SlideReveal` translates two scenes along a shared axis — the departing frame slides out while the arriving frame slides in from the opposite edge. An `overlap` parameter controls how much the two scenes share the frame simultaneously: at `0` the outgoing scene fully exits before the incoming begins; at `1` they move in complete lock-step.
+
+A thin amber streak races along the seam at peak transition velocity, marking the boundary between scenes without overwhelming the motion. The `snappy` default easing — Material standard `cubic-bezier(0.4, 0, 0.2, 1)` — suits fast product-reveal cuts where momentum carries narrative weight.
+
+## Preview
+
+<video src="/previews/slide-reveal.mp4" autoPlay loop muted playsInline width={540} height={303} style={{ borderRadius: 8, maxWidth: "100%" }} />
+
+## Installation
+
+```bash
+npx shadcn add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/slide-reveal.json
+```
+
+The component lands in `remotion/transitions/slide-reveal.tsx` and is yours to edit.
+
+## Usage
+
+```tsx
+import { AbsoluteFill, Composition } from "remotion";
+import { SlideReveal } from "@/remotion/transitions/slide-reveal";
+
+function SceneA() {
+  return <AbsoluteFill style={{ background: "#0a0a0a" }} />;
+}
+
+function SceneB() {
+  return <AbsoluteFill style={{ background: "#141414" }} />;
+}
+
+function MyComposition() {
+  return (
+    <SlideReveal
+      direction="left"
+      durationFrames={24}
+      overlap={0.3}
+      accentColor="#f59e0b"
+      easing="snappy"
+      transitionStart={36}
+      from={<SceneA />}
+      to={<SceneB />}
+    />
+  );
+}
+
+export function Root() {
+  return (
+    <Composition
+      id="MySlideReveal"
+      component={MyComposition}
+      durationInFrames={90}
+      fps={30}
+      width={1920}
+      height={1080}
+    />
+  );
+}
+```
+
+## Props
+
+<PropsTable
+  rows={[
+    {
+      name: "from",
+      type: "ReactNode",
+      description: "The outgoing scene. Falls back to a labeled dark panel.",
+    },
+    {
+      name: "to",
+      type: "ReactNode",
+      description: "The incoming scene. Falls back to a labeled dark panel.",
+    },
+    {
+      name: "direction",
+      type: '"left" | "right" | "up" | "down"',
+      default: '"left"',
+      description: "Direction the outgoing scene slides toward. The incoming scene enters from the opposite edge.",
+    },
+    {
+      name: "durationFrames",
+      type: "number (8–60)",
+      default: "24",
+      description: "Total length of the slide transition in frames at 30 fps.",
+    },
+    {
+      name: "overlap",
+      type: "number (0–1)",
+      default: "0.3",
+      description: "Fraction of durationFrames during which both scenes are simultaneously on screen. 0 = sequential; 1 = fully synchronised.",
+    },
+    {
+      name: "accentColor",
+      type: "string",
+      default: '"oklch(0.74 0.16 60)"',
+      description: "OKLCH or hex color for the streak that races along the transition seam.",
+    },
+    {
+      name: "easing",
+      type: '"literary" | "snappy"',
+      default: '"snappy"',
+      description: "Cubic-bezier easing per BRAND.md. snappy = cubic-bezier(0.4, 0, 0.2, 1). literary = cubic-bezier(0.25, 0.46, 0.45, 0.94).",
+    },
+    {
+      name: "transitionStart",
+      type: "number",
+      default: "Math.floor(durationInFrames * 0.4)",
+      description: "Frame at which the slide begins.",
+    },
+  ]}
+/>
+
+<Warning title="Overflow clipping">
+  `SlideReveal` sets `overflow: hidden` on the outer container. If your scenes use `position: fixed` or render outside the composition bounds, those elements will be clipped during the transition window.
+</Warning>

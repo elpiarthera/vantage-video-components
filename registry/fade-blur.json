@@ -1,0 +1,13 @@
+{
+  "name": "fade-blur",
+  "type": "registry:component",
+  "description": "Cross-dissolve transition where scenes fade through a shared blur peak, producing a filmic soft-cut with an optional amber bloom.",
+  "dependencies": ["remotion"],
+  "files": [
+    {
+      "path": "src/registry/components/transitions/fade-blur/fade-blur.tsx",
+      "type": "registry:component",
+      "target": "remotion/transitions/fade-blur.tsx"
+    }
+  ]
+}

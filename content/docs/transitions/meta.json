@@ -10,6 +10,11 @@
     "spatial-push",
     "frosted-glass-wipe",
     "grid-pixelate-wipe",
-    "chromatic-aberration-wipe"
+    "chromatic-aberration-wipe",
+    "cinematic-cut",
+    "fade-blur",
+    "slide-reveal",
+    "zoom-pulse",
+    "color-shift"
   ]
 }
