@@ -1,6 +1,72 @@
 ---
-title: zoom-pulse
-description: Slow Ken Burns scale animation (1.0x to 1.04x) adding life to static image backdrops.
+title: Zoom Pulse
+description: Remotion-primitive-based scale pulse transition. Smooth scale interpolation from scaleFrom to scaleTo with a natural overshoot. Literary or snappy easing from BRAND.md.
 ---
 
-{/* T6 will populate this page with: preview MP4, install command, usage code, and 4-column props table. */}
+## Description
+
+`ZoomPulse` animates its child with a controlled scale interpolation that includes a natural overshoot at 60% of the pulse duration before settling at `scaleTo`. This three-keyframe pattern — `scaleFrom` → overshoot peak → `scaleTo` — creates the organic "breath" effect described in the BRAND.md zoom doctrine, avoiding the artificial snap of a linear scale or the excess of a spring.
+
+The default range (`scaleFrom: 0.92`, `scaleTo: 1.06`) satisfies the BRAND.md constraint of ±8% from 1.0, making it suitable for Ken Burns effects on image backdrops. Never apply `ZoomPulse` to text overlays (reads as presentation-software). Use `literary` easing for dramatic reveals; `snappy` only for UI-chrome elements where immediacy matters.
+
+## Preview
+
+<video src="/previews/zoom-pulse.mp4" autoPlay loop muted playsInline width="540" height="960" />
+
+## Installation
+
+```bash
+npx shadcn add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/zoom-pulse.json
+```
+
+## Usage
+
+```tsx
+import { AbsoluteFill, Composition, Img, staticFile } from 'remotion'
+import { ZoomPulse } from '@/remotion/transitions/zoom-pulse'
+
+function BackdropScene() {
+  return (
+    <AbsoluteFill>
+      <ZoomPulse
+        scaleFrom={0.92}
+        scaleTo={1.06}
+        pulseFrames={30}
+        easing="literary"
+        startFrame={0}
+      >
+        <AbsoluteFill>
+          <Img
+            src={staticFile('backdrop.jpg')}
+            style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+          />
+        </AbsoluteFill>
+      </ZoomPulse>
+    </AbsoluteFill>
+  )
+}
+
+export function MyComposition() {
+  return (
+    <Composition
+      id="ZoomPulseDemo"
+      component={BackdropScene}
+      durationInFrames={60}
+      fps={30}
+      width={1080}
+      height={1920}
+    />
+  )
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `scaleFrom` | `number` (0.5–2) | `0.92` | Initial scale at the start of the pulse. |
+| `scaleTo` | `number` (0.5–2) | `1.06` | Final scale at the end of the pulse. |
+| `pulseFrames` | `number` (8–60) | `30` | Total number of frames for the scale pulse including overshoot. |
+| `easing` | `"literary" \| "snappy"` | `"literary"` | Easing curve applied across all three keyframes of the scale interpolation. |
+| `children` | `ReactNode` | Demo content | Content to scale — typically an image backdrop, never text. |
+| `startFrame` | `number` | `0` | Frame at which the pulse begins, relative to composition start. |

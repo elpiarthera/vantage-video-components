@@ -1,6 +1,69 @@
 ---
-title: color-shift
-description: Warm amber scrim overlay that shifts scene mood without changing content.
+title: Color Shift
+description: Remotion-primitive-based background-color interpolation transition. Uses interpolateColors for perceptual smoothness between any two BRAND.md OKLCH-anchored color tokens. Literary or snappy easing.
 ---
 
-{/* T6 will populate this page with: preview MP4, install command, usage code, and 4-column props table. */}
+## Description
+
+`ColorShift` interpolates the background color of an `AbsoluteFill` between `fromColor` and `toColor` using Remotion's `interpolateColors` function, which produces perceptually smooth transitions between any two hex-encoded colors. The default palette maps directly to BRAND.md tokens: `#0a0a0a` (`--vantage-bg`, `oklch(0.16 0 0)`) to `#f59e0b` (`--vantage-accent`, `oklch(0.74 0.16 60)`).
+
+Use `ColorShift` for scene mood transitions within a continuous backdrop — it accompanies content that is changing, it does not replace it. Apply at most one color-shift overlay per scene. Combined with light-leaks across a full reel, the BRAND.md doctrine limits total color-shifts + light-leaks to 2-3 per composition. Both `fromColor` and `toColor` accept any hex string; OKLCH values must be pre-resolved to sRGB hex before passing as props.
+
+## Preview
+
+<video src="/previews/color-shift.mp4" autoPlay loop muted playsInline width="540" height="960" />
+
+## Installation
+
+```bash
+npx shadcn add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/color-shift.json
+```
+
+## Usage
+
+```tsx
+import { AbsoluteFill, Composition, Sequence } from 'remotion'
+import { ColorShift } from '@/remotion/transitions/color-shift'
+
+function MoodScene() {
+  return (
+    <AbsoluteFill>
+      <ColorShift
+        fromColor="#0a0a0a"
+        toColor="#f59e0b"
+        durationFrames={30}
+        easing="literary"
+        startFrame={0}
+      >
+        <AbsoluteFill style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <p style={{ color: '#e8e0d0', fontSize: 24 }}>Content layered above the color shift</p>
+        </AbsoluteFill>
+      </ColorShift>
+    </AbsoluteFill>
+  )
+}
+
+export function MyComposition() {
+  return (
+    <Composition
+      id="ColorShiftDemo"
+      component={MoodScene}
+      durationInFrames={60}
+      fps={30}
+      width={1080}
+      height={1920}
+    />
+  )
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `fromColor` | `string` (hex) | `"#0a0a0a"` | Starting background color. Must be a hex string (OKLCH must be pre-resolved). |
+| `toColor` | `string` (hex) | `"#f59e0b"` | Ending background color. Must be a hex string. |
+| `durationFrames` | `number` (8–60) | `30` | Number of frames over which the color transition plays. |
+| `easing` | `"literary" \| "snappy"` | `"literary"` | Easing curve applied to the progress value before color interpolation. |
+| `children` | `ReactNode` | Demo content | Optional content to render above the shifting background. |
+| `startFrame` | `number` | `0` | Frame at which the color transition begins, relative to composition start. |
