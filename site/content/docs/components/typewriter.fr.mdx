@@ -1,0 +1,66 @@
+---
+title: Typewriter
+description: Révélation du texte caractère par caractère avec curseur ambré clignotant. Palette OKLCH BRAND.md, typographie Cormorant Display ou Georgia, easing literary.
+---
+
+## Description
+
+`Typewriter` révèle le texte un caractère à la fois à une vitesse configurable (`charsPerSec`). Un curseur ambré clignotant suit le point de révélation, utilisant la couleur `--vantage-accent` (`#f59e0b`) de BRAND.md — un accent par scène par doctrine. La révélation utilise `literary-ease` (`cubic-bezier(0.25, 0.46, 0.45, 0.94)`) pour un ressenti contemplatif et mesuré.
+
+La sélection de police respecte la Règle 2 de BRAND.md : `cormorant` (Cormorant Display, 72px) pour les titres héros, `georgia` pour le corps de texte (48px), `system-ui` pour les légendes. Tout le texte s'affiche en `--vantage-warm-white` (`#e8e0d0`) sur `--vantage-bg` (`#0a0a0a`) — jamais blanc pur sur fond presque noir.
+
+Composé avec les primitives Remotion — `AbsoluteFill`, `useCurrentFrame`, `interpolate` — sans l'API TransitionSeries de `@remotion/transitions`.
+
+## Aperçu
+
+<video src="/previews/typewriter.mp4" autoPlay loop muted playsInline width="540" height="960" />
+
+## Installation
+
+```bash
+npx shadcn add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/typewriter.json
+```
+
+## Utilisation
+
+```tsx
+import { AbsoluteFill, Composition } from 'remotion'
+import { Typewriter } from '@/remotion/text-effects/typewriter'
+
+function ScèneTitre() {
+  return (
+    <AbsoluteFill style={{ background: '#0a0a0a' }}>
+      <Typewriter
+        text="L'avenir est écrit."
+        charsPerSec={24}
+        cursor={true}
+        accentColor="#f59e0b"
+        font="cormorant"
+      />
+    </AbsoluteFill>
+  )
+}
+
+export function MaComposition() {
+  return (
+    <Composition
+      id="TypewriterDemo"
+      component={ScèneTitre}
+      durationInFrames={90}
+      fps={30}
+      width={540}
+      height={960}
+    />
+  )
+}
+```
+
+## Props
+
+| Prop | Type | Défaut | Description |
+|------|------|--------|-------------|
+| `text` | `string` | — | Texte complet à révéler caractère par caractère. |
+| `charsPerSec` | `number` (8–80) | `24` | Vitesse de frappe en caractères par seconde. |
+| `cursor` | `boolean` | `true` | Afficher ou non un curseur clignotant après le texte révélé. |
+| `accentColor` | `string` | `"#f59e0b"` | Couleur du curseur. Par défaut : ambre `--vantage-accent` de BRAND.md. |
+| `font` | `"cormorant" \| "georgia" \| "system-ui"` | `"cormorant"` | Famille typographique. `cormorant` s'affiche à 72px (minimum 56px selon BRAND.md). |

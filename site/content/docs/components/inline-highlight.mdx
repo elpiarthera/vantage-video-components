@@ -1,0 +1,70 @@
+---
+title: Inline Highlight
+description: Animates a single word's color within a sentence from a neutral warm tone to the BRAND.md amber accent. Literary or snappy easing.
+---
+
+## Description
+
+`InlineHighlight` transitions the color of a specific word in a sentence from `fromColor` to `toColor` over `durationFrames`. The default transition moves from `--vantage-secondary-highlight` (`#c9b99a`) to `--vantage-accent` (`#f59e0b`), warming a single word into focus while the surrounding text remains in `--vantage-warm-white`.
+
+The component resolves `oklch()` color values to sRGB fallbacks before passing them to `interpolateColors`, ensuring consistent rendering across all Remotion output environments.
+
+Composed with Remotion primitives — `AbsoluteFill`, `useCurrentFrame`, `interpolate`, `interpolateColors` — not the `@remotion/transitions` TransitionSeries API.
+
+## Preview
+
+<video src="/previews/inline-highlight.mp4" autoPlay loop muted playsInline width="540" height="960" />
+
+## Installation
+
+```bash
+npx shadcn add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/inline-highlight.json
+```
+
+## Usage
+
+```tsx
+import { AbsoluteFill, Composition } from 'remotion'
+import { InlineHighlight } from '@/remotion/text-effects/inline-highlight'
+
+function HighlightScene() {
+  return (
+    <AbsoluteFill style={{ background: '#0a0a0a' }}>
+      <InlineHighlight
+        text="Only one answer matters."
+        highlightWord="one"
+        fromColor="#c9b99a"
+        toColor="#f59e0b"
+        durationFrames={24}
+        easing="literary"
+        startFrame={0}
+      />
+    </AbsoluteFill>
+  )
+}
+
+export function MyComposition() {
+  return (
+    <Composition
+      id="InlineHighlightDemo"
+      component={HighlightScene}
+      durationInFrames={60}
+      fps={30}
+      width={540}
+      height={960}
+    />
+  )
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `text` | `string` | — | The full sentence text. |
+| `highlightWord` | `string` | — | The word within `text` to animate. First occurrence is used. |
+| `fromColor` | `string` | `"oklch(0.78 0.02 80)"` | Starting color for the highlighted word. Resolved to `#c9b99a` sRGB fallback. |
+| `toColor` | `string` | `"#f59e0b"` | Target color for the highlighted word. BRAND.md amber accent. |
+| `durationFrames` | `number` (8–60) | `24` | Number of frames over which the color transition plays. |
+| `easing` | `"literary" \| "snappy"` | `"literary"` | Easing curve: `literary` for narrative content, `snappy` for UI chrome. |
+| `startFrame` | `number` | `0` | Frame at which the color transition begins. |

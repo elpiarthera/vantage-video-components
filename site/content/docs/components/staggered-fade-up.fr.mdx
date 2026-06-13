@@ -1,0 +1,66 @@
+---
+title: Staggered Fade Up
+description: Révèle un tableau de mots séquentiellement, chacun apparaissant en fondu tout en montant depuis le bas. Délai de décalage, distance de montée et easing literary ou snappy configurables.
+---
+
+## Description
+
+`StaggeredFadeUp` accepte un tableau de `words` et les révèle un par un, chaque mot démarrant son animation `staggerFrames` images après le précédent. Chaque mot passe de l'opacité 0 à 1 tout en se déplaçant vers le haut de `riseDistance` pixels, en utilisant le vocabulaire d'easing BRAND.md.
+
+C'est la technique Vantage canonique pour les entrées de texte de corps mot par mot dans les reels. Elle évite la platitude d'un fondu sur un paragraphe entier tout en conservant un rythme éditorial propre. Selon la doctrine de mouvement BRAND.md, le mouvement de glissement est réservé aux éléments de contenu — jamais aux transitions plein cadre.
+
+Les clés stables sont générées depuis `word + index` pour éviter les collisions en cas de mots dupliqués sans utiliser uniquement l'index du tableau.
+
+Composé avec les primitives Remotion — `AbsoluteFill`, `useCurrentFrame`, `interpolate` — sans l'API TransitionSeries de `@remotion/transitions`.
+
+## Aperçu
+
+<video src="/previews/staggered-fade-up.mp4" autoPlay loop muted playsInline width="540" height="960" />
+
+## Installation
+
+```bash
+npx shadcn add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/staggered-fade-up.json
+```
+
+## Utilisation
+
+```tsx
+import { AbsoluteFill, Composition } from 'remotion'
+import { StaggeredFadeUp } from '@/remotion/text-effects/staggered-fade-up'
+
+function ScèneRévélationMots() {
+  return (
+    <AbsoluteFill style={{ background: '#0a0a0a' }}>
+      <StaggeredFadeUp
+        words={["L'avenir", "est", "écrit."]}
+        staggerFrames={8}
+        riseDistance={24}
+        easing="literary"
+      />
+    </AbsoluteFill>
+  )
+}
+
+export function MaComposition() {
+  return (
+    <Composition
+      id="StaggeredFadeUpDemo"
+      component={ScèneRévélationMots}
+      durationInFrames={90}
+      fps={30}
+      width={540}
+      height={960}
+    />
+  )
+}
+```
+
+## Props
+
+| Prop | Type | Défaut | Description |
+|------|------|--------|-------------|
+| `words` | `string[]` | — | Tableau de mots à révéler séquentiellement. |
+| `staggerFrames` | `number` (2–30) | `8` | Nombre d'images entre le démarrage de l'animation de chaque mot. |
+| `riseDistance` | `number` (8–80) | `24` | Distance de déplacement vertical en pixels (depuis le bas → position finale). |
+| `easing` | `"literary" \| "snappy"` | `"literary"` | Courbe d'easing appliquée aux animations d'opacité et de translation de chaque mot. |

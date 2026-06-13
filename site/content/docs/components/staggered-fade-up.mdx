@@ -1,0 +1,66 @@
+---
+title: Staggered Fade Up
+description: Reveals an array of words sequentially, each fading in while rising from below. Configurable stagger delay, rise distance, and literary or snappy easing.
+---
+
+## Description
+
+`StaggeredFadeUp` accepts an array of `words` and reveals them one by one, with each word starting its animation `staggerFrames` after the previous. Each word fades from opacity 0 to 1 while translating upward by `riseDistance` pixels, using the BRAND.md easing vocabulary.
+
+This is the canonical Vantage technique for word-by-word reel body text entrances. It avoids the flatness of a whole-paragraph fade-in while retaining a clean editorial rhythm. Per BRAND.md motion doctrine, slide motion is reserved for content elements — never for full-frame transitions.
+
+Stable keys are generated from `word + index` to prevent duplicate-word key collisions without using array index alone.
+
+Composed with Remotion primitives — `AbsoluteFill`, `useCurrentFrame`, `interpolate` — not the `@remotion/transitions` TransitionSeries API.
+
+## Preview
+
+<video src="/previews/staggered-fade-up.mp4" autoPlay loop muted playsInline width="540" height="960" />
+
+## Installation
+
+```bash
+npx shadcn add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/staggered-fade-up.json
+```
+
+## Usage
+
+```tsx
+import { AbsoluteFill, Composition } from 'remotion'
+import { StaggeredFadeUp } from '@/remotion/text-effects/staggered-fade-up'
+
+function WordRevealScene() {
+  return (
+    <AbsoluteFill style={{ background: '#0a0a0a' }}>
+      <StaggeredFadeUp
+        words={["The", "future", "is", "written."]}
+        staggerFrames={8}
+        riseDistance={24}
+        easing="literary"
+      />
+    </AbsoluteFill>
+  )
+}
+
+export function MyComposition() {
+  return (
+    <Composition
+      id="StaggeredFadeUpDemo"
+      component={WordRevealScene}
+      durationInFrames={90}
+      fps={30}
+      width={540}
+      height={960}
+    />
+  )
+}
+```
+
+## Props
+
+| Prop | Type | Default | Description |
+|------|------|---------|-------------|
+| `words` | `string[]` | — | Array of words to reveal sequentially. |
+| `staggerFrames` | `number` (2–30) | `8` | Number of frames between each word's animation start. |
+| `riseDistance` | `number` (8–80) | `24` | Vertical travel distance in pixels (from below → final position). |
+| `easing` | `"literary" \| "snappy"` | `"literary"` | Easing curve applied to each word's opacity and translate animations. |

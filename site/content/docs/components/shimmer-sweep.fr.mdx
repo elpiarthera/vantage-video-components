@@ -1,0 +1,68 @@
+---
+title: Shimmer Sweep
+description: Un balayage lumineux ambré traverse le texte, simulant un reflet spéculaire sur une typographie métallique. Easing snappy par défaut, aligné BRAND.md.
+---
+
+## Description
+
+`ShimmerSweep` rend deux spans de texte superposés : une couche de base en `baseColor` et un overlay avec clip de dégradé dont `backgroundPosition` balaie de droite à gauche sur `sweepFrames` images. Le résultat simule un reflet spéculaire passant sur une typographie métallique — un seul flash ambré qui évoque le premium.
+
+Le balayage utilise l'easing `snappy` par défaut (`cubic-bezier(0.4, 0, 0.2, 1)`) car le mouvement spéculaire se lit comme du chrome UI plutôt que du contenu narratif. Seules les propriétés `transform` et `backgroundPosition` sont animées — jamais `width`, `height` ou les propriétés de mise en page.
+
+Conformité BRAND.md : `baseColor` par défaut à `--vantage-muted` (`#9ca3af`), `sweepColor` à `--vantage-accent` (`#f59e0b`). Les valeurs de couleur `oklch()` sont résolues en fallbacks sRGB à l'exécution.
+
+Composé avec les primitives Remotion — `AbsoluteFill`, `useCurrentFrame`, `interpolate` — sans l'API TransitionSeries de `@remotion/transitions`.
+
+## Aperçu
+
+<video src="/previews/shimmer-sweep.mp4" autoPlay loop muted playsInline width="540" height="960" />
+
+## Installation
+
+```bash
+npx shadcn add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/shimmer-sweep.json
+```
+
+## Utilisation
+
+```tsx
+import { AbsoluteFill, Composition } from 'remotion'
+import { ShimmerSweep } from '@/remotion/text-effects/shimmer-sweep'
+
+function ScèneShimmer() {
+  return (
+    <AbsoluteFill style={{ background: '#0a0a0a' }}>
+      <ShimmerSweep
+        text="Vantage"
+        baseColor="#9ca3af"
+        sweepColor="#f59e0b"
+        sweepFrames={45}
+        easing="snappy"
+      />
+    </AbsoluteFill>
+  )
+}
+
+export function MaComposition() {
+  return (
+    <Composition
+      id="ShimmerSweepDemo"
+      component={ScèneShimmer}
+      durationInFrames={60}
+      fps={30}
+      width={540}
+      height={960}
+    />
+  )
+}
+```
+
+## Props
+
+| Prop | Type | Défaut | Description |
+|------|------|--------|-------------|
+| `text` | `string` | — | Le texte sur lequel appliquer l'effet shimmer. |
+| `baseColor` | `string` | `"oklch(0.62 0.01 80)"` | Couleur de base statique du texte (résolue en `#9ca3af`). |
+| `sweepColor` | `string` | `"#f59e0b"` | Couleur du reflet balayant. Accent ambré BRAND.md. |
+| `sweepFrames` | `number` (20–90) | `45` | Nombre d'images sur lesquelles le balayage se déplace de droite à gauche. |
+| `easing` | `"literary" \| "snappy"` | `"snappy"` | Courbe d'easing. `snappy` par défaut pour le mouvement spéculaire de type chrome. |

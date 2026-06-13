@@ -1,4 +1,4 @@
 {
   "title": "Components",
-  "pages": ["index", "cinematic-cut", "fade-blur", "slide-reveal", "zoom-pulse", "color-shift"]
+  "pages": ["index", "cinematic-cut", "fade-blur", "slide-reveal", "zoom-pulse", "color-shift", "typewriter", "inline-highlight", "staggered-fade-up", "shimmer-sweep", "marker-highlight"]
 }
