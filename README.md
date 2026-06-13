@@ -49,6 +49,53 @@ npx shadcn@latest add @vantage-video/blur-reveal
 
 The component lands in `components/vantage-video/blur-reveal.tsx` and is yours to edit.
 
+## Public Registry Endpoint (Phase C)
+
+Each component is published as a static JSON file. The endpoint is served via raw GitHub:
+
+```
+https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/<name>.json
+```
+
+### Install a component via shadcn CLI
+
+```bash
+# cinematic-cut
+npx shadcn@latest add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/cinematic-cut.json
+
+# fade-blur
+npx shadcn@latest add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/fade-blur.json
+
+# slide-reveal
+npx shadcn@latest add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/slide-reveal.json
+
+# zoom-pulse
+npx shadcn@latest add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/zoom-pulse.json
+
+# color-shift
+npx shadcn@latest add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/color-shift.json
+```
+
+> GitHub Pages hosting will provide a cleaner URL (`https://elpiarthera.github.io/vantage-video-components/registry/<name>.json`) once Pages is enabled on the repository settings. Until then, the raw GitHub URL above is the stable public endpoint.
+
+### Registry index
+
+The full catalog is at:
+
+```
+https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/index.json
+```
+
+### Rebuild the registry
+
+When you add a new component, drop its `registry/<name>.json` stub (with `name`, `type`, `description`, `dependencies`, and `files` fields) and run:
+
+```bash
+npm run build:registry
+```
+
+The script validates all per-component files, embeds source content, and regenerates `registry/index.json`. See `registry/VERSIONING.md` for the versioning policy.
+
 ## Local development
 
 This repo is a single Next.js app that hosts both the landing page / docs and the registry endpoint at `/r/[name]`.
