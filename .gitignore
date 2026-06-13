@@ -47,3 +47,10 @@ next-env.d.ts
 .remotion-bundle/
 
 .omc
+
+# site/ subfolder build artifacts
+site/.next/
+site/out/
+site/.vercel/
+site/node_modules/
+site/.source/

@@ -1,0 +1,61 @@
+---
+title: Getting Started
+description: Install Vantage Video Components in your Next.js + Remotion project using the shadcn CLI.
+---
+
+## Installation
+
+Vantage Video Components are distributed via the shadcn registry. Each component is a self-contained file you own — no opaque package to update.
+
+### Prerequisites
+
+- Next.js 15+ with App Router
+- React 19+
+- Remotion 4.0+
+- shadcn CLI (`npx shadcn@latest`)
+
+### Install a component
+
+Use the public registry URL pattern:
+
+```bash
+npx shadcn@latest add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/<name>.json
+```
+
+Replace `<name>` with the component slug, for example:
+
+```bash
+npx shadcn@latest add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/cinematic-cut.json
+```
+
+### Brand tokens
+
+All components consume the OKLCH palette defined in `BRAND.md`. Add these CSS variables to your project's global stylesheet:
+
+```css
+:root {
+  --vantage-bg:               oklch(0.16 0 0);
+  --vantage-surface:          oklch(0.18 0.008 290);
+  --vantage-accent:           oklch(0.74 0.16 60);
+  --vantage-muted:            oklch(0.65 0 0);
+  --vantage-prose:            oklch(0.91 0 0);
+  --vantage-warm-white:       oklch(0.93 0.01 80);
+  --vantage-secondary-highlight: oklch(0.79 0.04 76);
+  --vantage-border:           oklch(0.22 0 0);
+  --vantage-heading:          oklch(1 0 0);
+
+  --font-display: "Cormorant Display", Georgia, serif;
+  --font-body:    Georgia, "Times New Roman", serif;
+  --font-caption: system-ui, -apple-system, sans-serif;
+}
+```
+
+### Typography rules
+
+- `Cormorant Display` is only authorized at **56px and above**. Below 56px, use `Georgia`.
+- Never use pure `#ffffff` for body text — use `--vantage-warm-white` (`#e8e0d0`) instead.
+- One amber accent point per scene maximum.
+
+## Next steps
+
+Browse the [Components catalog](/en/docs/components) to see all available animations, transitions, and backgrounds.

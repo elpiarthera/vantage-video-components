@@ -1,0 +1,26 @@
+---
+title: Composants
+description: Tous les Vantage Video Components disponibles — animations cinématiques, transitions et arrière-plans pour Remotion.
+---
+
+Vantage Video Components est un registre de primitives Remotion prêtes pour la production, alignées avec la palette VantageOS / ElPi Corp. Chaque composant est livré comme code propriétaire, installé via la CLI shadcn.
+
+## Composants disponibles
+
+| Composant | Description |
+|---|---|
+| [cinematic-cut](/fr/docs/components/cinematic-cut) | Coupe franche instantanée avec flash de fuite de lumière ambrée optionnel au point de transition. |
+| [fade-blur](/fr/docs/components/fade-blur) | Révélation composite opacité + flou CSS utilisant la courbe literary-ease. Idéal pour les entrées de texte de corps. |
+| [slide-reveal](/fr/docs/components/slide-reveal) | Entrée en glissement sur l'axe Y combinée avec un fondu d'opacité. Support ligne par ligne séquentiel. |
+| [zoom-pulse](/fr/docs/components/zoom-pulse) | Animation Ken Burns lente (1.0x → 1.04x) ajoutant de la vie aux arrière-plans d'images statiques. |
+| [color-shift](/fr/docs/components/color-shift) | Superposition de voile ambre chaud qui modifie l'ambiance de la scène sans changer le contenu. |
+
+## Installer un composant
+
+```bash
+npx shadcn@latest add https://raw.githubusercontent.com/elpiarthera/vantage-video-components/main/registry/<nom>.json
+```
+
+## Tokens de marque
+
+Tous les composants s'appuient sur le jeu de tokens OKLCH. Voir [Démarrer](/fr/docs/getting-started) pour le bloc complet de variables CSS.
