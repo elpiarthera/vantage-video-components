@@ -26,6 +26,12 @@
     "typescript": "^5"
   },
   "overrides": {
-    "sharp": "0.35.5"
+    "sharp": "0.35.5",
+    "@tailwindcss/postcss": {
+      "postcss": "^8.5.18"
+    },
+    "next": {
+      "postcss": "^8.5.18"
+    }
   }
 }
